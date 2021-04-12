@@ -1,0 +1,8 @@
+# 빌드 파일 제외
+build/
+
+# 노드 모듈 제외
+node_modules/
+
+# ide setting file 제외
+.idea/
