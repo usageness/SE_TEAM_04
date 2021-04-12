@@ -19,7 +19,6 @@ router.get('/product', function(req, res, next) {
 });
 
 
-// const app = express();
 router.use('/admin', adminRouter);
 
 module.exports = router;
