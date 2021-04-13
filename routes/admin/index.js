@@ -25,4 +25,9 @@ router.get('/item', function(req, res, next) {
   res.render('admin_item', { title: '' });
 });
 
+router.get('/item/:itemId', function(req, res, next) {
+  var itemId = req.params.itemId;
+  res.render('admin_item_detail', { ItemId: itemId });
+});
+
 module.exports = router;
