@@ -12,35 +12,64 @@ a {
     color: #00B7FF;
 }
 
-
-table {
+.carousel-inner > .carousel-item > img { /* width: 640px; height: 720px; */
 }
 
-
-is-pulled-right {
+.is-pulled-right {
     float: right !important;
 }
 
-is-pulled-left {
+.is-pulled-left {
     float: left !important
 }
 
-box {
+.box {
     float: left;
-    width: auto;
-    height: 500px;
     position: relative;
 }
 
-front {
+.front {
     position: absolute;
     right: 30px;
     top: 50px;
 }
 
-back {
-    position: absolute;
+.back {
     right: 0px;
     top: 0px;
 }
 
+.list-group {
+    width: 100px;
+}
+
+.bd-highlight .bd-highlight{
+    background-color: white;
+}
+.product-button img{
+    border: 1px solid #EEEEEE;
+}
+
+.product-button img:hover {
+    border: 1px solid skyblue;
+}
+
+h1 a {
+    display: block;
+    background: url("../images/QBD_logo.png") no-repeat;
+    background-size: 89px;
+    width: 109px;
+    text-indent: -99em;
+}
+
+.divider {
+    content: "|";
+    margin: 0 1rem;
+}
+
+.footer-last {
+    background-color: #333333;
+    color: #EEEEEE;
+    text-align: center;
+    padding: 20px;
+}
