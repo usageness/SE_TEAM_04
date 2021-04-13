@@ -34,9 +34,7 @@
     
     <!-- Custom styles for this template -->
     <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
-    <link rel='stylesheet' href='/stylesheets/partials/dashboard.css' />
   </head>
-    
   <body>
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -66,102 +64,33 @@
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="/admin" class="nav-link active">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+      <a href="/admin" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin"/></svg>
         메인
       </a>
     </li>
     <li>
       <a href="/admin/eventad" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="#event"/></svg>
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/eventad"/></svg>
         이벤트/광고 관리
       </a>
     </li>
     <li>
-      <a href="/admin/item" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="#item"/></svg>
+      <a href="/admin/item" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
         상품관리
       </a>
     </li>
   </ul>
   <hr>
 </div>
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">일별 판매추이</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
-    </div>
-  </div>
-  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+<main class="container">
+  <h1><%= ItemId %></h1>
+  <p>Item ID =  <%= ItemId %></p>
 </main>
+
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js" integrity="sha512-SRW1NuegWCD4fowVB3sUwr2LnLnVAcKTCtYT9z84rskfoqqtIZfEW1iKB0uF1RzvdSbqcVIs6FkONjj5j88RYw==" crossorigin="anonymous"></script>
-    <script>
-      (function () {
-  'use strict'
-
-  feather.replace()
-
-  // Graphs
-  var ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      datasets: [{
-        data: [
-          15339,
-          21345,
-          18483,
-          24003,
-          23489,
-          24092,
-          12034
-        ],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      },
-      legend: {
-        display: false
-      }
-    }
-  })
-})()
-
-    </script>
   </body>
 </html>
-
-
