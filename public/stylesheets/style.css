@@ -17,10 +17,30 @@ table {
 }
 
 
-is-pulled-right{
-    float:right!important;
+is-pulled-right {
+    float: right !important;
 }
 
-is-pulled-left{
-    float:left!important
+is-pulled-left {
+    float: left !important
 }
+
+box {
+    float: left;
+    width: auto;
+    height: 500px;
+    position: relative;
+}
+
+front {
+    position: absolute;
+    right: 30px;
+    top: 50px;
+}
+
+back {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
