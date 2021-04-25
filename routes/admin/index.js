@@ -30,4 +30,10 @@ router.get('/item/:itemId', function(req, res, next) {
   res.render('admin_item_detail', { ItemId: itemId });
 });
 
+router.get('/newitem', function(req, res, next) {
+  var itemId = '-';
+
+  res.render('admin_newitem', { ItemId: itemId });
+});
+
 module.exports = router;
