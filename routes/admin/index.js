@@ -25,15 +25,47 @@ router.get('/item', function(req, res, next) {
   res.render('admin_item', { title: '' });
 });
 
-router.get('/item/:itemId', function(req, res, next) {
+router.route('/item/:itemId')
+.get(function(req, res, next) {
+  console.log('/item/:itemId get')
+
   var itemId = req.params.itemId;
   res.render('admin_item_detail', { ItemId: itemId });
+})
+.put(function(req, res, next) {
+  var itemId = req.params.itemId;
+  console.log(req.body)
+  var result = false;
+
+  if(result){
+    res.send('200');
+  }else{
+    res.send('400');
+  }
+})
+.delete(function(req, res, next) {
+  var itemId = req.params.itemId;
+
+  var result = false;
+
+  if(result){
+    res.send('200');
+  }else{
+    res.send('400');
+  }
 });
 
-router.get('/newitem', function(req, res, next) {
+router.route()
+.get(function(req, res, next) {
   var itemId = '-';
 
   res.render('admin_newitem', { ItemId: itemId });
+})
+.post(function(req, res, next) {
+  var itemId = '-';
+  
+  res.render('admin_newitem', { ItemId: itemId });
 });
+
 
 module.exports = router;
