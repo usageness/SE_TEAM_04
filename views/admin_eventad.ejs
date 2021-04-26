@@ -13,9 +13,22 @@
     
 
     <!-- Bootstrap core CSS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <!-- Jquery Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-		
+
+
     <style>
+      html,body{
+        width: 100%;
+        height: 100%;
+       overflow-x: hidden;
+      }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -23,7 +36,38 @@
         -moz-user-select: none;
         user-select: none;
       }
-
+      input {
+        margin-bottom: 20px;
+      }
+      .eventad-form-container {
+        margin-left: 30px;
+        height: 100%;
+        width: 300px;
+       display: flex;
+       justify-content:left;
+       flex-direction: column;
+      }
+      #eventad-form {
+      
+      }
+      #eventad-form-description {
+        margin-top: 160px;
+        
+      }
+      #main-wrapper {
+       display: flex;
+      
+       flex-direction: row;
+       
+       width: 94.5%;
+        height: 100%;
+      }
+      .container {
+        margin-top: 30px;
+       overflow: auto;
+        height: 100%;
+        width: 100%;
+      }
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -85,9 +129,133 @@
   <hr>
 </div>
 
-
+<div id="main-wrapper">
+<div class="eventad-form-container">
+  <h1 id="eventad-form-description">
+  이벤트 입력
+  </h1>
+  <form action="/admin/eventad" method="POST" id="eventad-form">
+    <label for="eventad_title">이벤트 제목</label><br>
+    <input type="text" placeholder="이벤트 제목" id="eventad_title" name="eventad_title" /><br>
+    <label for="eventad_title">이벤트 기간</label><br>
+    <input type="text" id="datetimes" name="datetimes" /><br>
+    <label for="eventad_title">이벤트 이미지</label><br>
+    <input type="file" id="eventad_img" name="eventad_img" accept="image/*" /><br>
+    <input type="submit" value="이벤트 게시" />
+  </form>
+  </div>
+  
+  <div class="container">
+    <h1 class="mb-5 text-center">이벤트 현황</h1>
+    <table border="0" cellspacing="5" cellpadding="5">
+      </table>
+    <div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+      <table id="table" class="table" sortable="checked">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">광고명</th>
+            <th scope="col">이미지</th>
+            <th scope="col">기간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">1</td>
+            <td><a style="color:#212529" href="/admin/item/1">회사 부도 기념 .80% 할인!</a></td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'></td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td scope="row">2</td>
+            <td>하나를 사면 하나를 드립니다!</td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617332437_0.jpg"></td>
+            <td>3</td>
+          </tr>
+          <tr >
+            <td scope="row">3</td>
+            <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
+            <td>랜덤박스 보드게임</td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1618801495_0.jpg"></td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</div>
+  
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+      
+      $(document).ready(function(){
+        
+        var table = $('#table').DataTable({
+          rows: [
+            {
+              targets: 2,
+              render: '<img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'
+            }
+          ]
+        });
+        // Event listener to the two range filtering inputs to redraw on input
+        console.log($.fn.dataTable.ext.search)
+        $.fn.dataTable.ext.search.push(
+          function( settings, data, dataIndex ) {
+            var min = parseInt( $('#min').val(), 10 );
+            var max = parseInt( $('#max').val(), 10 );
+            var price = data[2].replace(',', '') || 0; // use data for the age column
+            console.log(price)
+            if ( ( isNaN( min ) && isNaN( max ) ) ||
+                ( isNaN( min ) && price <= max ) ||
+                ( min <= price   && isNaN( max ) ) ||
+                ( min <= price   && price <= max ) )
+            {
+              return true;
+            }
+            return false;
+          }
+        );
+
+        $('#min, #max').keyup( function() {
+          table.draw();
+        } );
+
+        
+      });
+    </script>
+    <script>
+      $(function() {
+        let today = new Date();
+        $('input[name="datetimes"]').daterangepicker({
+          alwaysShowCalendars: true,
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          range: today.toLocaleDateString(),
+          locale: {
+            format: 'M/DD hh:mm A'
+          }
+        });
+       
+});
+     
+          
+    
+      </script>
+     <script>
+        $('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
+          var startDate = picker.startDate;
+          var endDate=picker.endDate;
+  console.log(startDate.format('M/DD hh:mm A'));
+  console.log(endDate.format('M/DD hh:mm A'));});
+     </script>
   </body>
 </html>
