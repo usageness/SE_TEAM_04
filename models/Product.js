@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-class Eventad extends Sequelize.Model {
+class Product extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             title: {
@@ -8,11 +8,19 @@ class Eventad extends Sequelize.Model {
                 allowNull: false,
                 unique: true,
             },
-            url: {
-                type: Sequelize.STRING,
+            designer: { // 0 = ad , 1 = event
+                type: Sequelize.STRING(50),
+                allowNull: false,
+            },
+            tag: { // 플레이 방식
+                type: Sequelize.STRING(50),
                 allowNull: false,
             },
             imageurl: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
+            url: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
@@ -20,28 +28,32 @@ class Eventad extends Sequelize.Model {
                 type: Sequelize.TEXT,
                 allowNull: true,
             },
-            start: { // 시작일
-                type: Sequelize.DATE,
+            price: {
+                type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false,
             },
-            end: { // 종료일
-                type: Sequelize.DATE,
+            players: { //이용 가능 인원
+                type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false,
             },
-            flag: { // 0 = ad , 1 = event
-                type: Sequelize.BOOLEAN,
+            playtime:{ //플레이 시간
+                type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false,
             },
-            visible: { // 0 = 볼 수 없음 , 1 = 볼 수 있음
-                type: Sequelize.BOOLEAN,
+            difficulty: { //난이도
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false,
+            },
+            deliveryfee: { // 배송료
+                type: Sequelize.INTEGER.UNSIGNED,
                 allowNull: false,
             },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'Eventad',
-            tableName: 'eventads',
+            modelName: 'Product',
+            tableName: 'products',
             paranoid: false,
             charset: 'utf8',
             collate: 'utf8_general_ci'
@@ -50,4 +62,4 @@ class Eventad extends Sequelize.Model {
     static associate(db) {}
 };
 
-module.exports = Eventad;
+module.exports = Product;

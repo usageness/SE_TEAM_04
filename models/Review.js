@@ -8,13 +8,13 @@ class Review extends Sequelize.Model {
                 allowNull: false,
                 unique: true,
             },
-            score: {
-                type: Sequelize.INTEGER.UNSIGNED,
-                allowNull: false,
-            },
             content: {
                 type: Sequelize.TEXT,
                 allowNull: true,
+            },
+            score: {
+                type: Sequelize.INTEGER.UNSIGNED,
+                allowNull: false,
             },
             date: { // 작성일
                 type: Sequelize.DATE,
