@@ -55,7 +55,7 @@ router.route('/item/:itemId')
   }
 });
 
-router.route()
+router.route('/item/new')
 .get(function(req, res, next) {
   var itemId = '-';
 
@@ -69,3 +69,4 @@ router.route()
 
 
 module.exports = router;
+``
