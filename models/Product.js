@@ -3,6 +3,13 @@ const Sequelize = require('sequelize');
 class Product extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
+            id: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                allowNull: false,
+                unique: true,
+                autoIncrement: true,
+            },
             title: {
                 type: Sequelize.STRING(50),
                 allowNull: false,

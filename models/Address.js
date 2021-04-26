@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-class Review extends Sequelize.Model {
+class Address extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             id: {
@@ -10,29 +10,17 @@ class Review extends Sequelize.Model {
                 unique: true,
                 autoIncrement: true,
             },
-            title: {
+            address: {
                 type: Sequelize.STRING(50),
                 allowNull: false,
                 unique: true,
-            },
-            content: {
-                type: Sequelize.TEXT,
-                allowNull: true,
-            },
-            score: {
-                type: Sequelize.INTEGER.UNSIGNED,
-                allowNull: false,
-            },
-            date: { // 작성일
-                type: Sequelize.DATE,
-                allowNull: false,
             },
         }, {
             sequelize,
             timestamps: false,
             underscored: false,
-            modelName: 'Review',
-            tableName: 'reviews',
+            modelName: 'Admin',
+            tableName: 'admins',
             paranoid: false,
             charset: 'utf8',
             collate: 'utf8_general_ci'
@@ -41,4 +29,4 @@ class Review extends Sequelize.Model {
     static associate(db) {}
 };
 
-module.exports = Review;
+module.exports = Eventad;
