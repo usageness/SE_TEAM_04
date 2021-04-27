@@ -1,37 +1,34 @@
-const Sequelize = require('sequelize');
-
-class Review extends Sequelize.Model {
-    static init(sequelize) {
-        return super.init({
-            title: {
-                type: Sequelize.STRING(50),
-                allowNull: false,
-                unique: true,
-            },
-            content: {
-                type: Sequelize.TEXT,
-                allowNull: true,
-            },
-            score: {
-                type: Sequelize.INTEGER.UNSIGNED,
-                allowNull: false,
-            },
-            date: { // 작성일
-                type: Sequelize.DATE,
-                allowNull: false,
-            },
-        }, {
-            sequelize,
-            timestamps: false,
-            underscored: false,
-            modelName: 'Review',
-            tableName: 'reviews',
-            paranoid: false,
-            charset: 'utf8',
-            collate: 'utf8_general_ci'
-        });
+module.exports = function (sequelize, DataTypes) {
+    const Review = sequelize.define(
+      'Review',
+      {
+        title: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            unique: true,
+        },
+        content: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
+        score: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+        },
+        date: { // 작성일
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+    }, 
+      {
+        tableName: 'Review',
+        freezeTableName: false,
+        timestamps: false,
+        underscored: false,
+      }
+    )
+    Review.associate = (models) => {
+     
     }
-    static associate(db) {}
-};
-
-module.exports = Review;
+    return Review
+  }
