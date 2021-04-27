@@ -1,27 +1,24 @@
-const Sequelize = require('sequelize');
-
-class Cart extends Sequelize.Model {
-    static init(sequelize) {
-        return super.init({
-            id: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                allowNull: false,
-                unique: true,
-                autoIncrement: true,
-            },
-        }, {
-            sequelize,
-            timestamps: false,
-            underscored: false,
-            modelName: 'Cart',
-            tableName: 'carts',
-            paranoid: false,
-            charset: 'utf8',
-            collate: 'utf8_general_ci'
-        });
+module.exports = function (sequelize, DataTypes) {
+    var Cart = sequelize.define(
+      'Cart',
+      {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            unique: true,
+            autoIncrement: true,
+        },
+    }, 
+      {
+        tableName: 'Cart',
+        freezeTableName: false,
+        timestamps: false,
+        underscored: false,
+      }
+    )
+    Cart.associate = (models) => {
+     
     }
-    static associate(db) {}
-};
-
-module.exports = Cart;
+    return Cart;
+  }

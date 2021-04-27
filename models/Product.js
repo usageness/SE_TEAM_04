@@ -2,6 +2,13 @@ module.exports = function (sequelize, DataTypes) {
     const Product = sequelize.define(
       'Product',
       {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            unique: true,
+            autoIncrement: true,
+        },
         title: { //제목
             type: DataTypes.STRING(50),
             allowNull: false,

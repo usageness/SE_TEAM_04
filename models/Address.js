@@ -1,32 +1,30 @@
-const Sequelize = require('sequelize');
-
-class Address extends Sequelize.Model {
-    static init(sequelize) {
-        return super.init({
-            id: {
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                allowNull: false,
-                unique: true,
-                autoIncrement: true,
-            },
-            address: {
-                type: Sequelize.STRING(50),
-                allowNull: false,
-                unique: true,
-            },
-        }, {
-            sequelize,
-            timestamps: false,
-            underscored: false,
-            modelName: 'Admin',
-            tableName: 'admins',
-            paranoid: false,
-            charset: 'utf8',
-            collate: 'utf8_general_ci'
-        });
+module.exports = function (sequelize, DataTypes) {
+    var Address = sequelize.define(
+      'Address',
+      {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            unique: true,
+            autoIncrement: true,
+        },
+        address: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            unique: true,
+        },
+    },
+      {
+        tableName: 'Address',
+        freezeTableName: false,
+        timestamps: false,
+        underscored: false,
+      }
+    )
+    Address.associate = (models) => {
+     
     }
-    static associate(db) {}
-};
-
-module.exports = Address;
+    return Address;
+  }
+  
