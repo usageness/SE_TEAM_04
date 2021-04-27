@@ -37,4 +37,4 @@ class Admin extends Sequelize.Model {
     static associate(db) {}
 };
 
-module.exports = Eventad;
+module.exports = Admin;

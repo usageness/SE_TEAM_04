@@ -37,4 +37,4 @@ class User extends Sequelize.Model {
     static associate(db) {}
 };
 
-module.exports = Eventad;
+module.exports = User;
