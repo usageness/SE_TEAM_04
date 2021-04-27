@@ -23,7 +23,14 @@ module.exports = function (sequelize, DataTypes) {
       }
     )
     Address.associate = (models) => {
-     
+      Address.belongsTo(models.User, {
+        as: "registered_address",
+        foreignKey: "userId",
+      });
+      Address.hasMany(models.PurchaseLog, {
+        as: "destination",
+        foreignKey: "addressId",
+      });
     }
     return Address;
   }

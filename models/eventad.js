@@ -44,8 +44,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-    },
-    {
+      },
+      {
         tableName: 'Eventad',
         freezeTableName: false,
         timestamps: false,
@@ -53,7 +53,11 @@ module.exports = function (sequelize, DataTypes) {
       }
     )
     Eventad.associate = (models) => {
-        
+      Eventad.belongsTo(models.User, {
+            as: 'creator', 
+            foreignKey: 'creatorId',
+            constraints: false 
+        });
     }
     return Eventad
   }
