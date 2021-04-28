@@ -15,164 +15,125 @@
 </HEAD>
 
 <BODY>
-<nav class="py-2 bg-light border-bottom">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
     <div class="container d-flex flex-wrap">
-        <ul class="nav is-grouped pull-left">
-            <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active">즐겨찾기</a></li>
-            <li class="nav-item"><a href="#" class="nav-link link-dark px-2">입점신청</a></li>
-        </ul>
-        <ul class="nav pull-right">
-            <li class="nav-item"><a href="/login" class="nav-link link-dark px-2">Login</a></li>
-            <li class="nav-item"><a href="/signUp" class="nav-link link-dark px-2">Sign up</a></li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <div class="row">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">즐겨찾기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">입점신청</a>
+                    </li>
+                </div>
+            </ul>
+            <div><a href="/login" class="nav-link">Login</a></div>
+            <div><a href="/signUp" class="nav-link">Sign up</a></div>
+
+        </div>
     </div>
+
 </nav>
 
-<header class="py-3 mb-3 border-bottom">
-    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
-        <div class="dropdown">
-            <a href="#"
-               class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none dropdown-toggle"
-               id="dropdownNavLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-            </a>
-            <div class="card-group">
-                <div class="dropdown show">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        전체
-                    </a>
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="input-group">
-                        <div class="dropdown-menu text-small shadow">
-                            <li><a class="dropdown-item active" href="#">로켓</a></li>
-                            <li><a class="dropdown-item" href="#">신선</a></li>
-                            <li><a class="dropdown-item" href="#">목재</a></li>
-                            <li><a class="dropdown-item" href="#">감자</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">로켓</a></li>
-                            <li><a class="dropdown-item" href="#">신선</a></li>
-                        </div>
-                        <form class="w-100 me-3">
-                            <input type="search" class="form-control" placeholder="Search...">
-                        </form>
-                    </div>
-
-                    <div class="flex-shrink-0 dropdown">
-                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32"
-                                 height="32">
-                        </a>
-                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                    <div class="flex-shrink-0 dropdown">
-                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32"
-                                 height="32">
-                        </a>
-                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="container d-flex flex-wrap">
-            <ul class="nav is-grouped is-pulled-left">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2 active">상품1</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">상품2</a></li>
-            </ul>
-            <ul class="nav is-pulled-right">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">상품3</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">상품4</a></li>
-            </ul>
-        </div>
-    </div>
-</header>
-
 <div class="container">
-    <div class="box">
-        <div class="back">
-            <div id="demo" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner"> <!-- 슬라이드 쇼 -->
-                    <div class="carousel-item active"> <!--가로--> <img class="d-block w-100"
-                                                                      src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                                                                      alt="First slide">
-                        <div class="carousel-caption d-none d-md-block"><h5>TEST</h5>
-                            <p>testtesttest</p></div>
-                    </div>
-                    <div class="carousel-item"><img class="d-block w-100"
-                                                    src="https://images.pexels.com/photos/2355519/pexels-photo-2355519.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                                                    alt="Second slide"></div>
-                    <div class="carousel-item"><img class="d-block w-100"
-                                                    src="https://images.pexels.com/photos/2544554/pexels-photo-2544554.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                                                    alt="Third slide"></div> <!-- / 슬라이드 쇼 끝 --> <!-- 왼쪽 오른쪽 화살표 버튼 -->
-                    <a
-                            class="carousel-control-prev" href="#demo" data-slide="prev"> <span
-                                class="carousel-control-prev-icon"
-                                aria-hidden="true"></span>
-                        <!-- <span>Previous</span> --> </a> <a class="carousel-control-next" href="#demo"
-                                                               data-slide="next"> <span
-                                class="carousel-control-next-icon" aria-hidden="true"></span> <!-- <span>Next</span> -->
-                    </a>
-                    <!-- / 화살표 버튼 끝 --> <!-- 인디케이터 -->
-                    <ul class="carousel-indicators">
-                        <li data-target="#demo" data-slide-to="0" class="active"></li> <!--0번부터시작-->
-                        <li data-target="#demo" data-slide-to="1"></li>
-                        <li data-target="#demo" data-slide-to="2"></li>
-                    </ul> <!-- 인디케이터 끝 --> </div>
-            </div>
-        </div>
-    </div>
-    <div class="box">
-        <div class="front">
-            <div class="row">
-                <div class="col-6 col-sm-8 col-lg-5 is-pulled-right">
-                    <h6 class="text-muted">List Group</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            1 뭔가있음 있긴함
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            2 new promotion
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            3 뉴 프로모오션
-                        </li>
-                    </ul>
+    <div class="row mt-3 pb-4">
+        <div class="col-2">
+            <div class="btn-group" style="width: 100%; height: 100%">
+                <button type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    카테고리
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </div>
         </div>
+        <div class="col-10 mt-4">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <img src="https://image7.coupangcdn.com/image/coupang/common/logo_coupang_w350.png"
+                         style="width: 100%"
+                         alt="">
+                </div>
+                <div class="col-6">
+                    <form class="form-inline">
+                        <input class="form-control mr-2" type="search" placeholder="Search" style="width: 60%" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0 " type="submit" style="width: 20%">Search</button>
+                    </form>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group float-right ">
+                        <button type="button" class="btn btn-primary">개인정보</button>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            장바구니
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">보드 개임 bang 1개</a>
+                            <a class="dropdown-item" href="#">루미큐브! - 이벤트 할인 2개</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">장바구니 바로가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width:10%"  href="#">로켓배송</th>
+                        <th scope="col" style="width:10%"  href="#">아케이드</th>
+                        <th scope="col" style="width:10%"  href="#">어드벤처</th>
+                        <th scope="col" style="width:10%"  href="#">호러</th>
+                        <th scope="col" style="width:10%"  href="#">이벤트</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
+
+    <div id="carouselExampleIndicators" class="carousel slide mb-5" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" >
+            <div class="carousel-item active">
+                <img class="d-block w-100"
+                     src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617332437_0.jpg"
+                     alt="First slide">
+
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100"
+                     src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"
+                     alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100"
+                     src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+                     alt="Third slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
 </div>
+
 
 <!-- 김용래 -->
 <div style="clear:both;"></div>
@@ -182,7 +143,7 @@
     <div class="product">
         <div class="d-flex flex-row justify-content-center">
             <div class="p-2 product-button big-product">
-                <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617856777254/C2_1_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%8A%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%B7.jpg" >
+                <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617856777254/C2_1_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%8A%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%B7.jpg">
             </div>
             <div class="p-2 product-button big-product">
                 <img src="https://static.coupangcdn.com/ga/cmg_paperboy/image/1617931569702/C2_2_%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1.jpg">
@@ -224,21 +185,24 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350656_a.jpg" class="d-block w-100" alt="...">
+                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350656_a.jpg" class="d-block w-100"
+                     alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>First slide label</h5>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350718_a.jpg" class="d-block w-100" alt="...">
+                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350718_a.jpg" class="d-block w-100"
+                     alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Second slide label</h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350770_a.jpg" class="d-block w-100" alt="...">
+                <img src="https://boardm.co.kr/upload/design/bannerimg_1615350770_a.jpg" class="d-block w-100"
+                     alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Third slide label</h5>
                     <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
@@ -260,7 +224,11 @@
 <!-- footer -->
 <div class="footer-layer">
     <div class="d-flex flex-row justify-content-center">
-        <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span> <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span class="divider"></span> <span class="extra"><a href="/">고객센터</a></span>
+        <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a
+                    href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a
+                    href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span>
+        <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span class="divider"></span>
+        <span class="extra"><a href="/">고객센터</a></span>
     </div>
 </div>
 <hr>
@@ -288,9 +256,15 @@
     </div>
 </div>
 <!-- script -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <script>$('.carousel').carousel({interval: 2000})</script>
 </body>
 </html>
