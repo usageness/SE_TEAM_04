@@ -9,6 +9,7 @@
     <title>Sidebars · Bootstrap v5.0</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
     
 
@@ -85,24 +86,24 @@
   <hr>
 </div>
 <main class="container">
-  <form>
+  <form id="form" action='/admin/item/<%= ItemId %>' method="POST">
     <h1 class="mb-5 text-center"><%= ItemId %></h1>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="text" id="form6Example3" class="form-control" />
+      <input type="text" id="form6Example3" class="form-control" name="name"/>
       <label class="form-label" for="form6Example3">보드게임 이름</label>
     </div>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="number" id="form6Example4" class="form-control" />
+      <input type="number" id="form6Example4" class="form-control" name="price"/>
       <label class="form-label" for="form6Example4">보드게임 가격</label>
     </div>
   
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="text" id="form6Example5" class="form-control" />
+      <input type="text" id="form6Example5" class="form-control" name="creator"/>
       <label class="form-label" for="form6Example5">제작사</label>
     </div>
     
@@ -110,14 +111,14 @@
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example6" class="form-control" />
+          <input type="number" id="form6Example6" class="form-control" name="peoplemin"/>
           <label class="form-label" for="form6Example6">최소 인원</label>
         </div>
       </div>
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example61" class="form-control" />
+          <input type="number" id="form6Example61" class="form-control" name="peoplemax"/>
           <label class="form-label" for="form6Example6">최대 인원</label>
         </div>
       </div>
@@ -126,7 +127,7 @@
   
     <!-- Message input -->
     <div class="form-outline mb-4">
-      <textarea class="form-control" id="form6Example7" rows="4"></textarea>
+      <textarea class="form-control" id="form6Example7" rows="4" name="description"></textarea>
       <label class="form-label" for="form6Example7">상세 설명</label>
     </div>
   
@@ -143,12 +144,38 @@
     
   
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4">등록하기</button>
+    <div>
+      <input id="method-type" type="hidden" name="_method" value="PUT"/>
+      <a  class="btn btn-secondary mb-4 float-right ml-2" href="/admin/item">취소하기</a>
+      <button id="delete-item" type="button" class="btn btn-danger mb-4 float-right ml-2">삭제하기</button>
+      <button id="update-item" type="button" class="btn btn-primary mb-4 float-right">등록하기</button>
+    </div>
+    
   </form>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
+    <script>
+      $(document).ready(function(){
+        var $form = $("#form")[0];
+        var $methodType = $("#method-type")[0];
+
+        $("#delete-item").on("click", () => {
+
+          $methodType.value = "DELETE";
+          $form.setAttribute("action", $form.getAttribute("action") + "?_method=DELETE");
+          $form.submit();
+        });
+        $("#update-item").on("click", () => {
+          $methodType.value = "PUT";
+          $form.setAttribute("action", $form.getAttribute("action") + "?_method=PUT");
+
+          $form.submit();
+
+        });
+      });
+    </script>
   </body>
 </html>
