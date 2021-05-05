@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var db =  require ('../../models')
 
 router.get('/', function(req, res, next) {
   res.render('admin_main', { title: 'AdminMain' });
@@ -10,11 +10,24 @@ router.get('/login', function(req, res, next) {
   res.render('admin_login', { title: 'QuickBoard' });
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   // TODO: Login logic
+  var result = false;
 
+  const user = await db.User.findOne({
+    where: {
+      userid: req.body.email,
+      password: req.body.password
+    },
+    attributes: ['id', 'nickname', 'userid'],
+  });
+  if(user) result = true;
 
-  res.redirect('/admin');
+  if(result){
+    res.redirect('/admin', {title: '', data: user});
+  }else{
+    res.send('400');
+  }
 });
 
 router.get('/eventad', function(req, res, next) {
