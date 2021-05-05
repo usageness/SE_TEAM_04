@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Sidebars · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <!-- Jquery Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+
+    <style>
+      html,body{
+        width: 100%;
+        height: 100%;
+       overflow-x: hidden;
+      }
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      input {
+        margin-bottom: 20px;
+      }
+      .eventad-form-container {
+        margin-left: 30px;
+        height: 100%;
+        width: 300px;
+       display: flex;
+       justify-content:left;
+       flex-direction: column;
+      }
+      #eventad-form {
+      
+      }
+      #eventad-form-description {
+        margin-top: 160px;
+        
+      }
+      #main-wrapper {
+       display: flex;
+      
+       flex-direction: row;
+       
+       width: 94.5%;
+        height: 100%;
+      }
+      .container {
+        margin-top: 30px;
+       overflow: auto;
+        height: 100%;
+        width: 100%;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+  </head>
+  <body>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <title>Bootstrap</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+  </symbol>
+  
+  <symbol id="home" viewBox="0 0 16 16">
+    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+  </symbol>
+  <symbol id="event" viewBox="0 0 16 16">
+    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  </symbol>
+  <symbol id="item" viewBox="0 0 16 16">
+    <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
+    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+  </symbol>
+</svg>
+
+<div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+  <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+    <span class="fs-4">관리자</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a href="/admin" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin"/></svg>
+        메인
+      </a>
+    </li>
+    <li>
+      <a href="/admin/eventad" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/eventad"/></svg>
+        이벤트/광고 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/item" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
+        상품관리
+      </a>
+    </li>
+  </ul>
+  <hr>
+</div>
+
+<div id="main-wrapper">
+<div class="eventad-form-container">
+  <h1 id="eventad-form-description">
+  이벤트 입력
+  </h1>
+  <form action="/admin/eventad" method="POST" id="eventad-form">
+    <label for="eventad_title">이벤트 제목</label><br>
+    <input type="text" placeholder="이벤트 제목" id="eventad_title" name="eventad_title" /><br>
+    <label for="eventad_title">이벤트 기간</label><br>
+    <input type="text" id="datetimes" name="datetimes" /><br>
+    <label for="eventad_title">이벤트 이미지</label><br>
+    <input type="file" id="eventad_img" name="eventad_img" accept="image/*" /><br>
+    <input type="submit" value="이벤트 게시" />
+  </form>
+  </div>
+  
+  <div class="container">
+    <h1 class="mb-5 text-center">이벤트 현황</h1>
+    <table border="0" cellspacing="5" cellpadding="5">
+      </table>
+    <div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+      <table id="table" class="table" sortable="checked">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">광고명</th>
+            <th scope="col">이미지</th>
+            <th scope="col">기간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">1</td>
+            <td><a style="color:#212529" href="/admin/item/1">회사 부도 기념 .80% 할인!</a></td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'></td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td scope="row">2</td>
+            <td>하나를 사면 하나를 드립니다!</td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617332437_0.jpg"></td>
+            <td>3</td>
+          </tr>
+          <tr >
+            <td scope="row">3</td>
+            <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
+            <td>랜덤박스 보드게임</td>
+            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1618801495_0.jpg"></td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</div>
+  
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="sidebars.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+      
+      $(document).ready(function(){
+        
+        var table = $('#table').DataTable({
+          rows: [
+            {
+              targets: 2,
+              render: '<img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'
+            }
+          ]
+        });
+        // Event listener to the two range filtering inputs to redraw on input
+        console.log($.fn.dataTable.ext.search)
+        $.fn.dataTable.ext.search.push(
+          function( settings, data, dataIndex ) {
+            var min = parseInt( $('#min').val(), 10 );
+            var max = parseInt( $('#max').val(), 10 );
+            var price = data[2].replace(',', '') || 0; // use data for the age column
+            console.log(price)
+            if ( ( isNaN( min ) && isNaN( max ) ) ||
+                ( isNaN( min ) && price <= max ) ||
+                ( min <= price   && isNaN( max ) ) ||
+                ( min <= price   && price <= max ) )
+            {
+              return true;
+            }
+            return false;
+          }
+        );
+
+        $('#min, #max').keyup( function() {
+          table.draw();
+        } );
+
+        
+      });
+    </script>
+    <script>
+      $(function() {
+        let today = new Date();
+        $('input[name="datetimes"]').daterangepicker({
+          alwaysShowCalendars: true,
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          range: today.toLocaleDateString(),
+          locale: {
+            format: 'M/DD hh:mm A'
+          }
+        });
+       
+});
+     
+          
+    
+      </script>
+     <script>
+        $('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
+          var startDate = picker.startDate;
+          var endDate=picker.endDate;
+  console.log(startDate.format('M/DD hh:mm A'));
+  console.log(endDate.format('M/DD hh:mm A'));});
+     </script>
+  </body>
+</html>
