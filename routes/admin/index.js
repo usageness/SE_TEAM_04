@@ -18,7 +18,7 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/eventad', function(req, res, next) {
-  res.render('admin_eventad', { title: '' });
+  res.render('admin_eventad_detail', { title: '' });
 });
 
 router.get('/item', function(req, res, next) {
