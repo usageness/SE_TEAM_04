@@ -15,7 +15,7 @@ router.get('/notice', function(req, res, next) {
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('product', { title: 'Express' });
 });
 
 
