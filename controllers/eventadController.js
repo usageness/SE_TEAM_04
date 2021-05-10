@@ -13,33 +13,13 @@ const postEventad = async (req, res) => {
     body: { title, imageurl, content, datetimes },
   } = req;
   
-  /*
-  const start = req.body.date
-  .daterangepicker({
-   ampm: false,
-   locale: {
-   format: "YYYY M/DD hh:mm",
-},
-})
-.data("daterangepicker").startDate._i;
-
-const end = req.body.date
-.daterangepicker({
-  ampm: false,
-  locale: {
-    format: "YYYY M/DD hh:mm",
-  },
-})
-.data("daterangepicker").endDate._i;
-*/
-
 const datetimesArray = datetimes.split("-");
 const hashedTitle = crypto.createHmac('sha256','secret').update(title).digest('hex');
 console.log(datetimesArray);
   await Eventad.create({
    
     title: title,
-    url: '/eventad/'+hashedTitle,
+    url: hashedTitle,
     imageurl: imageurl,
     content: content,
     start:datetimesArray[0],
@@ -57,43 +37,37 @@ console.log(datetimesArray);
 
 const getUpdateEventad = async (req, res) => {
   const {
-    params: { id },
+    params: { eventadId },
   } = req;
-  const updateEventad = await Eventad.findOne({ where: { id } });
-  res.render("admin_eventad", { title: "", fixEventad });
+  const updateEventad = await Eventad.findOne({ where: { url : eventadId} });
+  req.session.updateEventadId = updateEventad.id;
+  res.render("admin_eventad_detail", { title: "", data:{
+    updateEventad: updateEventad,
+   
+  } });
 };
  const postUpdateEventad = async (req,res) => {
     const {
-        params: {id},
-        body: {title, imageurl, content}
+        body: {title, imageurl, content, datetimes}
     } =req;
-    const start = req.body.date
-    .daterangepicker({
-      ampm: false,
-      locale: {
-        format: "YYYY M/DD hh:mm",
-      },
-    })
-    .data("daterangepicker").startDate._i;
-  const end = req.body.date
-    .daterangepicker({
-      ampm: false,
-      locale: {
-        format: "YYYY M/DD hh:mm",
-      },
-    })
-    .data("daterangepicker").endDate._i;
-    await Eventad.update({
-    imageurl,
-    title,
-    content,
-    start,
-    end,
-    url: 111,
+    
+  const datetimesArray = datetimes.split("-");
+  const hashedTitle = crypto.createHmac('sha256','secret').update(title).digest('hex');
+ console.log(req.session.updateEventadId);
+  await Eventad.update({
+    title: title,
+    url: hashedTitle,
+    imageurl: imageurl,
+    content: content,
+    start:datetimesArray[0],
+    end:datetimesArray[1],
     flag: 1,
     visible: 1,
-    },{where:{_id:id}});
-   
+    },{where:{id:req.session.updateEventadId}});
+    let eventad = await Eventad.findAll({});
+    res.render("admin_eventad", { title: "",  data:{
+      eventadList:eventad
+    } });
 };
 
 module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad};

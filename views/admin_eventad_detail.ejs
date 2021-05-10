@@ -40,10 +40,10 @@
         margin-bottom: 20px;
       }
       .eventad-form-container {
-        margin: auto;
         height: 100%;
         width: 300px;
        display: flex;
+       margin-left: 25%;
        
        flex-direction: column;
        margin-bottom: 100px;
@@ -52,12 +52,12 @@
       
       }
       #eventad-form-description {
-        margin-top: 160px;
+       
         
       }
       #main-wrapper {
        display: flex;
-      
+       margin-top: 160px;
        flex-direction: row;
        
        width: 94.5%;
@@ -138,26 +138,27 @@
   <h1 id="eventad-form-description">
   이벤트 상세정보 및 수정
   </h1>
-  <form action="/admin/eventad" method="POST" id="eventad-form">
+  <form action="/admin/eventad/:eventadId" method="POST" id="eventad-form">
     <label for="eventad_title">이벤트 제목</label><br>
-    <input type="text" placeholder="이벤트 제목" id="title" name="title" required="true" /><br>
+    <input type="text" placeholder="이벤트 제목" id="title" name="title" value="<%= data.updateEventad.title %>" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" required="true"/><br>
+    <input type="text" id="datetimes" name="datetimes" value="<%= data.updateEventad.start %> - <%=data.updateEventad.end %>" required="true"/><br>
     <label for="eventad_title">이벤트 이미지URL</label><br>
-    <input type="text" id="imageurl" name="imageurl" required="true" /><br>
+    <input type="text" id="imageurl" name="imageurl" value="<%= data.updateEventad.imageurl %>" required="true" /><br>
     <label for="content">이벤트 설명:</label>
-    <textarea id="content" name="content"rows="5" cols="33"></textarea>
-    <input id="submit" type="button" value="이벤트 수정" />
+    <textarea id="content" name="content"  rows="5" cols="33"><%= data.updateEventad.content %></textarea>
+    <input id="submit" type="submit" value="이벤트 수정" />
     <input id="delete" type="button" value="이벤트 삭제" />
   </form>
-  </div>
   
+  </div>
+  <span>
+    <img src="<%= data.updateEventad.imageurl %>">
+  </span>
   
 </div>
   
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="sidebars.js"></script>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

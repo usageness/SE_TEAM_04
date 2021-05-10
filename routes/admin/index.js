@@ -4,7 +4,9 @@ const User = require("../../models").User;
 const { isLoggedIn } = require("./middleware");
 const {
   getEventad,
-  postEventad
+  postEventad,
+  getUpdateEventad,
+  postUpdateEventad
 } = require("../../controllers/eventadController");
 
 router.get("/", isLoggedIn, function (req, res, next) {
@@ -43,36 +45,13 @@ router.post("/eventad",postEventad);
 
 router
   .route("/eventad/:eventadId")
-  .get(function (req, res, next) {
-    console.log("/eventad/:eventadId get");
+  .get( getUpdateEventad)
+  
+router
+  .route("/eventad/:eventadId")
+  .post(postUpdateEventad);
 
-    var eventadId = req.params.eventadId;
-    res.render("admin_eventad_detail", { eventadId:eventadId });
-  })
-  .put(function (req, res, next) {
-    var eventadId = req.params.eventadId;
-    console.log(req.body);
-    var result = false;
-
-    if (result) {
-      res.send("200");
-    } else {
-      res.send("400");
-    }
-  })
-  .delete(function (req, res, next) {
-    var eventadId = req.params.eventadId;
-
-    var result = false;
-
-    if (result) {
-      res.send("200");
-    } else {
-      res.send("400");
-    }
-  });
-
-router.get("/eventad", isLoggedIn, function (req, res, next) {
+router.get("/item", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });
 });
 

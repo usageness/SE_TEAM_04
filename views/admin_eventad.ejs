@@ -167,7 +167,7 @@
          <% data.eventadList.forEach(function(eventad,i){ %>
           <tr>
             
-            <td scope="row"><a style="color:#212529" href="/admin/<%= eventad.url %>"><%= eventad.title %></a></td>
+            <td scope="row"><a style="color:#212529" href="/admin/eventad/<%= eventad.url %>"><%= eventad.title %></a></td>
             <td><img src = "<%= eventad.imageurl %>"></td>
             <td><%= eventad.end %><br> ~ <br><%= eventad.start %>  </td>
           </tr>
@@ -182,8 +182,7 @@
   
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="sidebars.js"></script>
-    
+ 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
