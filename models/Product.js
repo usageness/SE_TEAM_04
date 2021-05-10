@@ -38,7 +38,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        players: { //이용 가능 인원
+        playersmin: { //이용 가능 인원
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+        },
+        playersmax: { //이용 가능 인원
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
