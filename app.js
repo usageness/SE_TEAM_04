@@ -6,6 +6,7 @@ var logger = require('morgan');
 var methodOverride = require('method-override');
 var session = require('express-session');
 const { sequelize } = require('./models');
+require("dotenv").config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -33,8 +34,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  key:'key',
-  secret: 'secret',
+  key:process.env.SESSION_KEY,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }));

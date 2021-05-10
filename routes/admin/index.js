@@ -27,7 +27,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/logout", function (req, res, next) {
   req.session.destroy();
-  res.clearCookie("secret");
+  res.clearCookie(process.env.SESSION_SECRET);
 
   res.render("admin_login", { title: "", session: req.session });
 });
