@@ -208,9 +208,6 @@
         $('input[name="datetimes"]').daterangepicker({
           alwaysShowCalendars: true,
           timePicker: true,
-          startDate: moment().startOf('hour'),
-          endDate: moment().startOf('hour').add(32, 'hour'),
-          range: today.toLocaleDateString(),
           locale: {
             format: 'YYYY M/DD hh:mm A'
           }
@@ -218,30 +215,5 @@
        
 });
       </script>
-     <script>
-        $('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
-          var startDate = picker.startDate;
-          var endDate=picker.endDate;
-  console.log(startDate.format('M/DD hh:mm A'));
-  console.log(endDate.format('M/DD hh:mm A'));});
-     </script>
-     <script>
-        $('input[id="submit"]').click(function(req,res) {
-          var data = {};
-          data.title = $("#eventad_title").val();
-          data.url= $("#eventad_img").val();
-          data.date=$("#datetime").daterangepicker('daterangepicker');
-          data.content=$("#content").val();
-          var add = $("#datetimes").daterangepicker({
-            ampm:false,
-            locale: {
-            format: 'YYYY M/DD hh:mm'
-          }}).data('daterangepicker');
-          console.log(data.content,add.endDate._i,data.title,data.url);
-          console.log(req.body);
-        }
-        )
-     </script>
-    
   </body>
 </html>

@@ -41,6 +41,7 @@ const getUpdateEventad = async (req, res) => {
   } = req;
   const updateEventad = await Eventad.findOne({ where: { url : eventadId} });
   req.session.updateEventadId = updateEventad.id;
+  
   res.render("admin_eventad_detail", { title: "", data:{
     updateEventad: updateEventad,
    
