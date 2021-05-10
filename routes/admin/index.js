@@ -6,7 +6,8 @@ const {
   getEventad,
   postEventad,
   getUpdateEventad,
-  postUpdateEventad
+  postUpdateEventad,
+  deleteEventad
 } = require("../../controllers/eventadController");
 
 router.get("/", isLoggedIn, function (req, res, next) {
@@ -46,10 +47,11 @@ router.post("/eventad",postEventad);
 router
   .route("/eventad/:eventadId")
   .get( getUpdateEventad)
-  
-router
-  .route("/eventad/:eventadId")
   .post(postUpdateEventad);
+
+router
+  .route("/eventad/:eventadId/delete")
+  .post(deleteEventad);
 
 router.get("/item", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });

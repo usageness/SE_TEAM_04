@@ -142,15 +142,16 @@
     <label for="eventad_title">이벤트 제목</label><br>
     <input type="text" placeholder="이벤트 제목" id="title" name="title" value="<%= data.updateEventad.title %>" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" value="<%= data.updateEventad.start %> - <%=data.updateEventad.end %>" required="true"/><br>
+    <input type="text" id="datetimes" name="datetimes" value="<%= data.updateEventad.start %> - <%= data.updateEventad.end %>" required="true"/><br>
     <label for="eventad_title">이벤트 이미지URL</label><br>
     <input type="text" id="imageurl" name="imageurl" value="<%= data.updateEventad.imageurl %>" required="true" /><br>
     <label for="content">이벤트 설명:</label>
     <textarea id="content" name="content"  rows="5" cols="33"><%= data.updateEventad.content %></textarea>
     <input id="submit" type="submit" value="이벤트 수정" />
-    <input id="delete" type="button" value="이벤트 삭제" />
   </form>
-  
+  <form action="/admin/eventad/:eventadId/delete" method="POST">
+    <input id="delete" type="submit" value="이벤트 삭제" />
+  </form>
   </div>
   <span>
     <img src="<%= data.updateEventad.imageurl %>">
@@ -241,5 +242,6 @@
         }
         )
      </script>
+    
   </body>
 </html>

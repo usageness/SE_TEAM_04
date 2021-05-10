@@ -70,4 +70,12 @@ const getUpdateEventad = async (req, res) => {
     } });
 };
 
-module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad};
+const deleteEventad = async (req,res)=> {
+  await Eventad.destroy({where:{id:req.session.updateEventadId}});
+  let eventad = await Eventad.findAll({});
+    res.render("admin_eventad", { title: "",  data:{
+      eventadList:eventad
+    } });
+};
+
+module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad};
