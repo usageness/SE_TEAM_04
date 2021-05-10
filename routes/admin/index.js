@@ -1,7 +1,11 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../../models").User;
-const { isLoggedIn, isNotLoggedIn } = require("./middleware");
+const { isLoggedIn } = require("./middleware");
+const {
+  getEventad,
+  postEventad
+} = require("../../controllers/eventadController");
 
 router.get("/", isLoggedIn, function (req, res, next) {
   res.render("admin_main", { title: "AdminMain" });
@@ -32,9 +36,10 @@ router.get("/logout", function (req, res, next) {
   res.render("admin_login", { title: "", session: req.session });
 });
 
-router.get("/eventad", isLoggedIn, function (req, res, next) {
-  res.render("admin_eventad_detail", { title: "" });
-});
+router.get("/eventad", isLoggedIn, getEventad);
+
+
+router.post("/eventad",postEventad);
 
 router.get("/item", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });

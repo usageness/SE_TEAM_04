@@ -141,12 +141,13 @@
     <label for="eventad_title">이벤트 제목</label><br>
     <input type="text" placeholder="이벤트 제목" id="title" name="title" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
+    <input id="dateapply" type="button" value="이벤트 게시" />
     <input type="text" id="datetimes" name="datetimes" required="true"/><br>
     <label for="eventad_title">이벤트 이미지URL</label><br>
     <input type="text" id="image" name="imageurl" required="true" /><br>
     <label for="content">이벤트 설명:</label>
     <textarea id="content" name="content"rows="5" cols="33"></textarea>
-    <input id="submit" type="button" value="이벤트 게시" />
+    <input id="submit" type="submit" value="이벤트 게시" />
   </form>
   </div>
   
@@ -184,7 +185,14 @@
             <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1618801495_0.jpg"></td>
             <td>5</td>
           </tr>
-         
+         <% data.eventadList.forEach(function(eventad,i){ %>
+          <tr>
+            <td scope="row"><% eventad.id %></td>
+            <td><%= eventad.title %></td>
+            <td><img src = "<%= eventad.imageurl %>"></td>
+            <td><%= eventad.start %></td>
+          </tr>
+         <% }) %>
         </tbody>
       </table>
     </div>
@@ -255,28 +263,22 @@
 });
       </script>
      <script>
-        $('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
+        /*$('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
           var startDate = picker.startDate;
           var endDate=picker.endDate;
   console.log(startDate.format('M/DD hh:mm A'));
-  console.log(endDate.format('M/DD hh:mm A'));});
+  console.log(endDate.format('M/DD hh:mm A'));});*/
      </script>
-     <script>
+     <script type="module">
+       /*const Eventad = require("../models").Eventad;
         $('input[id="submit"]').click(function(req,res) {
-          var data = {};
-          data.title = $("#eventad_title").val();
-          data.url= $("#eventad_img").val();
-          data.date=$("#datetime").daterangepicker('daterangepicker');
-          data.content=$("#content").val();
-          var add = $("#datetimes").daterangepicker({
-            ampm:false,
-            locale: {
-            format: 'YYYY M/DD hh:mm'
-          }}).data('daterangepicker');
-          console.log(data.content,add.endDate._i,data.title,data.url);
-          console.log(req.body);
+          const start = picker.startDate.format('M/DD hh:mm A');
+          const end = picker.endDate.format('M/DD hh:mm A');
+
+          console.log(start, end);
         }
         )
+     */
      </script>
 </body>
 </html>
