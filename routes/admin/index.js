@@ -41,9 +41,42 @@ router.get("/eventad", isLoggedIn, getEventad);
 
 router.post("/eventad",postEventad);
 
-router.get("/item", isLoggedIn, function (req, res, next) {
+router
+  .route("/eventad/:eventadId")
+  .get(function (req, res, next) {
+    console.log("/eventad/:eventadId get");
+
+    var eventadId = req.params.eventadId;
+    res.render("admin_eventad_detail", { eventadId:eventadId });
+  })
+  .put(function (req, res, next) {
+    var eventadId = req.params.eventadId;
+    console.log(req.body);
+    var result = false;
+
+    if (result) {
+      res.send("200");
+    } else {
+      res.send("400");
+    }
+  })
+  .delete(function (req, res, next) {
+    var eventadId = req.params.eventadId;
+
+    var result = false;
+
+    if (result) {
+      res.send("200");
+    } else {
+      res.send("400");
+    }
+  });
+
+router.get("/eventad", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });
 });
+
+
 
 router
   .route("/item/:itemId")

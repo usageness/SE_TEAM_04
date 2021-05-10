@@ -141,7 +141,6 @@
     <label for="eventad_title">이벤트 제목</label><br>
     <input type="text" placeholder="이벤트 제목" id="title" name="title" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
-    <input id="dateapply" type="button" value="이벤트 게시" />
     <input type="text" id="datetimes" name="datetimes" required="true"/><br>
     <label for="eventad_title">이벤트 이미지URL</label><br>
     <input type="text" id="image" name="imageurl" required="true" /><br>
@@ -159,38 +158,18 @@
       <table id="table" class="table" sortable="checked">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">광고명</th>
             <th scope="col">이미지</th>
             <th scope="col">기간</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td scope="row">1</td>
-            <td><a style="color:#212529" href="/admin/item/1">회사 부도 기념 .80% 할인!</a></td>
-            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'></td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td scope="row">2</td>
-            <td>하나를 사면 하나를 드립니다!</td>
-            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617332437_0.jpg"></td>
-            <td>3</td>
-          </tr>
-          <tr >
-            <td scope="row">3</td>
-            <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
-            <td>랜덤박스 보드게임</td>
-            <td><img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1618801495_0.jpg"></td>
-            <td>5</td>
-          </tr>
          <% data.eventadList.forEach(function(eventad,i){ %>
           <tr>
-            <td scope="row"><% eventad.id %></td>
-            <td><%= eventad.title %></td>
+            
+            <td scope="row"><a style="color:#212529" href="/admin/<%= eventad.url %>"><%= eventad.title %></a></td>
             <td><img src = "<%= eventad.imageurl %>"></td>
-            <td><%= eventad.start %></td>
+            <td><%= eventad.end %><br> ~ <br><%= eventad.start %>  </td>
           </tr>
          <% }) %>
         </tbody>
@@ -221,23 +200,7 @@
           ]
         });
         // Event listener to the two range filtering inputs to redraw on input
-        console.log($.fn.dataTable.ext.search)
-        $.fn.dataTable.ext.search.push(
-          function( settings, data, dataIndex ) {
-            var min = parseInt( $('#min').val(), 10 );
-            var max = parseInt( $('#max').val(), 10 );
-            var price = data[2].replace(',', '') || 0; // use data for the age column
-            console.log(price)
-            if ( ( isNaN( min ) && isNaN( max ) ) ||
-                ( isNaN( min ) && price <= max ) ||
-                ( min <= price   && isNaN( max ) ) ||
-                ( min <= price   && price <= max ) )
-            {
-              return true;
-            }
-            return false;
-          }
-        );
+        
 
         $('#min, #max').keyup( function() {
           table.draw();
