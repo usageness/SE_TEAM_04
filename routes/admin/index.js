@@ -42,16 +42,16 @@ router.get("/logout", function (req, res, next) {
 router.get("/eventad", isLoggedIn, getEventad);
 
 
-router.post("/eventad",postEventad);
+router.post("/eventad",isLoggedIn,postEventad);
 
 router
   .route("/eventad/:eventadId")
-  .get( getUpdateEventad)
-  .post(postUpdateEventad);
+  .get( isLoggedIn, getUpdateEventad)
+  .post(isLoggedIn, postUpdateEventad);
 
 router
   .route("/eventad/:eventadId/delete")
-  .post(deleteEventad);
+  .post(isLoggedIn, deleteEventad);
 
 router.get("/item", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });
@@ -61,13 +61,13 @@ router.get("/item", isLoggedIn, function (req, res, next) {
 
 router
   .route("/item/:itemId")
-  .get(function (req, res, next) {
+  .get(isLoggedIn, function (req, res, next) {
     console.log("/item/:itemId get");
 
     var itemId = req.params.itemId;
     res.render("admin_item_detail", { ItemId: itemId });
   })
-  .put(function (req, res, next) {
+  .put(isLoggedIn,function (req, res, next) {
     var itemId = req.params.itemId;
     console.log(req.body);
     var result = false;
@@ -78,7 +78,7 @@ router
       res.send("400");
     }
   })
-  .delete(function (req, res, next) {
+  .delete(isLoggedIn,function (req, res, next) {
     var itemId = req.params.itemId;
 
     var result = false;
@@ -91,7 +91,7 @@ router
   });
 
 router
-  .route("/item/new")
+  .route(isLoggedIn,"/item/new")
   .get(function (req, res, next) {
     var itemId = "-";
 

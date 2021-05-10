@@ -14,7 +14,7 @@ const postEventad = async (req, res) => {
   } = req;
   
 const datetimesArray = datetimes.split("-");
-const hashedTitle = crypto.createHmac('sha256','secret').update(title).digest('hex');
+const hashedTitle = crypto.createHmac('sha256',process.env.HASH_SECRET).update(title).digest('hex');
 console.log(datetimesArray);
   await Eventad.create({
    
@@ -53,7 +53,7 @@ const getUpdateEventad = async (req, res) => {
     } =req;
     
   const datetimesArray = datetimes.split("-");
-  const hashedTitle = crypto.createHmac('sha256','secret').update(title).digest('hex');
+  const hashedTitle = crypto.createHmac('sha256',process.env.HASH_SECRET).update(title).digest('hex');
  console.log(req.session.updateEventadId);
   await Eventad.update({
     title: title,
