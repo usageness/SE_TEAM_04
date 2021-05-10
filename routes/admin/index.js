@@ -9,6 +9,7 @@ const {
   postUpdateEventad,
   deleteEventad
 } = require("../../controllers/eventadController");
+const db = require("../../models");
 
 router.get("/", isLoggedIn, function (req, res, next) {
   res.render("admin_main", { title: "AdminMain" });
@@ -19,7 +20,7 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", async (req, res, next) => {
-  const result = await User.findOne({ where: { permission: 1 } });
+  const result = await db.User.findOne({ where: { permission: 1 } });
   if (
     result !== null &&
     result.userid === req.body.userid &&
@@ -57,6 +58,32 @@ router.get("/item", isLoggedIn, function (req, res, next) {
   res.render("admin_item", { title: "" });
 });
 
+
+router
+  .route("/newitem")
+  .get(isLoggedIn,function (req, res, next) {
+    var itemId = "-";
+
+    res.render("admin_newitem", { ItemId: itemId });
+  })
+  .post(isLoggedIn, async function (req, res, next) {
+    var itemId = "-";
+    var product = await db.Product.create({
+      title: req.body.name,
+      designer: req.body.creator,
+      tag: "태그",
+      imageurl: "-",
+      url: "-",
+      content: req.body.description,
+      price: req.body.price,
+      playersmin: req.body.peoplemin,
+      playersmax: req.body.peoplemax,
+      playtime: 10,
+      difficulty: 1,
+      deliveryfee: 2000,
+    });
+    res.render("admin_login", { title: "", session: req.session });
+  });
 
 
 router
