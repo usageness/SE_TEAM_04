@@ -97,7 +97,7 @@ router
 
 router
   .route("/item/:itemId")
-  .get(isLoggedIn, function (req, res, next) {
+  .get(isLoggedIn, async function (req, res, next) {
     console.log("/item/:itemId get");
 
     var itemId = req.params.itemId;
@@ -109,7 +109,7 @@ router
     });
     res.render("admin_item_detail", { item: product });
   })
-  .put(isLoggedIn,function (req, res, next) {
+  .put(isLoggedIn, async function (req, res, next) {
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
@@ -136,7 +136,7 @@ router
       res.sendStatus(400);
     }
   })
-  .delete(isLoggedIn,function (req, res, next) {
+  .delete(isLoggedIn, async function (req, res, next) {
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
