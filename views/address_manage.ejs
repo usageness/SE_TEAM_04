@@ -23,7 +23,7 @@
           <% data.addressList.forEach(function(address, i){ %>
             <tr>
               <td scope="row"><input type="checkbox" name="color" value="blue"></td>
-              <td><%= address.name %></td>
+              <td><a style="color:#212529" href="/address/<%= address.id %>/update"><%= address.name %></a></td>
               <td><%= address.address %> , <%= address.detailesAddress %></td>
               <td><%= address.postalCode %></td>
               <td><%= address.phoneNumber %></td>

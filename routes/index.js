@@ -1,30 +1,34 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-var adminRouter = require('./admin');
+var adminRouter = require("./admin");
 
-const {postAddress} =require("../controllers/addressController");
+const {
+  getAddress,
+  postAddress,
+  getUpdateAddress,
+  postUpdateAddress,
+  deleteAddress,
+} = require("../controllers/addressController");
+const { route } = require("./admin");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
 
-router.get('/notice', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/notice", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
 
-router.get('/product', function(req, res, next) {
-  res.render('product', { title: 'Express' });
+router.get("/product", function (req, res, next) {
+  res.render("product", { title: "Express" });
 });
 
-router.get('/address', function(req, res, next) {
-  res.render('address_register', { title: 'Express' });
-});
+router.route("/address").get(getAddress).post(postAddress);
 
-router.post('/address', postAddress);
+router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 
-
-router.use('/admin', adminRouter);
+router.use("/admin", adminRouter);
 
 module.exports = router;
