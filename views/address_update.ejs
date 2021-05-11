@@ -28,7 +28,7 @@
         <input type="text" name="extraAddress" id="extraAddress" value="<%= data.updateAddress.phoneNumber %>"><br>
         <input type="submit" id="submit" value="배송지 수정">
       </form>
-      <form >
+      <form action="/address/<%= data.updateAddress.id %>/delete" method="POST">
         <input type="submit" id="delete" value="배송지 삭제">
       </form>
     </div>

@@ -6,6 +6,8 @@ var adminRouter = require("./admin");
 const {
   getAddress,
   postAddress,
+  getAddressRegister,
+  postAddressRegister,
   getUpdateAddress,
   postUpdateAddress,
   deleteAddress,
@@ -26,6 +28,8 @@ router.get("/product", function (req, res, next) {
 });
 
 router.route("/address").get(getAddress).post(postAddress);
+
+router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 

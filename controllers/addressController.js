@@ -10,10 +10,21 @@ const getAddress = async (req, res) => {
 };
 
 const postAddress = async (req, res) => {
+  let address = await Address.findAll({});
+  res.render("address_manage", { title: "Express", data:{
+    addressList:address
+  } });
+};
+
+const getAddressRegister = async (req, res) => {
+  res.render("address_register", { title: "Express", });
+};
+
+const postAddressRegister = async (req, res) => {
   const {
     body: { postcode, roadAddress, detailAddress, extraAddress, addressname },
   } = req;
-  console.log(req.body);
+ 
   await Address.create(
     {
       name: addressname,
@@ -80,4 +91,4 @@ console.log(addressId);
 
 const deleteAddress = async (req, res) => {};
 
-module.exports = { getAddress, postAddress, getUpdateAddress,postUpdateAddress,deleteAddress };
+module.exports = { getAddress, postAddress,getAddressRegister,postAddressRegister, getUpdateAddress,postUpdateAddress,deleteAddress };

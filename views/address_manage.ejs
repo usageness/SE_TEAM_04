@@ -4,7 +4,14 @@
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-		
+		<style>
+      input {
+        margin-top: 15px;
+      }
+      #submit {
+        margin-top: 25px;;
+      }
+    </style>
   </head>
   <body>
     <div id="wrapper">
@@ -31,6 +38,10 @@
           <% }) %>
         </tbody>
       </table>
+      <a style="color:#212529" href="/address/new"><input type="button" value="신규 배송지 등록"></a>
+      <form action="/address" method="POST">
+        <input type="submit" value="변경 사항 저장" >
+      </form>
     </div>
   </body>
 </html>
