@@ -9,9 +9,10 @@
   <body>
     <div id="wrapper">
       <table id="table" class="table" sortable="checked">
+        <h1>배송지 목록</h1>
         <thead>
           <tr>
-             <th scope="col">선택</th>
+            <th scope="col">선택</th>
             <th scope="col">배송지</th>
             <th scope="col">배송주소</th>
             <th scope="col">우편번호</th>
@@ -19,25 +20,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td scope="row"><input type="checkbox" name="color" value="blue"></td>
-            <td><a style="color:#212529" href="/admin/item/1">시타델</a></td>
-            <td>35,000</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td scope="row">2</td>
-            <td>뱅</td>
-            <td>23,000</td>
-            <td>3</td>
-          </tr>
-          <tr >
-            <td scope="row">3</td>
-            <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
-            <td>딕시트</td>
-            <td>13,000</td>
-            <td>5</td>
-          </tr>
+          <% data.addressList.forEach(function(address, i){ %>
+            <tr>
+              <td scope="row"><input type="checkbox" name="color" value="blue"></td>
+              <td><%= address.name %></td>
+              <td><%= address.address %> , <%= address.detailesAddress %></td>
+              <td><%= address.postalCode %></td>
+              <td><%= address.phoneNumber %></td>
+            </tr>
+          <% }) %>
         </tbody>
       </table>
     </div>
