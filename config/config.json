@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "quickboarduser",
-    "password": "quickboardpw1!",
+    "username": "root",
+    "password": "cho377679",
     "database": "quickboard",
     "host": "127.0.0.1",
     "dialect": "mysql"
