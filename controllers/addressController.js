@@ -11,15 +11,16 @@ const getAddress = async (req, res) => {
 
 const postAddress = async (req, res) => {
   const {
-    body:{postcode,roadAddress,detailAddress,extraAddress}
+    body:{postcode,roadAddress,detailAddress,extraAddress,addressname}
   } = req;
 console.log(req.body);
   await Address.create({
+    name: addressname,
     address: roadAddress,
     detailesAddress: detailAddress,
     postalCode:postcode,
     phoneNumber:extraAddress
-
+   
   },{
     include:[{
       model: User, as:"registered_address",foreignKey: "userId",
