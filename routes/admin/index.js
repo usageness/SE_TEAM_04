@@ -1,7 +1,15 @@
 var express = require("express");
 var router = express.Router();
+const User = require("../../models").User;
+const { isLoggedIn } = require("./middleware");
+const {
+  getEventad,
+  postEventad,
+  getUpdateEventad,
+  postUpdateEventad,
+  deleteEventad
+} = require("../../controllers/eventadController");
 const db = require("../../models");
-const { isLoggedIn, isNotLoggedIn } = require("./middleware");
 
 router.get("/", isLoggedIn, function (req, res, next) {
   res.render("admin_main", { title: "AdminMain" });
@@ -32,9 +40,19 @@ router.get("/logout", function (req, res, next) {
   res.redirect('/admin');
 });
 
-router.get("/eventad", isLoggedIn, function (req, res, next) {
-  res.render("admin_eventad_detail", { title: "" });
-});
+router.get("/eventad", isLoggedIn, getEventad);
+
+
+router.post("/eventad",isLoggedIn,postEventad);
+
+router
+  .route("/eventad/:eventadId")
+  .get( isLoggedIn, getUpdateEventad)
+  .post(isLoggedIn, postUpdateEventad);
+
+router
+  .route("/eventad/:eventadId/delete")
+  .post(isLoggedIn, deleteEventad);
 
 router.get("/item", isLoggedIn, async function (req, res, next) {
   var products = await db.Product.findAll({
@@ -46,12 +64,12 @@ router.get("/item", isLoggedIn, async function (req, res, next) {
 
 router
   .route("/newitem")
-  .get(function (req, res, next) {
+  .get(isLoggedIn,function (req, res, next) {
     var itemId = "-";
 
     res.render("admin_newitem", { ItemId: itemId });
   })
-  .post(async function (req, res, next) {
+  .post(isLoggedIn, async function (req, res, next) {
     var itemId = "-";
     var product = await db.Product.create({
       title: req.body.name,
@@ -79,7 +97,8 @@ router
 
 router
   .route("/item/:itemId")
-  .get(async function (req, res, next) {
+  .get(isLoggedIn, function (req, res, next) {
+    console.log("/item/:itemId get");
 
     var itemId = req.params.itemId;
 
@@ -90,7 +109,7 @@ router
     });
     res.render("admin_item_detail", { item: product });
   })
-  .put(async function (req, res, next) {
+  .put(isLoggedIn,function (req, res, next) {
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
@@ -117,7 +136,7 @@ router
       res.sendStatus(400);
     }
   })
-  .delete(async function (req, res, next) {
+  .delete(isLoggedIn,function (req, res, next) {
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
@@ -134,5 +153,17 @@ router
     }
   });
 
+router
+  .route(isLoggedIn,"/item/new")
+  .get(function (req, res, next) {
+    var itemId = "-";
+
+    res.render("admin_newitem", { ItemId: itemId });
+  })
+  .post(function (req, res, next) {
+    var itemId = "-";
+
+    res.render("admin_newitem", { ItemId: itemId });
+  });
 
 module.exports = router;

@@ -40,10 +40,10 @@
         margin-bottom: 20px;
       }
       .eventad-form-container {
-        margin: auto;
         height: 100%;
         width: 300px;
        display: flex;
+       margin-left: 25%;
        
        flex-direction: column;
        margin-bottom: 100px;
@@ -52,12 +52,12 @@
       
       }
       #eventad-form-description {
-        margin-top: 160px;
+       
         
       }
       #main-wrapper {
        display: flex;
-      
+       margin-top: 160px;
        flex-direction: row;
        
        width: 94.5%;
@@ -136,27 +136,30 @@
 <div id="main-wrapper">
 <div class="eventad-form-container">
   <h1 id="eventad-form-description">
-  이벤트 수정
+  이벤트 상세정보 및 수정
   </h1>
-  <form action="/admin/eventad" method="POST" id="eventad-form">
+  <form action="/admin/eventad/:eventadId" method="POST" id="eventad-form">
     <label for="eventad_title">이벤트 제목</label><br>
-    <input type="text" placeholder="이벤트 제목" id="title" name="title" required="true" /><br>
+    <input type="text" placeholder="이벤트 제목" id="title" name="title" value="<%= data.updateEventad.title %>" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" required="true"/><br>
+    <input type="text" id="datetimes" name="datetimes" value="<%= data.updateEventad.start %> - <%= data.updateEventad.end %>" required="true"/><br>
     <label for="eventad_title">이벤트 이미지URL</label><br>
-    <input type="text" id="imageurl" name="imageurl" required="true" /><br>
+    <input type="text" id="imageurl" name="imageurl" value="<%= data.updateEventad.imageurl %>" required="true" /><br>
     <label for="content">이벤트 설명:</label>
-    <textarea id="content" name="content"rows="5" cols="33"></textarea>
-    <input id="submit" type="button" value="이벤트 수정" />
+    <textarea id="content" name="content"  rows="5" cols="33"><%= data.updateEventad.content %></textarea>
+    <input id="submit" type="submit" value="이벤트 수정" />
+  </form>
+  <form action="/admin/eventad/:eventadId/delete" method="POST">
+    <input id="delete" type="submit" value="이벤트 삭제" />
   </form>
   </div>
-  
+  <span>
+    <img src="<%= data.updateEventad.imageurl %>">
+  </span>
   
 </div>
   
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="sidebars.js"></script>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -205,9 +208,6 @@
         $('input[name="datetimes"]').daterangepicker({
           alwaysShowCalendars: true,
           timePicker: true,
-          startDate: moment().startOf('hour'),
-          endDate: moment().startOf('hour').add(32, 'hour'),
-          range: today.toLocaleDateString(),
           locale: {
             format: 'YYYY M/DD hh:mm A'
           }
@@ -215,29 +215,5 @@
        
 });
       </script>
-     <script>
-        $('input[name="datetimes"]').on('apply.daterangepicker', function(ev, picker) {
-          var startDate = picker.startDate;
-          var endDate=picker.endDate;
-  console.log(startDate.format('M/DD hh:mm A'));
-  console.log(endDate.format('M/DD hh:mm A'));});
-     </script>
-     <script>
-        $('input[id="submit"]').click(function(req,res) {
-          var data = {};
-          data.title = $("#eventad_title").val();
-          data.url= $("#eventad_img").val();
-          data.date=$("#datetime").daterangepicker('daterangepicker');
-          data.content=$("#content").val();
-          var add = $("#datetimes").daterangepicker({
-            ampm:false,
-            locale: {
-            format: 'YYYY M/DD hh:mm'
-          }}).data('daterangepicker');
-          console.log(data.content,add.endDate._i,data.title,data.url);
-          console.log(req.body);
-        }
-        )
-     </script>
   </body>
 </html>

@@ -14,7 +14,6 @@ module.exports = function (sequelize, DataTypes) {
         title: {
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true,
         },
         url: {
             type: DataTypes.STRING,
@@ -29,11 +28,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
         },
         start: { // 시작일
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         end: { // 종료일
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         flag: { // 0 = ad , 1 = event
