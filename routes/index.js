@@ -24,6 +24,9 @@ router.get('/address', function(req, res, next) {
 
 router.post('/address', postAddress);
 
+router.get('/search', function(req, res, next) {
+  res.render('search', { title: 'Express' });
+});
 
 router.use('/admin', adminRouter);
 
