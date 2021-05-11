@@ -33,6 +33,7 @@ router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 
+router.route("/address/:addressId/delete").post(deleteAddress);
 router.use("/admin", adminRouter);
 
 module.exports = router;

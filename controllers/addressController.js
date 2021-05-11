@@ -89,6 +89,19 @@ console.log(addressId);
   } });
 };
 
-const deleteAddress = async (req, res) => {};
+const deleteAddress = async (req, res) => {
+  const {
+    params: addressId
+  }= req;
+
+  typeof(addressId);
+  
+  console.log(req.params);
+  await Address.destroy({where:{ id: addressId}});
+  let address = await Address.findAll({});
+  res.render("address_manage", { title: "Express", data:{
+    addressList:address
+  } });
+};
 
 module.exports = { getAddress, postAddress,getAddressRegister,postAddressRegister, getUpdateAddress,postUpdateAddress,deleteAddress };
