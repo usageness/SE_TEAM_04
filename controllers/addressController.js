@@ -11,14 +11,15 @@ const getAddress = async (req, res) => {
 
 const postAddress = async (req, res) => {
   const {
-    body:{postCode,roadAddress,detailAddress,extraAddress}
+    body:{postcode,roadAddress,detailAddress,extraAddress}
   } = req;
-console.log(req);
+console.log(req.body);
   await Address.create({
     address: roadAddress,
     detailesAddress: detailAddress,
-    postalCode:postCode,
+    postalCode:postcode,
     phoneNumber:extraAddress
+
   },{
     include:[{
       model: User, as:"registered_address",foreignKey: "userId",
@@ -26,6 +27,7 @@ console.log(req);
       model: PurchaseLog, as: "destination",foreignKey: "addressId",
     }]
   });
+  res.render('address_manage', { title: 'Express' });
 };
 
 const updateAddress = async (req, res) => {

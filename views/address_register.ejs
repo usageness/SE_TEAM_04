@@ -19,12 +19,12 @@
        신규 배송지 등록
       </h1>
       <form action="/address" method="POST" id="address-form">
-        <input type="text" id="postcode" placeholder="우편번호" readonly/>
+        <input type="text" name="postcode" id="postcode" placeholder="우편번호" readonly/>
         <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" id="roadAddress" placeholder="도로명주소" readonly/><br>
+        <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소" readonly/><br>
         <span id="guide" style="color:#999;display:none"></span>
-        <input type="text" id="detailAddress" placeholder="상세주소"><br>
-        <input type="text" id="extraAddress" placeholder="전화번호"><br>
+        <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소"><br>
+        <input type="text" name="extraAddress" id="extraAddress" placeholder="전화번호"><br>
         <input type="submit" id="submit" value="배송지 등록">
       </form>
     </div>

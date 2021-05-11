@@ -22,9 +22,7 @@ router.get('/address', function(req, res, next) {
   res.render('address_register', { title: 'Express' });
 });
 
-router.post('/address', postAddress, function(req, res, next) {
-  res.render('address_manage', { title: 'Express' });
-});
+router.post('/address', postAddress);
 
 
 router.use('/admin', adminRouter);
