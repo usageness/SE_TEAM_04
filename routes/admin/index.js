@@ -29,15 +29,18 @@ router.get("/logout", function (req, res, next) {
   req.session.destroy();
   res.clearCookie(process.env.SESSION_SECRET);
 
-  res.render("admin_login", { title: "", session: req.session });
+  res.redirect('/admin');
 });
 
 router.get("/eventad", isLoggedIn, function (req, res, next) {
   res.render("admin_eventad_detail", { title: "" });
 });
 
-router.get("/item", isLoggedIn, function (req, res, next) {
-  res.render("admin_item", { title: "" });
+router.get("/item", isLoggedIn, async function (req, res, next) {
+  var products = await db.Product.findAll({
+    attributes: ["id", "title", "price"],
+  });
+  res.render("admin_item", { items: products });
 });
 
 
@@ -64,38 +67,70 @@ router
       difficulty: 1,
       deliveryfee: 2000,
     });
-    res.render("admin_login", { title: "", session: req.session });
+    if(product){
+      req.session.save(() => {
+        res.redirect('/admin/item/'+product.id);
+      });
+    }else{
+      res.sendStatus(400);
+    }
   });
 
 
 router
   .route("/item/:itemId")
-  .get(function (req, res, next) {
-    console.log("/item/:itemId get");
+  .get(async function (req, res, next) {
 
     var itemId = req.params.itemId;
-    res.render("admin_item_detail", { ItemId: itemId });
+
+    var product = await db.Product.findOne({
+      where: {
+        id: itemId,
+      },
+    });
+    res.render("admin_item_detail", { item: product });
   })
-  .put(function (req, res, next) {
+  .put(async function (req, res, next) {
     var itemId = req.params.itemId;
-    console.log(req.body);
-    var result = false;
+    var product = await db.Product.findOne({
+      where: {
+        id: itemId,
+      }
+    });
+    product.title =  req.body.name;
+    product.designer =  req.body.creator;
+    product.tag =  "태그";
+    product.imageurl =  "-";
+    product.url =  "-";
+    product.content =  req.body.description;
+    product.price =  req.body.price;
+    product.playersmin =  req.body.peoplemin;
+    product.playersmax =  req.body.peoplemax;
+    product.playtime =  10;
+    product.difficulty =  1;
+    product.deliveryfee =  2000;
+    var result = await product.save();
 
     if (result) {
-      res.send("200");
+      res.sendStatus(200);
     } else {
-      res.send("400");
+      res.sendStatus(400);
     }
   })
-  .delete(function (req, res, next) {
+  .delete(async function (req, res, next) {
     var itemId = req.params.itemId;
-
-    var result = false;
-
+    var product = await db.Product.findOne({
+      where: {
+        id: itemId,
+      }
+    });
+    console.log("delete")
+    await product.destroy();
+    var result = await product.save();
     if (result) {
-      res.send("200");
-    } else {
-      res.send("400");
+      res.sendStatus(200);
+    }else {
+      res.sendStatus(400);
     }
   });
 
