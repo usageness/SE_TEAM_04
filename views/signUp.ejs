@@ -19,35 +19,25 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Register</div>
+                <div class="card-header">회원가입</div>
                 <div class="card-body">
 
-                    <form class="form-horizontal" method="post" action="#">
-
+                    <form id="registerField" name="registerField" class="form-horizontal" method="post" action="#" onsubmit="return checkForm();">
                         <div class="form-group">
-                            <label for="name" class="cols-sm-2 control-label">이름</label>
+                            <label for="user_id" class="cols-sm-2 control-label">아이디</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="이름" />
+                                    <input type="text" class="form-control" name="user_id" id="user_id" placeholder="아이디" required/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="cols-sm-2 control-label">이메일</label>
-                            <div class="cols-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="email" id="email" placeholder="이메일" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="username" class="cols-sm-2 control-label">닉네임</label>
+                            <label for="nickname" class="cols-sm-2 control-label">닉네임</label>
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="닉네임" />
+                                    <input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" required/>
                                 </div>
                             </div>
                         </div>
@@ -56,21 +46,22 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" />
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+                                </div>
+                            </div>
+                            <p class="passwordInfo">* 비밀번호는 8~20자 사이의 숫자+영문으로 구성하시기 바랍니다.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordConfirm" class="cols-sm-2 control-label">비밀번호 재확인</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" placeholder="비밀번호 재확인" required/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="confirm" class="cols-sm-2 control-label">비밀번호 재확인</label>
-                            <div class="cols-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input type="password" class="form-control" name="confirm" id="confirm" placeholder="비밀번호 재확인" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <button type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="register()">회원가입</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">회원가입</button>
                         </div>
                         <div class="login-register">
                             <a href="/login">Login</a>
@@ -84,8 +75,46 @@
 
 <!-- script -->
 <script>
-    function register() {
-        window.location.href = '/';
+    function checkForm() {
+        let user_id = document.registerField.user_id;
+        let password = document.registerField.password;
+        let confirm = document.registerField.passwordConfirm;
+
+        // 아이디 중복 여부 체크
+        if(!(user_id.value.length >= 3 && user_id.value.length <= 30)) {
+            window.alert("아이디를 입력하세요");
+            user_id.focus();
+            user_id.select();
+            return false;
+        }
+        // window.alert("공란 체크 : " + password.value.search(/\s/) + "\n영문 숫자 체크 : " + password.value.search(/[0-9]/g) + "/" + password.value.search(/[a-z]/ig));
+        // 비밀번호 유효성 체크
+        if(!(password.value.length >= 8 && password.value.length <= 20)) {
+            window.alert("비밀번호의 길이는 8~20자리 사이여야 합니다");
+            password.focus();
+            return false;
+        }
+
+        if(password.value.search(/\s/) !== -1) {
+            window.alert("비밀번호는 공란을 포함할 수 없습니다");
+            password.focus();
+            return false;
+        }
+
+        if((password.value.search(/[0-9]/g) === -1) || (password.value.search(/[a-z]/ig) === -1)) {
+            window.alert("비밀번호는 영문과 숫자의 혼합으로 이루어져야 합니다");
+            password.focus();
+            return false;
+        }
+
+        // 비밀번호 확인 체크
+        if (confirm.value !== password.value) {
+            window.alert("비밀번호 확인이 일치하지 않습니다");
+            confirm.focus();
+            return false;
+        }
+
+        window.alert("회원가입이 완료되었습니다.\n 메인 화면으로 이동합니다.");
     }
 </script>
 
