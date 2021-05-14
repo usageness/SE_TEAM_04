@@ -120,3 +120,8 @@ input {
     color: #ae0000;
     font-weight: bold;
 }
+
+.passwordInfo {
+    color: #999999;
+    font-size: .8rem;
+}
