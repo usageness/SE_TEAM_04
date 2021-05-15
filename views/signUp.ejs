@@ -80,14 +80,14 @@
         let password = document.registerField.password;
         let confirm = document.registerField.passwordConfirm;
 
-        // 아이디 중복 여부 체크
+        // 아이디 유효성 체크
         if(!(user_id.value.length >= 3 && user_id.value.length <= 30)) {
             window.alert("아이디를 입력하세요");
             user_id.focus();
             user_id.select();
             return false;
         }
-        // window.alert("공란 체크 : " + password.value.search(/\s/) + "\n영문 숫자 체크 : " + password.value.search(/[0-9]/g) + "/" + password.value.search(/[a-z]/ig));
+
         // 비밀번호 유효성 체크
         if(!(password.value.length >= 8 && password.value.length <= 20)) {
             window.alert("비밀번호의 길이는 8~20자리 사이여야 합니다");
@@ -113,8 +113,6 @@
             confirm.focus();
             return false;
         }
-
-        window.alert("회원가입이 완료되었습니다.\n 메인 화면으로 이동합니다.");
     }
 </script>
 
