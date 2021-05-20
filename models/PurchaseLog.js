@@ -12,22 +12,22 @@ module.exports = function (sequelize, DataTypes) {
         date: {
           type: DataTypes.DATE,
           allowNull: false,
-          unique: true,
+          unique: false,
         },
         count: {
           type: DataTypes.INTEGER,
           allowNull: false,
-          unique: true,
+          unique: false,
         },
         logid: {
           type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
+            unique: false,
         },
         amount: {
           type: DataTypes.INTEGER,
             allowNull: false,
-            unique: true,
+            unique: false,
         }
     },
       {

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<HEAD>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>퀵보드 :: 보드게임 종합 쇼핑몰</title>
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</HEAD>
+<BODY>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">회원가입</div>
+                <div class="card-body">
+
+                    <form id="registerField" name="registerField" class="form-horizontal" method="post" action="#" onsubmit="return checkForm();">
+                        <div class="form-group">
+                            <label for="user_id" class="cols-sm-2 control-label">아이디</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="user_id" id="user_id" placeholder="아이디" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nickname" class="cols-sm-2 control-label">닉네임</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="cols-sm-2 control-label">비밀번호</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+                                </div>
+                            </div>
+                            <p class="passwordInfo">* 비밀번호는 8~20자 사이의 숫자+영문으로 구성하시기 바랍니다.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordConfirm" class="cols-sm-2 control-label">비밀번호 재확인</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" placeholder="비밀번호 재확인" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">회원가입</button>
+                        </div>
+                        <div class="login-register">
+                            <a href="/login">Login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- script -->
+<script>
+    function checkForm() {
+        let user_id = document.registerField.user_id;
+        let password = document.registerField.password;
+        let confirm = document.registerField.passwordConfirm;
+
+        // 아이디 유효성 체크
+        if(!(user_id.value.length >= 3 && user_id.value.length <= 30)) {
+            window.alert("아이디를 입력하세요");
+            user_id.focus();
+            user_id.select();
+            return false;
+        }
+
+        // 비밀번호 유효성 체크
+        if(!(password.value.length >= 8 && password.value.length <= 20)) {
+            window.alert("비밀번호의 길이는 8~20자리 사이여야 합니다");
+            password.focus();
+            return false;
+        }
+
+        if(password.value.search(/\s/) !== -1) {
+            window.alert("비밀번호는 공란을 포함할 수 없습니다");
+            password.focus();
+            return false;
+        }
+
+        if((password.value.search(/[0-9]/g) === -1) || (password.value.search(/[a-z]/ig) === -1)) {
+            window.alert("비밀번호는 영문과 숫자의 혼합으로 이루어져야 합니다");
+            password.focus();
+            return false;
+        }
+
+        // 비밀번호 확인 체크
+        if (confirm.value !== password.value) {
+            window.alert("비밀번호 확인이 일치하지 않습니다");
+            confirm.focus();
+            return false;
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</BODY>
+</html>

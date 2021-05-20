@@ -13,6 +13,7 @@ const db = require("../../models");
 
 router.get("/", isLoggedIn, function (req, res, next) {
   res.render("admin_main", { title: "AdminMain" });
+
 });
 
 router.get("/login", (req, res, next) => {
@@ -27,7 +28,8 @@ router.post("/login", async (req, res, next) => {
     result.password === req.body.password
   ) {
     req.session.userid = req.body.userid;
-    res.render("admin_main", { title: "", session: req.session });
+    // res.render("admin_main", { title: "", session: req.session });
+    res.redirect('/admin');
   } else {
     res.status(401).send("잘못된 접근입니다.");
   }
@@ -165,5 +167,54 @@ router
 
     res.render("admin_newitem", { ItemId: itemId });
   });
+
+// router
+//   .route(isLoggedIn,"/salerate")
+//   .get(function (req, res, next) {
+//     console.log(req.params)
+//     console.log(req.body)
+
+//     res.json({ ItemId: 1 });
+//   })
+//   .post(function(req, res) {
+//     res.send('nothing');
+//   });
+// Create a route for GET /user/test
+router.get('/salerate', async function(req, res) {
+  var minDate = new Date(req.query.minDate.slice(4, 8), (req.query.minDate.slice(0, 2 - 1)), req.query.minDate.slice(2, 4), 0, 0, 0)
+  var maxDate = new Date(req.query.maxDate.slice(4, 8), (req.query.maxDate.slice(0, 2) - 1), req.query.maxDate.slice(2, 4), 23, 59, 59)
+
+  // console.log(minDate)
+  // console.log(maxDate)
+  var logs = await db.PurchaseLog.findAll({
+    where: {
+      date: {
+        [db.Sequelize.Op.gte]: minDate,
+        [db.Sequelize.Op.lte]: maxDate
+      }
+      
+    },
+    group: [db.sequelize.fn('date', db.sequelize.col('date'))],
+    attributes: [
+      'date', 
+      [db.Sequelize.fn('count', db.sequelize.col('date')), 'count'], 
+      [db.Sequelize.fn('sum', db.sequelize.col('amount')), 'amountDay'],
+    ]
+  })
+
+
+
+
+
+
+  var result = []
+  for(var i = 0; i < logs.length; i++){
+    // result.push({date: logs[i].date, count: logs[i].count, sum: logs[i].sum})
+    result.push(logs[i].dataValues)
+  }
+  console.log(result)
+  res.json(result);
+});
+
 
 module.exports = router;

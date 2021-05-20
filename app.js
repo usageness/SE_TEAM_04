@@ -9,7 +9,10 @@ const { sequelize } = require('./models');
 require("dotenv").config()
 
 var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
+var singUpRouter = require('./routes/signUp');
 var usersRouter = require('./routes/users');
+var cartRouter = require('./routes/cart');
 
 var app = express();
 
@@ -26,9 +29,11 @@ app.set('view engine', 'ejs');
 
 app.use(methodOverride('_method'));
 
-app.use(logger('dev'));
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended : true}));
+app.use(logger('dev'));
+
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,7 +46,11 @@ app.use(session({
 }));
 
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/signUp', singUpRouter);
 app.use('/users', usersRouter);
+app.use('/cart', cartRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
