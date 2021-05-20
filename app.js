@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var methodOverride = require('method-override');
+const session = require('express-session')
 const { sequelize } = require('./models');
 
 var indexRouter = require('./routes/index');
@@ -11,6 +12,7 @@ var loginRouter = require('./routes/login');
 var singUpRouter = require('./routes/signUp');
 var usersRouter = require('./routes/users');
 var cartRouter = require('./routes/cart');
+var logoutRouter = require('./routes/logout');
 
 var app = express();
 
@@ -36,8 +38,19 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  key: 'sid',
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24000 * 60 * 60 // 쿠키 유효기간 24시간
+  }
+}));
+
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/signUp', singUpRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
