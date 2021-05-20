@@ -184,8 +184,8 @@ router.get('/salerate', async function(req, res) {
   var minDate = new Date(req.query.minDate.slice(4, 8), (req.query.minDate.slice(0, 2 - 1)), req.query.minDate.slice(2, 4), 0, 0, 0)
   var maxDate = new Date(req.query.maxDate.slice(4, 8), (req.query.maxDate.slice(0, 2) - 1), req.query.maxDate.slice(2, 4), 23, 59, 59)
 
-  console.log(minDate)
-  console.log(maxDate)
+  // console.log(minDate)
+  // console.log(maxDate)
   var logs = await db.PurchaseLog.findAll({
     where: {
       date: {
@@ -194,16 +194,14 @@ router.get('/salerate', async function(req, res) {
       }
       
     },
-    group: ['date'],
+    group: [db.sequelize.fn('date', db.sequelize.col('date'))],
     attributes: [
       'date', 
       [db.Sequelize.fn('count', db.sequelize.col('date')), 'count'], 
-      [db.Sequelize.fn('sum', db.sequelize.col('amount')), 'sum'],
+      [db.Sequelize.fn('sum', db.sequelize.col('amount')), 'amountDay'],
     ]
   })
-  console.log(logs)
-  console.log(logs[0].date)
-  console.log(logs[0].count)
+
 
 
 
@@ -211,9 +209,12 @@ router.get('/salerate', async function(req, res) {
 
   var result = []
   for(var i = 0; i < logs.length; i++){
-    result.push({date: logs[i].date, count: logs[i].count, sum: logs[i].sum})
+    // result.push({date: logs[i].date, count: logs[i].count, sum: logs[i].sum})
+    result.push(logs[i].dataValues)
   }
-  
+  console.log(result)
   res.json(result);
 });
+
+
 module.exports = router;
