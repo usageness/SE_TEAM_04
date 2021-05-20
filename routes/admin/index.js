@@ -24,10 +24,10 @@ router.post("/login", async (req, res, next) => {
   const result = await db.User.findOne({ where: { permission: 1 } });
   if (
     result !== null &&
-    result.userid === req.body.userid &&
+    result.user_id === req.body.user_id &&
     result.password === req.body.password
   ) {
-    req.session.userid = req.body.userid;
+    req.session.user_id = req.body.user_id;
     // res.render("admin_main", { title: "", session: req.session });
     res.redirect('/admin');
   } else {
