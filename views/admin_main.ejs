@@ -111,7 +111,7 @@
         <div class="form-group"> 
           <div class="input-group date" id="datetimepicker1" data-target-input="nearest"> 
             
-            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020"> 
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="<%= dateMin%>"> 
             <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker"> 
               <div class="input-group-text">
                 <i class="fa fa-calendar">
@@ -126,7 +126,7 @@
       <div class='col-md-3 mr-5 col-xs-4'> 
         <div class="form-group"> 
           <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
-            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2020"> 
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="<%= dateMax%>"> 
             <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker"> 
               <div class="input-group-text">
                 <i class="fa fa-calendar">
@@ -140,6 +140,19 @@
     </div>
   </div>
   <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+  <div>
+    <div>상품 판매량 top 3</div>
+    <a id="bestitem1" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestitem2" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestitem3" class="btn btn-primary" href="#" role="button">None</a>
+  </div>
+  <div>
+    <div>카테고리 판매량 top 3</div>
+    <a id="bestcategory1" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestcategory2" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestcategory3" class="btn btn-primary" href="#" role="button">None</a>
+  </div>
+
 </main>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -153,7 +166,7 @@
 
 
 
-  async function getSalesRate(minDate, maxDate, callback){
+  async function getSalesRate(minDate, maxDate){
     var _data;
     await $.ajax({
 
@@ -165,6 +178,89 @@
       _data = data;
     })
     return _data;
+  }
+  async function getBestItem(minDate, maxDate){
+    var _data;
+    await $.ajax({
+
+      url: "/admin/bestitem", // 클라이언트가 요청을 보낼 서버의 URL 주소
+      data: { minDate: minDate, maxDate: maxDate },       // HTTP 요청과 함께 서버로 보낼 데이터
+      type: "GET",                             // HTTP 요청 방식(GET, POST)
+      dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+    }).then((data)=> {
+      _data = data;
+    })
+    return _data;
+  }
+  
+  async function getBestCategory(minDate, maxDate){
+    var _data;
+    await $.ajax({
+
+      url: "/admin/bestcategory", // 클라이언트가 요청을 보낼 서버의 URL 주소
+      data: { minDate: minDate, maxDate: maxDate },       // HTTP 요청과 함께 서버로 보낼 데이터
+      type: "GET",                             // HTTP 요청 방식(GET, POST)
+      dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+    }).then((data)=> {
+      _data = data;
+    })
+    return _data;
+  }
+  async function reload(myChart){
+    var dateMin = new Date()
+    var dateMax = new Date()
+
+    dateMin.setDate(dateMin.getDate() - 7)
+
+    var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+    var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+
+    
+    dMin = dMin.replaceAll('/','');
+    dMax = dMax.replaceAll('/','');
+    if(dMin.length == 7){
+      dMin = '0' + dMin
+    }
+    if(dMax.length == 7){
+      dMax = '0' + dMax
+    }
+    console.log($("#datetimepicker1").data().date)
+    if($("#datetimepicker1").data().date != undefined){
+      dMin = $("#datetimepicker1").data().date.replaceAll('/','')
+      dMax = $("#datetimepicker2").data().date.replaceAll('/','')
+    }
+    console.log(dMin)
+    var data = await getSalesRate(dMin, dMax);
+    myChart.data.datasets[0].data = [];
+    myChart.data.labels = [];
+    var _sum = 0
+    data.forEach(e => {
+      _sum += parseInt(e.amountDay)
+      myChart.data.datasets[0].data.push(_sum);
+    });
+    data.forEach(e => {
+      myChart.data.labels.push(e.date.slice(0,10));
+    });
+    myChart.update()
+    var bestItem = await getBestItem(dMin, dMax);
+    for(var i = 0; i < 3; i++){
+      if(bestItem[i]){
+        $("#bestitem" + (i +1)).text(bestItem[i].purchase.title + ': ' + bestItem[i].countAll + '개')
+        $("#bestitem" + (i +1)).attr('href', '/admin/item/'+ bestItem[i].productId)
+      }else{
+        $("#bestitem" + (i +1)).text('None')
+        $("#bestitem" + (i +1)).attr('href', '#')
+      }
+    }
+    var bestCategory = await getBestCategory(dMin, dMax);
+
+    for(var i = 0; i < 3; i++){
+      if(bestCategory[i]){
+        $("#bestcategory" + (i +1)).text(bestCategory[i].purchase.categoryin.name + ': ' + bestCategory[i].countAll + '개')
+      }else{
+        $("#bestcategory" + (i +1)).text('None')
+      }
+    }
   }
 
   $(document).ready(function(){
@@ -226,31 +322,19 @@
       $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false }); 
       $("#datetimepicker1").on("change.datetimepicker", async function (e) { 
         $('#datetimepicker2').datetimepicker('minDate', e.date); 
-        var data = await  getSalesRate(
-          $("#datetimepicker1").data().date.replaceAll('/','')
-        , $("#datetimepicker2").data().date.replaceAll('/','')
-        );
-        console.log(data)
-        myChart.data.datasets[0].data = [];
-        myChart.data.labels = [];
-        var _sum = 0
-        data.forEach(e => {
-          _sum += parseInt(e.amountDay)
-          myChart.data.datasets[0].data.push(_sum);
-        });
-        data.forEach(e => {
-          myChart.data.labels.push(e.date.slice(0,10));
-        });
-        console.log(myChart.data)
-        myChart.update()
+        reload(myChart)
+
       }); 
       $("#datetimepicker2").on("change.datetimepicker", function (e) { 
         $('#datetimepicker1').datetimepicker('maxDate', e.date); 
-        getSalesRate($("#datetimepicker1").data().date.replaceAll('/',''), $("#datetimepicker2").data().date.replaceAll('/',''))
-        myChart.data.datasets[0].data[0] = 14000;
-        myChart.update()
+        reload(myChart)
+        
       }); 
     });
+
+
+    reload(myChart)
+
   });
   
 

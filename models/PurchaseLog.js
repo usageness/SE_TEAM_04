@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
           allowNull: false,
           unique: false,
         },
-        logid: {
+        logId: {
           type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,

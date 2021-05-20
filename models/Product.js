@@ -38,15 +38,15 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        playersmin: { //이용 가능 인원
+        playersMin: { //이용 가능 인원
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        playersmax: { //이용 가능 인원
+        playersMax: { //이용 가능 인원
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        playtime:{ //플레이 시간
+        playTime:{ //플레이 시간
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
@@ -54,7 +54,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        deliveryfee: { // 배송료
+        deliveryFee: { // 배송료
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
@@ -81,8 +81,8 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: "productId",
         });
         Product.belongsTo(models.Category, {
-            as: "belongs",
-            foreignkey: "categoryId",
+            as: "categoryin",
+            foreignKey: "categoryinId",
         });
         Product.hasMany(models.Review, {
             as: "reviews",
