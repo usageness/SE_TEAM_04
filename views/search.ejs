@@ -13,7 +13,6 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
 </HEAD>
-
 <BODY>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,10 +31,8 @@
             </ul>
             <div><a href="/login" class="nav-link">Login</a></div>
             <div><a href="/signUp" class="nav-link">Sign up</a></div>
-
         </div>
     </div>
-
 </nav>
 
 <div class="container">
@@ -62,8 +59,10 @@
                 </div>
                 <div class="col-6">
                     <form class="form-inline" action='search' method="get">
-                        <input name="q" class="form-control mr-2" type="search" placeholder="Search" style="width: 60%" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="width: 20%">Search</button>
+                        <input name="q" class="form-control mr-2" type="search" placeholder="Search" style="width: 60%"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="width: 20%">Search
+                        </button>
                     </form>
                 </div>
                 <div class="col-3">
@@ -99,14 +98,11 @@
         </div>
     </div>
 
-    <!-- 본문 -->
-
+    <!-- 상품 목록 -->
     <div class="container">
         <h3 id="category"></h3><span>(112)</span>
         <div class="sortby"><a href="#">이름순</a> <span class="divider">|</span> <a href="#">가격순</a> <span
                     class="divider">|</span> <a href="#">최신등록순</a></div>
-
-        <!-- 상품 목록들 -->
         <div class="product-list">
             <div class="row">
                 <div class="card" style="width: 16rem;">
@@ -199,65 +195,45 @@
                 </div>
 
             </div>
-        </div>
-    </div>
-
-    <!-- 페이지네이션 -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
 
 
-<hr>
-<!-- footer -->
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span>
-        <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span class="divider"></span>
-        <span class="extra"><a href="/">고객센터</a></span>
-    </div>
-</div>
-<hr>
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <div class="p-4">
-            <h1><a href="/" title="LOGO">QUICKBOARD</a></h1>
-        </div>
-        <div class="p-4">
-            퀵보드 | 보드게임 전문 쇼핑몰<br>
-            서울특별시 노원구 공릉동 공릉로 232 <br>
-        </div>
-        <div class="p-4">
-            소프트웨어공학 4팀<br>
-            김도은, 김용래, 조규진, 조현수<br>
-        </div>
-        <div class="p-4">
-            <a href="https://github.com/usageness/SE_TEAM_04">github</a>
-        </div>
-    </div>
+            <hr>
+            <!-- footer -->
+            <div class="footer-layer">
+                <div class="d-flex flex-row justify-content-center">
+                    <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a
+                                href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a
+                                href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span>
+                    <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span
+                            class="divider"></span>
+                    <span class="extra"><a href="/">고객센터</a></span>
+                </div>
+            </div>
+            <hr>
+            <div class="footer-layer">
+                <div class="d-flex flex-row justify-content-center">
+                    <div class="p-4">
+                        <h1><a href="/" title="LOGO">QUICKBOARD</a></h1>
+                    </div>
+                    <div class="p-4">
+                        퀵보드 | 보드게임 전문 쇼핑몰<br>
+                        서울특별시 노원구 공릉동 공릉로 232 <br>
+                    </div>
+                    <div class="p-4">
+                        소프트웨어공학 4팀<br>
+                        김도은, 김용래, 조규진, 조현수<br>
+                    </div>
+                    <div class="p-4">
+                        <a href="https://github.com/usageness/SE_TEAM_04">github</a>
+                    </div>
+                </div>
 
-    <div class="footer-last">
-        Contact : admin@quickboard.com<br>
-        Copyright © QuickBoard Corp. 2020-2021 All Rights Reserved.
+                <div class="footer-last">
+                    Contact : admin@quickboard.com<br>
+                    Copyright © QuickBoard Corp. 2020-2021 All Rights Reserved.
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- script -->
@@ -278,9 +254,8 @@
     }
 
     let category = document.getElementById("category");
-    let categoryParameter = getParameterByName("category");
-    category.innerText = categoryParameter;
-
+    let categoryParameter = getParameterByName("q");
+    category.innerText = categoryParameter + "의 검색결과";
 </script>
 
 </body>

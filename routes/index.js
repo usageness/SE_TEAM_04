@@ -15,8 +15,14 @@ const {
 const { route } = require("./admin");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+router.get('/', function(req, res, next) {
+  /*
+  if(!req.session.login){
+    req.session.login = false
+    req.session.idx = -1
+  }
+*/
+  res.render('index', { title: 'Express' });
 });
 
 router.get("/notice", function (req, res, next) {
@@ -31,7 +37,9 @@ router.route("/address").get(getAddress).post(postAddress);
 
 router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
-router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
+router.get('/search', function(req, res, next) {
+  res.render('search', { title: 'Express' });
+});
 
 router.route("/address/:addressId/delete").post(deleteAddress);
 router.use("/admin", adminRouter);
