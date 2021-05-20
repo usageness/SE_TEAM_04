@@ -9,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
         unique: true,
         autoIncrement: true,
       },
+      name: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+      },
       address: {
         type: DataTypes.STRING(70),
         allowNull: false,
@@ -25,6 +29,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
+      isChecked:{
+        type: DataTypes.BOOLEAN,
+        allowNull:false,
+      }
     },
     {
       tableName: "Address",
