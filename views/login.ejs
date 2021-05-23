@@ -29,16 +29,16 @@
                             <h2 style="text-align: center"><strong>QUICKBOARD</strong></h2>
                         </div>
                         <p class="login-card-description"></p>
-                        <form action="#!">
+                        <form action="/login" method="post">
                             <div class="form-group">
-                                <label for="email" class="sr-only">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="아이디(이메일)">
+                                <label for="user_id" class="sr-only">Email</label>
+                                <input type="text" name="user_id" id="user_id" class="form-control" placeholder="아이디" required>
                             </div>
                             <div class="form-group mb-4">
                                 <label for="password" class="sr-only">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호" required>
                             </div>
-                            <input name="login" id="login" class="btn btn-block btn-primary login-btn mb-4" type="button" value="로그인" onclick="logIn()">
+                            <input name="login" id="login" class="btn btn-block btn-primary login-btn mb-4" type="submit" value="로그인">
                         </form>
                         <hr/>
                         <input name="login" id="login" class="btn btn-block mb-4" type="button" value="회원가입" onclick="signUp()">
@@ -49,13 +49,12 @@
             </div>
         </div>
     </div>
+
+
 </main>
+<% include ./footer.ejs %>
 <!-- script -->
 <script>
-    function logIn() {
-        window.location.href = '/';
-    }
-
     function signUp() {
         window.location.href = '/signUp';
     }

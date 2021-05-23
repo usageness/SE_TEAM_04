@@ -7,7 +7,6 @@ node_modules/
 # ide setting file 제외
 .idea/
 
-
 config/config.json
 config/
 
