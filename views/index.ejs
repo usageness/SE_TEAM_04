@@ -120,6 +120,23 @@
     <span class="h3" style="font-weight: bold;">최신등록 상품</span> | <span>퀵보드가 엄선한 최신 상품</span>
     <div class="product">
         <div class="d-flex flex-row justify-content-center">
+            <% for(var i=items.length-1; i>=0; i--) {%>
+            <div class="product-list">
+                <div class="row">
+                    <div class="card product-button" style="width: 16rem;">
+                        <img class="card-img-top"
+                             src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= items[i].title %></h5>
+                            <p class="price"><%= items[i].price %>원</p>
+                            <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
+
+                        </div>
+                    </div>
+                <p></p>
+                <p></p>
+            <% } %>
             <div class="p-2 product-button big-product">
                 <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617856777254/C2_1_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%8A%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%B7.jpg">
             </div>

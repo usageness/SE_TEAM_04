@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
-
-var adminRouter = require("./admin");
+const db = require("../models");
+var adminRouter = require('./admin');
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 const {
   getAddress,
@@ -15,12 +17,18 @@ const {
 const { route } = require("./admin");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   let session = req.session;
+
+  var products = await db.Product.findAll({
+    attributes: ["id", "title", "price"],
+  });
+
   res.render('index', {
     title: 'Express',
     session: session,
-    nickname: session.nickname
+    nickname: session.nickname,
+    items: products
   });
 });
 
@@ -38,9 +46,19 @@ router.get('/address', getAddress);
 
 router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
-router.get('/search', function(req, res, next) {
+router.get('/search', async function(req, res, next) {
   let session = req.session;
-  res.render('search', { title: 'Express', session: session });
+  let searchWord = req.query.q;
+
+  let products = await db.Product.findAll({
+    where:{
+      title: {
+        [Op.like]: "%" + searchWord + "%"
+      }
+    }
+  });
+
+  res.render('search', { title: 'Express', session: session, items: products });
 });
 
 router.route("/address/:addressId/delete").post(deleteAddress);
