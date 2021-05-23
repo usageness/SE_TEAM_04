@@ -15,29 +15,7 @@
 </HEAD>
 
 <BODY>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <div class="container d-flex flex-wrap">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <div class="row">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">즐겨찾기</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">입점신청</a>
-                    </li>
-                </div>
-            </ul>
-            <div><a href="/login" class="nav-link">Login</a></div>
-            <div><a href="/signUp" class="nav-link">Sign up</a></div>
-
-        </div>
-    </div>
-
-</nav>
-
+<% include ./header.ejs %>
 <div class="container">
     <div class="row mt-3 pb-4">
         <div class="col-2">
@@ -222,39 +200,7 @@
 
 <hr>
 <!-- footer -->
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span>
-        <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span class="divider"></span>
-        <span class="extra"><a href="/">고객센터</a></span>
-    </div>
-</div>
-<hr>
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <div class="p-4">
-            <h1><a href="/" title="LOGO">QUICKBOARD</a></h1>
-        </div>
-        <div class="p-4">
-            퀵보드 | 보드게임 전문 쇼핑몰<br>
-            서울특별시 노원구 공릉동 공릉로 232 <br>
-        </div>
-        <div class="p-4">
-            소프트웨어공학 4팀<br>
-            김도은, 김용래, 조규진, 조현수<br>
-        </div>
-        <div class="p-4">
-            <a href="https://github.com/usageness/SE_TEAM_04">github</a>
-        </div>
-    </div>
-
-    <div class="footer-last">
-        Contact : admin@quickboard.com<br>
-        Copyright © QuickBoard Corp. 2020-2021 All Rights Reserved.
-    </div>
-</div>
+<% include ./footer.ejs %>
 <!-- script -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -265,6 +211,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script>$('.carousel').carousel({interval: 2000})</script>
+<script>
+    $('.carousel').carousel({interval: 2000})
+</script>
 </body>
 </html>
