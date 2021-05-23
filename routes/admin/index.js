@@ -48,7 +48,7 @@ router.get("/logout", function (req, res, next) {
   req.session.destroy();
   res.clearCookie(process.env.SESSION_SECRET);
 
-  res.redirect('/admin');
+  res.redirect('/');
 });
 
 router.get("/eventad", isLoggedIn, getEventad);
