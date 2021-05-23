@@ -16,23 +16,26 @@
   <body>
     <div id="wrapper">
       <h1 id="address-form-description">
-       신규 배송지 등록
+       배송지 수정
       </h1>
-      <form action="/address/new" method="POST" id="address-form">
-        <input type="text" name="addressname" id="extraAddress" placeholder="배송지 이름"><br>
-        <input type="text" name="postcode" id="postcode" placeholder="우편번호" readonly/>
-        <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소" readonly/><br>
+      <form action="/address/<%= data.updateAddress.id %>/update" method="POST" id="address-form">
+        <input type="text" name="addressname" id="extraAddress" value="<%= data.updateAddress.name %>"><br>
+        <input type="text" name="postcode" id="postcode"  value="<%= data.updateAddress.postalCode %>" readonly/>
+        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+        <input type="text" name="roadAddress" id="roadAddress"value="<%= data.updateAddress.address %>"readonly/><br>
         <span id="guide" style="color:#999;display:none"></span>
-        <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소"><br>
-        <input type="text" name="extraAddress" id="phoneNumber" placeholder="전화번호 ( - 없음)"><br>
-        <input type="submit" id="submit" value="배송지 등록">
+        <input type="text" name="detailAddress" id="detailAddress" value="<%= data.updateAddress.detailesAddress %>"><br>
+        <input type="text" name="extraAddress" id="extraAddress" value="<%= data.updateAddress.phoneNumber %>"><br>
+        <input type="submit" id="submit" value="배송지 수정">
+      </form>
+      <form action="/address/<%= data.updateAddress.id %>/delete" method="POST">
+        <input type="submit" id="delete" value="배송지 삭제">
       </form>
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
+    function execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -55,7 +58,6 @@
                 if(extraRoadAddr !== ''){
                     extraRoadAddr = ' (' + extraRoadAddr + ')';
                 }
-
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('postcode').value = data.zonecode;
@@ -87,36 +89,6 @@
             }
         }).open();
     }
-   
-</script>
-<script>
-   $("#address-form").submit(function(event) {
-  var inputtedPhoneNumber = $("#phoneNumber").val();
-  var inputtedName = $("#extraAddress").val();
-  var inputtedDetailAddress = $("#detailAddress").val();
-  var inputtedPostcode = $("#postcode").val();
-
-  console.log(inputtedName, inputtedDetailAddress );
-  var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
-
-  if(!phoneNumberRegex.test(inputtedPhoneNumber)) {
-    alert("잘못된 전화번호 형식");
-    return false;
-  } 
-  if(inputtedName.replace(/\s|/gi,"").length==0){
-    alert("배송지 이름은 빈 칸일 수 없습니다.");
-    return false;
-  }
-  if(inputtedPostcode.replace(/\s|/gi,"").length==0) {
-    alert("우편번호 및 기본주소는 빈 칸일 수 없습니다.");
-    return false;
-  }
-  if(inputtedDetailAddress.replace(/\s|/gi,"").length==0){
-    alert("상세주소는 빈 칸일 수 없습니다.");
-    return false;
-  }
- 
-});
 </script>
   </body>
 </html>

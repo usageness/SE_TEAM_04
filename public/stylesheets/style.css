@@ -65,11 +65,11 @@ a {
 .bd-highlight .bd-highlight{
     background-color: white;
 }
-.product-button img{
+.product-button {
     border: 1px solid #EEEEEE;
 }
 
-.product-button img:hover {
+.product-button:hover {
     border: 1px solid skyblue;
 }
 
