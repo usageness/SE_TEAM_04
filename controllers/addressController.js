@@ -30,7 +30,10 @@ const postAddressRegister = async (req, res) => {
   const {
     body: { postcode, roadAddress, detailAddress, extraAddress, addressname },
   } = req;
-
+ 
+if(await Address.findOne({where:{name:addressname}})){
+  res.send('<script type="text/javascript">alert("중복된 배송지 이름입니다.");</script>');
+}
   await Address.create(
     {
       name: addressname,
