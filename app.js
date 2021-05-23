@@ -8,6 +8,10 @@ const session = require('express-session')
 
 const { sequelize } = require('./models');
 require("dotenv").config()
+const formData = require("express-form-data");
+const os = require("os");
+
+global.atob = require("atob");
 
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
@@ -56,6 +60,20 @@ app.use('/logout', logoutRouter);
 app.use('/signUp', singUpRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
+
+
+const options = {
+  uploadDir: os.tmpdir(),
+  autoClean: true
+};
+// parse data with connect-multiparty. 
+app.use(formData.parse(options));
+// delete from the request all empty files (size == 0)
+app.use(formData.format());
+// change the file objects to fs.ReadStream 
+app.use(formData.stream());
+// union the body and the files
+app.use(formData.union());
 
 
 // catch 404 and forward to error handler

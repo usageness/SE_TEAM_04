@@ -1,4 +1,6 @@
 var express = require("express");
+const fs = require('fs')
+
 var router = express.Router();
 const User = require("../../models").User;
 const { isLoggedIn } = require("./middleware");
@@ -12,13 +14,13 @@ const {
 const db = require("../../models");
 
 router.get("/", isLoggedIn, function (req, res, next) {
-  dateMin = new Date()
-  dateMax = new Date()
+  var dateMin = new Date()
+  var dateMax = new Date()
 
   dateMin.setDate(dateMin.getDate() - 7)
 
-  dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
-  dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+  var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+  var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
 
   res.render("admin_main", { title: "AdminMain", dateMin: dMin, dateMax: dMax });
 
@@ -68,38 +70,81 @@ router
 router.get("/item", isLoggedIn, async function (req, res, next) {
   var products = await db.Product.findAll({
     attributes: ["id", "title", "price"],
+    where: {
+      hidden: false
+    }
   });
   res.render("admin_item", { items: products });
 });
 
+const multer = require('multer');
+const mainImageUpload = multer({ dest: 'data/image/' });
 
 router
   .route("/newitem")
-  .get(isLoggedIn,function (req, res, next) {
+  .get(isLoggedIn, async function (req, res, next) {
     var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
+    var category = await db.Category.findAll();
+    res.render("admin_newitem", { ItemId: itemId, category: category});
   })
-  .post(isLoggedIn, async function (req, res, next) {
-    var itemId = "-";
-    var product = await db.Product.create({
-      title: req.body.name,
-      designer: req.body.creator,
-      tag: "태그",
-      imageurl: "-",
-      url: "-",
-      content: req.body.description,
-      price: req.body.price,
-      playersMin: req.body.peopleMin,
-      playersMax: req.body.peopleMax,
-      playTime: 10,
-      difficulty: 1,
-      deliveryFee: 2000,
-    });
-    if(product){
-      req.session.save(() => {
-        res.redirect('/admin/item/'+product.id);
+  .post(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
+    // console.log(req.params)
+    // console.log(req.body)
+    try {
+      var date = new Date()
+      var dStr = date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) ;
+
+      const fileText = req.body.mainImageText
+      const fileName = 'data/image/'+  dStr +'.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
+      var base64Data = fileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "");
+
+      fs.writeFile(fileName, base64Data, 'base64', function(err) {
+        console.log(err);
       });
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(400);
+      return;
+    }
+    
+    try {
+      var itemId = "-";
+      var product = await db.Product.create({
+        title: req.body.name,
+        designer: req.body.creator,
+        tag: "태그",
+        imageurl: '/' + dStr + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1],
+        url: "-",
+        content: req.body.description,
+        price: req.body.price,
+        playersMin: req.body.peopleMin,
+        playersMax: req.body.peopleMax,
+        playTime: 10,
+        difficulty: 1,
+        deliveryFee: 2000,
+      });
+      var category = await db.Category.findOne({
+        where: {
+          name: req.body.category
+        }
+      });
+      product.categoryinId = category.id;
+      // console.log(product)
+      // product.setcategoryin(category)
+      await product.save()
+      // await db.sequelize.query("UPDATE product SET categoryinId = " +category.id + " WHERE id = " + product.id);
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(400);
+      return;
+    }
+    
+    if(product){
+      res.sendStatus(200);
+
+      // req.session.save(() => {
+      //   res.redirect('/admin/item/'+product.id);
+      // });
     }else{
       res.sendStatus(400);
     }
@@ -155,7 +200,7 @@ router
       }
     });
     console.log("delete")
-    await product.destroy();
+    product.hidden = true;
     var result = await product.save();
     if (result) {
       res.sendStatus(200);
@@ -163,31 +208,7 @@ router
       res.sendStatus(400);
     }
   });
-
-router
-  .route(isLoggedIn,"/item/new")
-  .get(function (req, res, next) {
-    var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
-  })
-  .post(function (req, res, next) {
-    var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
-  });
-
-// router
-//   .route(isLoggedIn,"/salerate")
-//   .get(function (req, res, next) {
-//     console.log(req.params)
-//     console.log(req.body)
-
-//     res.json({ ItemId: 1 });
-//   })
-//   .post(function(req, res) {
-//     res.send('nothing');
-//   });
+  
 // Create a route for GET /user/test
 router.get('/salerate', async function(req, res) {
   var minDate = new Date(req.query.minDate.slice(4, 8), (req.query.minDate.slice(0, 2) - 1), req.query.minDate.slice(2, 4), 0, 0, 0)
@@ -309,5 +330,45 @@ router.get('/bestcategory', async function(req, res) {
   }
   res.json(result);
 });
+
+router.get("/order", isLoggedIn, async function (req, res, next) {
+  var dateMin = new Date()
+  var dateMax = new Date()
+
+  dateMin.setDate(dateMin.getDate() - 7)
+  if(req.params.dateMin != undefined && req.params.dateMin != undefined){
+    var dateMin = new Date(req.query.dateMin.slice(4, 8), (req.query.dateMin.slice(0, 2) - 1), req.query.dateMin.slice(2, 4), 0, 0, 0)
+    var dateMax = new Date(req.query.dateMax.slice(4, 8), (req.query.dateMax.slice(0, 2) - 1), req.query.dateMax.slice(2, 4), 23, 59, 59)
+    dateMin.setHours(dateMin.getHours() + 9)
+    dateMax.setHours(dateMax.getHours() + 9)
+  }
+
+  var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+  var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+
+  
+  var logs = await db.PurchaseLog.findAll({
+    where: {
+      date: {
+        [db.Sequelize.Op.gte]: dateMin,
+        [db.Sequelize.Op.lte]: dateMax
+      }
+      
+    },
+    attributes: ["id", "date", "count", "status"],
+    include:[
+      {
+        model: db.Product,
+        as: 'purchase',
+        attributes: ['id', 'title']
+      },
+    ]
+  });
+  res.render("admin_order", { logs: logs, dateMin: dMin, dateMax: dMax});
+});
+
+
+
+
 
 module.exports = router;

@@ -9,12 +9,17 @@
     <title>Sidebars · Bootstrap v5.0</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+		<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 
     
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 		
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -29,11 +34,13 @@
           font-size: 3.5rem;
         }
       }
+      html, body {
+        overflow-y: auto;
+      }
     </style>
 
     
-    <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+    
   </head>
   <body>
     
@@ -88,8 +95,8 @@
   <hr>
 </div>
 <main class="container">
-  <form id="form" action='/admin/newitem' method="POST">
-    <h1 class="mb-5 text-center"><%= ItemId %></h1>
+  <form id="form" >
+    <h1 class="mb-5 text-center">새 상품 등록하기</h1>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
@@ -125,33 +132,131 @@
         </div>
       </div>
     </div>
+    <div class="form-outline mb-4">
+      <input type="file" class="form-control" id="formMainImage" accept="image/*" name="mainImage" >
+      <label class="form-label" for="formMainImage">메인 이미지</label>
+    </div>
     
-  
+    <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
+      <% for(var i=0; i<category.length; i++) {%>
+       
+        <label class="btn btn-outline-primary">
+          <input type="radio" name="btnradio" id="btnradio<%= i %>"><%= category[i].name %></input>
+        </label>
+      <% } %>
+    </div>
+    <br>
+    <label class="form-label" for="divradio">카테고리</label>
+
     <!-- Message input -->
     <div class="form-outline mb-4">
       <textarea class="form-control" id="form6Example7" rows="4" name="description"></textarea>
       <label class="form-label" for="form6Example7">상세 설명</label>
     </div>
   
-    <!-- Checkbox -->
-    <div class="form-check d-flex mb-4">
-      <input
-        class="form-check-input me-2"
-        type="checkbox"
-        value=""
-        id="form6Example8"
-      />
-      <label class="form-check-label" for="form6Example8"> 상품 숨기기 </label>
-    </div>
-    
-  
+
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4">등록하기</button>
+    <button id="submitData" class="btn btn-primary btn-block mb-4">등록하기</button>
   </form>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
+    <script>
+
+      $("#submitData").on("click", async (e) => {
+        e.preventDefault();
+
+
+
+        var formData = new FormData($("#form")[0])
+        console.log(formData.get('btnradio'))
+        console.log($('#divradio>.active').text().trim())
+
+
+        if(formData.get('name') == "" ){
+          alert('보드게임 이름은 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('price') == "" ){
+          alert('보드게임 가격은 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('creator') == "" ){
+          alert('제작사는 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('peopleMin') == "" ){
+          alert('최소 인원은 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('peopleMax') == "" ){
+          alert('최대 인원은 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('mainImage').name == "" ){
+          alert('메인 이미지는 필수 입력사항입니다.');
+          return;
+        }
+        if($('#divradio>.active').text().trim() == ""){
+          alert('카테고리는 필수 입력사항입니다.');
+          return;
+        }
+        if(formData.get('description') == "" ){
+          alert('상세 설명은 필수 입력사항입니다.');
+          return;
+        }
+        if(parseInt(formData.get('price'))%1000 != 0 ){
+          alert('보드게임 가격은 1,000 단위로 입력해야 합니다.');
+          return;
+        }
+        if(parseInt(formData.get('peopleMin')) > parseInt(formData.get('peopleMax')) ){
+          alert('최소 인원이 최대 인원보다 적어야 합니다.');
+          return;
+        }
+        if(formData.get('description').length < 10 ){
+          alert('상세 설명 10글자 이상 등록해야합니다.');
+          return;
+        }
+        // if($("#formMainImage")[0].files.length != 0){
+        //   formData.append("mainImage", $("#formMainImage")[0].files[0])
+        //   console.log(formData.get("mainImage"))
+        // }
+        // for (var key of formData.entries()) {
+        //   console.log(key[0] + ', ' + key[1]);
+        // }
+        formData.delete('mainImage')
+        formData.append('mainImageName', $("#formMainImage")[0].files[0].name);
+
+        formData.delete('btnradio')
+        formData.append('category', $('#divradio>.active').text().trim());
+
+        let reader = new FileReader()
+        reader.onload = (event) => {
+          formData.append('mainImageText', event.target.result);
+          $.ajax({
+            url: '/admin/newitem',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            // enctype: 'multipart/form-data',
+            cache : false,
+            data : formData,
+            success: function(){
+              alert("등록했습니다.");
+              console.log('form submitted.');
+              // window.location.href = '/admin/item';
+            },
+            error: function(){
+              alert("등록 실패했습니다.");
+              console.log('실패');
+            }
+          });
+        }
+        reader.readAsDataURL($("#formMainImage")[0].files[0]);
+        
+      });
+    </script>
   </body>
 </html>
