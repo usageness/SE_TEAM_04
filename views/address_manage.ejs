@@ -11,15 +11,17 @@
       #submit {
         margin-top: 25px;;
       }
+    
     </style>
   </head>
   <body>
     <div id="wrapper">
       <table id="table" class="table" sortable="checked">
         <h1>배송지 목록</h1>
+        <form action="/address" method="POST">
         <thead>
           <tr>
-            <th scope="col">선택</th>
+            <th scope="col">기본배송지</th>
             <th scope="col">배송지</th>
             <th scope="col">배송주소</th>
             <th scope="col">우편번호</th>
@@ -27,9 +29,18 @@
           </tr>
         </thead>
         <tbody>
+          <% if(data.defaultAddress) { %>
+          <tr>
+            <td scope="row"><input type="radio" name="address" value="<%= data.defaultAddress.name %>" checked></td>
+            <td><a style="color:#212529" href="/address/<%= data.defaultAddress.id %>/update"><%= data.defaultAddress.name %></a></td>
+            <td><%= data.defaultAddress.address %> , <%= data.defaultAddress.detailesAddress %></td>
+            <td><%= data.defaultAddress.postalCode %></td>
+            <td><%= data.defaultAddress.phoneNumber %></td>
+          </tr>
+          <% } %>
           <% data.addressList.forEach(function(address, i){ %>
             <tr>
-              <td scope="row"><input type="checkbox" name="color" value="blue"></td>
+              <td scope="row"><input type="radio" name="address" value="<%= address.name %>"></td>
               <td><a style="color:#212529" href="/address/<%= address.id %>/update"><%= address.name %></a></td>
               <td><%= address.address %> , <%= address.detailesAddress %></td>
               <td><%= address.postalCode %></td>
@@ -39,8 +50,8 @@
         </tbody>
       </table>
       <a style="color:#212529" href="/address/new"><input type="button" value="신규 배송지 등록"></a>
-      <form action="/address" method="POST">
-        <input type="submit" value="변경 사항 저장" >
+      
+        <input type="submit" name="register" value="변경 사항 저장" >
       </form>
     </div>
   </body>

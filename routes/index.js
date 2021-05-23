@@ -41,6 +41,8 @@ router.get('/search', function(req, res, next) {
 });
 
 router.route("/address/:addressId/delete").post(deleteAddress);
+
+router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 router.use("/admin", adminRouter);
 
 module.exports = router;

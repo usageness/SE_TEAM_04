@@ -4,16 +4,21 @@ const PurchaseLog = require("../models").PurchaseLog;
 
 const getAddress = async (req, res) => {
   let address = await Address.findAll({});
-  res.render("address_manage", { title: "Express", data:{
-    addressList:address
-  } });
+  let defaultAddress = await Address.findOne({where:{isChecked:1}});
+  res.render("address_manage", { title: "Express",  data:{
+    addressList:address,
+    defaultAddress
+  }});
 };
 
 const postAddress = async (req, res) => {
-  let address = await Address.findAll({});
-  res.render("address_manage", { title: "Express", data:{
-    addressList:address
-  } });
+  const {
+    body:{address}
+  } =req;
+  console.log(address, req.body);
+  await Address.update({isChecked:0},{where:{}});
+  await Address.update({isChecked:1},{where:{name:address}});
+  res.redirect("/address");
 };
 
 const getAddressRegister = async (req, res) => {
@@ -24,7 +29,7 @@ const postAddressRegister = async (req, res) => {
   const {
     body: { postcode, roadAddress, detailAddress, extraAddress, addressname },
   } = req;
- 
+
   await Address.create(
     {
       name: addressname,
@@ -49,10 +54,7 @@ const postAddressRegister = async (req, res) => {
       ],
     }
   );
-  let address = await Address.findAll({});
-  res.render("address_manage", { title: "Express", data:{
-    addressList:address
-  } });
+  res.redirect("/address");
 };
 
 const getUpdateAddress = async (req, res) => {
@@ -83,25 +85,16 @@ console.log(addressId);
     isChecked: 0,
   },{where:{id: addressId}});
   
-  let address = await Address.findAll({});
-  res.render("address_manage", { title: "Express", data:{
-    addressList:address
-  } });
+  res.redirect("/address");
 };
 
 const deleteAddress = async (req, res) => {
-  const {
-    params: addressId
-  }= req;
-
-  typeof(addressId);
   
-  console.log(req.params);
-  await Address.destroy({where:{ id: addressId}});
-  let address = await Address.findAll({});
-  res.render("address_manage", { title: "Express", data:{
-    addressList:address
-  } });
+  await Address.destroy({where:{ id: req.params.addressId}});
+  res.redirect("/address");
 };
 
+const postRegisterAddress = async (req,res)=>{
+  console.log(req.body);
+}
 module.exports = { getAddress, postAddress,getAddressRegister,postAddressRegister, getUpdateAddress,postUpdateAddress,deleteAddress };
