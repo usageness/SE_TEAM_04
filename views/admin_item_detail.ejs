@@ -15,6 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 		
     <style>
       .bd-placeholder-img {
@@ -66,7 +67,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a href="/admin" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin"/></svg>
+        <svg class="bi me-2" width="16" height="16" ><use xlink:href="/admin"/></svg>
         메인
       </a>
     </li>
@@ -83,6 +84,12 @@
       </a>
     </li>
     <li>
+      <a href="/admin/order" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
+        주문 관리
+      </a>
+    </li>
+    <li>
       <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
     </li>
   </ul>
@@ -94,19 +101,19 @@
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="text" id="formname" class="form-control" name="name" value="<%= item.title %>"/>
+      <input type="text" id="formname" class="form-control" name="name" disabled=true value="<%= item.title %>"/>
       <label class="form-label" for="formname">보드게임 이름</label>
     </div>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="number" id="formprice" class="form-control" name="price" value="<%= item.price %>"/>
+      <input type="number" id="formprice" class="form-control" name="price" disabled=true value="<%= item.price %>"/>
       <label class="form-label" for="formprice">보드게임 가격</label>
     </div>
   
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="text" id="formcreator" class="form-control" name="creator" value="<%= item.designer %>"/>
+      <input type="text" id="formcreator" class="form-control" name="creator" disabled=true value="<%= item.designer %>"/>
       <label class="form-label" for="formcreator">제작사</label>
     </div>
     
@@ -114,36 +121,31 @@
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="formpeoplemin" class="form-control" name="peopleMin" value="<%= item.playersMin %>"/>
+          <input type="number" id="formpeoplemin" class="form-control" name="peopleMin" disabled=true value="<%= item.playersMin %>"/>
           <label class="form-label" for="formpeoplemin">최소 인원</label>
         </div>
       </div>
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="formpeoplemax" class="form-control" name="peopleMax" value="<%= item.playersMax %>"/>
+          <input type="number" id="formpeoplemax" class="form-control" name="peopleMax" disabled=true value="<%= item.playersMax %>"/>
           <label class="form-label" for="formpeoplemax">최대 인원</label>
         </div>
       </div>
     </div>
-    
+    <div class="form-outline mb-4">
+      <input type="file" class="form-control" id="formimage" name="image">
+      <label class="form-label" for="formimage">이미지</label>
+    </div>
+      
   
     <!-- Message input -->
     <div class="form-outline mb-4">
-      <textarea class="form-control" id="formdescription" rows="4" name="description"><%= item.content %></textarea>
+      <textarea class="form-control" id="formdescription" rows="4" disabled=true name="description"><%= item.content %></textarea>
       <label class="form-label" for="formdescription">상세 설명</label>
     </div>
   
-    <!-- Checkbox -->
-    <div class="form-check d-flex mb-4">
-      <input
-        class="form-check-input me-2"
-        type="checkbox"
-        value=""
-        id="formhidden"
-      />
-      <label class="form-check-label" for="formhidden"> 상품 숨기기 </label>
-    </div>
+
     
   
     <!-- Submit button -->
@@ -183,19 +185,39 @@
         });
         $("#update-item").on("click", () => {
 
-          $.ajax({
-            url: $form.getAttribute("action"),
-            type: 'PUT',
-            data : $("#form").serialize(),
-            success: function(){
-              alert("수정했습니다.");
-              console.log('form submitted.');
-            },
-            error: function(){
-              alert("수정 실패했습니다.");
-              console.log('실패');
-            }
-          });
+          if($("#update-item").text() == "수정하기"){
+            $("#update-item").text("수정 완료")
+            $("#formname").attr("disabled", false)
+            $("#formprice").attr("disabled", false)
+            $("#formcreator").attr("disabled", false)
+            $("#formpeoplemin").attr("disabled", false)
+            $("#formpeoplemax").attr("disabled", false)
+            $("#formdescription").attr("disabled", false)
+          }else{
+            $("#update-item").text("수정하기")
+            $.ajax({
+              url: $form.getAttribute("action"),
+              type: 'PUT',
+              data : $("#form").serialize(),
+              success: function(){
+                alert("수정했습니다.");
+                $("#update-item").text("수정 완료")
+                $("#formname").attr("disabled", true)
+                $("#formprice").attr("disabled", true)
+                $("#formcreator").attr("disabled", true)
+                $("#formpeoplemin").attr("disabled", true)
+                $("#formpeoplemax").attr("disabled", true)
+                $("#formdescription").attr("disabled", true)
+                console.log('form submitted.');
+              },
+              error: function(){
+                alert("수정 실패했습니다.");
+                console.log('실패');
+              }
+            });
+            
+          }
+          
         });
       });
     </script>

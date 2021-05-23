@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
         title: { //제목
             type: DataTypes.STRING(50),
             allowNull: false,
-            unique: true,
+            unique: false,
         },
         designer: { // 0 = ad , 1 = event
             type: DataTypes.STRING(50),
@@ -57,6 +57,11 @@ module.exports = function (sequelize, DataTypes) {
         deliveryFee: { // 배송료
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
+        },
+        hidden: { // 삭제시 히든 true
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         },
     },
       {
