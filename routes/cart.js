@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('cart', {title: 'Express'});
+    let session = req.session;
+    res.render('cart', {title: 'Express', session: session});
 });
 
 
