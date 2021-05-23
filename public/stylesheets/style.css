@@ -10,6 +10,25 @@ body {
 
 a {
     color: #00B7FF;
+    text-decoration: none;
+}
+
+.header-form {
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.header-signup {
+    padding: .5rem 1rem;
 }
 
 .carousel-inner > .carousel-item > img { /* width: 640px; height: 720px; */
@@ -35,8 +54,8 @@ a {
 }
 
 .back {
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
 }
 
 .list-group {
@@ -46,25 +65,25 @@ a {
 .bd-highlight .bd-highlight{
     background-color: white;
 }
-.product-button img{
+.product-button {
     border: 1px solid #EEEEEE;
 }
 
-.product-button img:hover {
+.product-button:hover {
     border: 1px solid skyblue;
 }
 
 h1 a {
     display: block;
-    background: url("../images/QBD_logo.png") no-repeat;
+    background: url("https://user-images.githubusercontent.com/28296575/116252085-34f9d800-a7aa-11eb-9520-7660e5eda285.png") no-repeat;
     background-size: 89px;
     width: 109px;
     text-indent: -99em;
 }
 
 .divider {
-    content: "|";
-    margin: 0 1rem;
+    color: #cccccc;
+    margin: 0 .5rem;
 }
 
 .footer-last {
@@ -90,4 +109,37 @@ input {
 .carousel-inner{
     width: 100%;
     height: 30rem;
+}
+
+.sortby {
+    background-color: #fafafa;
+    padding: 5px 20px;
+    margin: 10px 0;
+    font-size: 10pt;
+}
+
+.sortby>a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.sortby>a:hover {
+    color: #00B7FF;
+}
+
+.product-list {
+}
+
+.card {
+    margin: 10px;
+}
+
+.price {
+    color: #ae0000;
+    font-weight: bold;
+}
+
+.passwordInfo {
+    color: #999999;
+    font-size: .8rem;
 }

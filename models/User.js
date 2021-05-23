@@ -13,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.STRING(50),
           allowNull: false,
         },
-        userid: {
+        user_id: {
             type: DataTypes.STRING(50),
             allowNull: false,
             unique: true,
@@ -22,12 +22,21 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.STRING,
           allowNull: false,
         },
+        email: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          unique: true,
+        },
         permission:{ //0: user, 1: admin
           type: DataTypes.INTEGER,
           allowNull: false,
         },
-        createat: { // 시작일
+        create_at: { // 시작일
             type: DataTypes.DATE,
+            allowNull: false,
+        },
+        salt: { // 암호화
+            type: DataTypes.STRING,
             allowNull: false,
         },
     },

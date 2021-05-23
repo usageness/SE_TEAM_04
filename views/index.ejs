@@ -15,29 +15,7 @@
 </HEAD>
 
 <BODY>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <div class="container d-flex flex-wrap">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <div class="row">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">즐겨찾기</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">입점신청</a>
-                    </li>
-                </div>
-            </ul>
-            <div><a href="/login" class="nav-link">Login</a></div>
-            <div><a href="/signUp" class="nav-link">Sign up</a></div>
-
-        </div>
-    </div>
-
-</nav>
-
+<% include ./header.ejs %>
 <div class="container">
     <div class="row mt-3 pb-4">
         <div class="col-2">
@@ -46,9 +24,9 @@
                     카테고리
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="/product?category=Game">게임</a>
+                    <a class="dropdown-item" href="/product?category=casual">캐쥬얼</a>
+                    <a class="dropdown-item" href="/product?category=strategy">전략</a>
                 </div>
             </div>
         </div>
@@ -60,9 +38,9 @@
                          alt="">
                 </div>
                 <div class="col-6">
-                    <form class="form-inline">
-                        <input class="form-control mr-2" type="search" placeholder="Search" style="width: 60%" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0 " type="submit" style="width: 20%">Search</button>
+                    <form class="form-inline" action='search' method="get">
+                        <input name="q" class="form-control mr-2" type="search" placeholder="Search" style="width: 60%" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="width: 20%">Search</button>
                     </form>
                 </div>
                 <div class="col-3">
@@ -139,9 +117,26 @@
 <div style="clear:both;"></div>
 
 <div class="container">
-    <span class="h3" style="font-weight: bold;">오늘의 상품</span> | <span>퀵보드가 엄선한 인기 상품</span>
+    <span class="h3" style="font-weight: bold;">최신등록 상품</span> | <span>퀵보드가 엄선한 최신 상품</span>
     <div class="product">
         <div class="d-flex flex-row justify-content-center">
+            <% for(var i=items.length-1; i>=0; i--) {%>
+            <div class="product-list">
+                <div class="row">
+                    <div class="card product-button" style="width: 16rem;">
+                        <img class="card-img-top"
+                             src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= items[i].title %></h5>
+                            <p class="price"><%= items[i].price %>원</p>
+                            <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
+
+                        </div>
+                    </div>
+                <p></p>
+                <p></p>
+            <% } %>
             <div class="p-2 product-button big-product">
                 <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617856777254/C2_1_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%8A%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%B7.jpg">
             </div>
@@ -222,39 +217,7 @@
 
 <hr>
 <!-- footer -->
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <span class="extra"><a href="/">홈</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">회사소개</a></span> <span class="divider"></span> <span class="extra"><a
-                    href="/">이용약관</a></span> <span class="divider"></span> <span class="extra"><a href="/">개인정보 취급방침</a></span>
-        <span class="divider"></span> <span class="extra"><a href="/">이용안내</a></span> <span class="divider"></span>
-        <span class="extra"><a href="/">고객센터</a></span>
-    </div>
-</div>
-<hr>
-<div class="footer-layer">
-    <div class="d-flex flex-row justify-content-center">
-        <div class="p-4">
-            <h1><a href="/" title="LOGO">QUICKBOARD</a></h1>
-        </div>
-        <div class="p-4">
-            퀵보드 | 보드게임 전문 쇼핑몰<br>
-            서울특별시 노원구 공릉동 공릉로 232 <br>
-        </div>
-        <div class="p-4">
-            소프트웨어공학 4팀<br>
-            김도은, 김용래, 조규진, 조현수<br>
-        </div>
-        <div class="p-4">
-            <a href="https://github.com/usageness/SE_TEAM_04">github</a>
-        </div>
-    </div>
-
-    <div class="footer-last">
-        Contact : admin@quickboard.com<br>
-        Copyright © QuickBoard Corp. 2020-2021 All Rights Reserved.
-    </div>
-</div>
+<% include ./footer.ejs %>
 <!-- script -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -265,6 +228,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script>$('.carousel').carousel({interval: 2000})</script>
+<script>
+    $('.carousel').carousel({interval: 2000})
+</script>
 </body>
 </html>
