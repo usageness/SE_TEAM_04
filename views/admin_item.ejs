@@ -88,6 +88,9 @@
         상품관리
       </a>
     </li>
+    <li>
+      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
+    </li>
   </ul>
   <hr>
 </div>
@@ -112,29 +115,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td scope="row">1</td>
-          <td><a style="color:#212529" href="/admin/item/1">시타델</a></td>
-          <td>35,000</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td scope="row">2</td>
-          <td>뱅</td>
-          <td>23,000</td>
-          <td>3</td>
-        </tr>
-        <tr >
-          <td scope="row">3</td>
-          <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
-          <td>딕시트</td>
-          <td>13,000</td>
-          <td>5</td>
-        </tr>
+        <% for(var i=0; i<items.length; i++) {%>
+          <tr>
+            <td scope="row"><%= i+1 %></td>
+            <td><a style="color:#212529" href="/admin/item/<%= items[i].id %>"><%= items[i].title %></a></td>
+            <td><%= items[i].price %></td>
+            <td>1</td>
+          </tr>
+        <% } %>
       </tbody>
     </table>
   </div>
-  <a class="mt-3 mb-3 mr-3 btn btn-primary float-right" href="/admin/item/new">상품 등록</a>
+  <a class="mt-3 mb-3 mr-3 btn btn-primary float-right" href="/admin/newitem">상품 등록</a>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>

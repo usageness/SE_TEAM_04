@@ -81,11 +81,14 @@
         상품관리
       </a>
     </li>
+    <li>
+      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
+    </li>
   </ul>
   <hr>
 </div>
 <main class="container">
-  <form name="form">
+  <form id="form" action='/admin/newitem' method="POST">
     <h1 class="mb-5 text-center"><%= ItemId %></h1>
   
     <!-- Text input -->
@@ -110,14 +113,14 @@
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example6" class="form-control" name="peoplemin"/>
+          <input type="number" id="form6Example6" class="form-control" name="peopleMin"/>
           <label class="form-label" for="form6Example6">최소 인원</label>
         </div>
       </div>
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example61" class="form-control" name="peoplemax"/>
+          <input type="number" id="form6Example61" class="form-control" name="peopleMax"/>
           <label class="form-label" for="form6Example6">최대 인원</label>
         </div>
       </div>
