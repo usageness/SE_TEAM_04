@@ -7,31 +7,34 @@ const {postAddress} =require("../controllers/addressController");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  /*
-  if(!req.session.login){
-    req.session.login = false
-    req.session.idx = -1
-  }
-*/
-  res.render('index', { title: 'Express' });
+  let session = req.session;
+  res.render('index', {
+    title: 'Express',
+    session: session,
+    nickname: session.nickname
+  });
 });
 
 router.get('/notice', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  let session = req.session;
+  res.render('index', { title: 'Express', session: session });
 });
 
 router.get('/product', function(req, res, next) {
-  res.render('product', { title: 'Express' });
+  let session = req.session;
+  res.render('product', { title: 'Express', session: session });
 });
 
 router.get('/address', function(req, res, next) {
-  res.render('address_register', { title: 'Express' });
+  let session = req.session;
+  res.render('address_register', { title: 'Express', session: session });
 });
 
 router.post('/address', postAddress);
 
 router.get('/search', function(req, res, next) {
-  res.render('search', { title: 'Express' });
+  let session = req.session;
+  res.render('search', { title: 'Express', session: session });
 });
 
 router.use('/admin', adminRouter);
