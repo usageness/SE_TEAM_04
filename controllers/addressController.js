@@ -3,9 +3,10 @@ const User = require("../models").User;
 const PurchaseLog = require("../models").PurchaseLog;
 
 const getAddress = async (req, res) => {
+  let session = req.session;
   let address = await Address.findAll({});
   let defaultAddress = await Address.findOne({where:{isChecked:1}});
-  res.render("address_manage", { title: "Express",  data:{
+  res.render("address_manage", { title: "Express", session, data:{
     addressList:address,
     defaultAddress
   }});

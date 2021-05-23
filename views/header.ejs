@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container d-flex flex-wrap">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <div class="row">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">즐겨찾기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">입점신청</a>
+                </li>
+            </div>
+        </ul>
+        <div>
+            <%
+            if(session.user_id){ %>
+                <span><%= session.nickname %>님 환영합니다!</span>
+                <a href="/logout" class="header-signup">로그아웃</a>
+        </div>
+        <% } else { %>
+            <form action="/login" method="post">
+                        <span class="form-group">
+                            <label for="user_id" class="sr-only">Email</label>
+                            <input type="text" name="user_id" id="user_id" class="header-form" placeholder="아이디" required>
+                        </span>
+                <span class="form-group">
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" name="password" id="password" class="header-form" placeholder="비밀번호" required>
+                        </span>
+                <input name="login" id="login" class="btn btn-primary login-btn" type="submit" value="로그인">
+            </form>
+    </div>
+    <div><a href="/signUp" class="header-signup">회원가입</a></div>
+    <% } %>
+</div>
+</div>
+</nav>

@@ -9,7 +9,7 @@
     <title>Sidebars · Bootstrap v5.0</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 
     
 
@@ -82,44 +82,47 @@
         상품관리
       </a>
     </li>
+    <li>
+      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
+    </li>
   </ul>
   <hr>
 </div>
 <main class="container">
-  <form id="form" action='/admin/item/<%= ItemId %>' method="POST">
-    <h1 class="mb-5 text-center"><%= ItemId %></h1>
+  <form id="form" action='/admin/item/<%= item.id %>' method="POST">
+    <h1 class="mb-5 text-center">상품 상세정보</h1>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="text" id="form6Example3" class="form-control" name="name"/>
-      <label class="form-label" for="form6Example3">보드게임 이름</label>
+      <input type="text" id="formname" class="form-control" name="name" value="<%= item.title %>"/>
+      <label class="form-label" for="formname">보드게임 이름</label>
     </div>
   
     <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="number" id="form6Example4" class="form-control" name="price"/>
-      <label class="form-label" for="form6Example4">보드게임 가격</label>
+      <input type="number" id="formprice" class="form-control" name="price" value="<%= item.price %>"/>
+      <label class="form-label" for="formprice">보드게임 가격</label>
     </div>
   
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="text" id="form6Example5" class="form-control" name="creator"/>
-      <label class="form-label" for="form6Example5">제작사</label>
+      <input type="text" id="formcreator" class="form-control" name="creator" value="<%= item.designer %>"/>
+      <label class="form-label" for="formcreator">제작사</label>
     </div>
     
     <div class="row mb-4">
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example6" class="form-control" name="peoplemin"/>
-          <label class="form-label" for="form6Example6">최소 인원</label>
+          <input type="number" id="formpeoplemin" class="form-control" name="peopleMin" value="<%= item.playersMin %>"/>
+          <label class="form-label" for="formpeoplemin">최소 인원</label>
         </div>
       </div>
       <!-- Number input -->
       <div class="col">
         <div class="form-outline mb-4">
-          <input type="number" id="form6Example61" class="form-control" name="peoplemax"/>
-          <label class="form-label" for="form6Example6">최대 인원</label>
+          <input type="number" id="formpeoplemax" class="form-control" name="peopleMax" value="<%= item.playersMax %>"/>
+          <label class="form-label" for="formpeoplemax">최대 인원</label>
         </div>
       </div>
     </div>
@@ -127,8 +130,8 @@
   
     <!-- Message input -->
     <div class="form-outline mb-4">
-      <textarea class="form-control" id="form6Example7" rows="4" name="description"></textarea>
-      <label class="form-label" for="form6Example7">상세 설명</label>
+      <textarea class="form-control" id="formdescription" rows="4" name="description"><%= item.content %></textarea>
+      <label class="form-label" for="formdescription">상세 설명</label>
     </div>
   
     <!-- Checkbox -->
@@ -137,18 +140,17 @@
         class="form-check-input me-2"
         type="checkbox"
         value=""
-        id="form6Example8"
+        id="formhidden"
       />
-      <label class="form-check-label" for="form6Example8"> 상품 숨기기 </label>
+      <label class="form-check-label" for="formhidden"> 상품 숨기기 </label>
     </div>
     
   
     <!-- Submit button -->
     <div>
-      <input id="method-type" type="hidden" name="_method" value="PUT"/>
       <a  class="btn btn-secondary mb-4 float-right ml-2" href="/admin/item">취소하기</a>
       <button id="delete-item" type="button" class="btn btn-danger mb-4 float-right ml-2">삭제하기</button>
-      <button id="update-item" type="button" class="btn btn-primary mb-4 float-right">등록하기</button>
+      <button id="update-item" type="button" class="btn btn-primary mb-4 float-right">수정하기</button>
     </div>
     
   </form>
@@ -160,20 +162,40 @@
     <script>
       $(document).ready(function(){
         var $form = $("#form")[0];
-        var $methodType = $("#method-type")[0];
 
         $("#delete-item").on("click", () => {
 
-          $methodType.value = "DELETE";
-          $form.setAttribute("action", $form.getAttribute("action") + "?_method=DELETE");
-          $form.submit();
+
+          $.ajax({
+            url: $form.getAttribute("action"),
+            type: 'DELETE',
+            data : $("#form").serialize(),
+            success: function(){
+              alert("삭제했습니다.");
+              console.log('form submitted.');
+              window.location.href = '/admin/item';
+            },
+            error: function(){
+              alert("삭제 실패했습니다.");
+              console.log('실패');
+            }
+          });
         });
         $("#update-item").on("click", () => {
-          $methodType.value = "PUT";
-          $form.setAttribute("action", $form.getAttribute("action") + "?_method=PUT");
 
-          $form.submit();
-
+          $.ajax({
+            url: $form.getAttribute("action"),
+            type: 'PUT',
+            data : $("#form").serialize(),
+            success: function(){
+              alert("수정했습니다.");
+              console.log('form submitted.');
+            },
+            error: function(){
+              alert("수정 실패했습니다.");
+              console.log('실패');
+            }
+          });
         });
       });
     </script>

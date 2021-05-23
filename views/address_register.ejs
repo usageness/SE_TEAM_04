@@ -25,7 +25,7 @@
         <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소" readonly/><br>
         <span id="guide" style="color:#999;display:none"></span>
         <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소"><br>
-        <input type="text" name="extraAddress" id="phoneNumber" placeholder="전화번호"><br>
+        <input type="text" name="extraAddress" id="phoneNumber" placeholder="전화번호 ( - 없음)"><br>
         <input type="submit" id="submit" value="배송지 등록">
       </form>
     </div>
@@ -92,12 +92,30 @@
 <script>
    $("#address-form").submit(function(event) {
   var inputtedPhoneNumber = $("#phoneNumber").val();
-    console.log(inputtedPhoneNumber);
+  var inputtedName = $("#extraAddress").val();
+  var inputtedDetailAddress = $("#detailAddress").val();
+
+  console.log(inputtedName, inputtedDetailAddress );
   var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
   if(!phoneNumberRegex.test(inputtedPhoneNumber)) {
     alert("잘못된 전화번호 형식");
     return false;
   } else {
+    return true;
+  }
+  var emptyRegex = /\s/g; 
+  if(!emptyRegex.test(inputtedName)){
+    alert("배송지 이름은 빈 칸일 수 없습니다.");
+    return false;
+  }
+  else{
+    return true;
+  }
+  if(!emptyRegex.test(inputtedDetailAddress)){
+    alert("상세주소는 빈 칸일 수 없습니다.");
+    return false;
+  }
+  else{
     return true;
   }
 });

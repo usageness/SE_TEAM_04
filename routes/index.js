@@ -17,27 +17,30 @@ const { route } = require("./admin");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let session = req.session;
-
   res.render('index', {
     title: 'Express',
-    session: session
+    session: session,
+    nickname: session.nickname
   });
 });
 
-router.get("/notice", function (req, res, next) {
-  res.render("index", { title: "Express" });
+router.get('/notice', function(req, res, next) {
+  let session = req.session;
+  res.render('index', { title: 'Express', session: session });
 });
 
-router.get("/product", function (req, res, next) {
-  res.render("product", { title: "Express" });
+router.get('/product', function(req, res, next) {
+  let session = req.session;
+  res.render('product', { title: 'Express', session: session });
 });
 
-router.route("/address").get(getAddress).post(postAddress);
+router.get('/address', getAddress);
 
 router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.get('/search', function(req, res, next) {
-  res.render('search', { title: 'Express' });
+  let session = req.session;
+  res.render('search', { title: 'Express', session: session });
 });
 
 router.route("/address/:addressId/delete").post(deleteAddress);

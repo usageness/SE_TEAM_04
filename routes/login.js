@@ -32,6 +32,7 @@ router.post("/", async function(req,res,next) {
             if (dbPassword === hashPassword) {
                 console.log("비밀번호 일치");
                 req.session.user_id = body.user_id;
+                req.session.nickname = result.dataValues.nickname;
                 res.redirect("/");
             }
 
