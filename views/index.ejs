@@ -30,7 +30,14 @@
                     </li>
                 </div>
             </ul>
-            <div><a href="/login" class="nav-link">Login</a></div>
+            <div>
+                <%
+                if(session.user_id){ %>
+                    <a href="/logout" class="nav-link">Logout</a>
+                    <% } else{ %>
+                    <a href="/login" class="nav-link">Login</a>
+                    <% } %>
+            </div>
             <div><a href="/signUp" class="nav-link">Sign up</a></div>
 
         </div>

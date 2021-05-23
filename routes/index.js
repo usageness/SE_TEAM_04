@@ -16,13 +16,12 @@ const { route } = require("./admin");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  /*
-  if(!req.session.login){
-    req.session.login = false
-    req.session.idx = -1
-  }
-*/
-  res.render('index', { title: 'Express' });
+  let session = req.session;
+
+  res.render('index', {
+    title: 'Express',
+    session: session
+  });
 });
 
 router.get("/notice", function (req, res, next) {
