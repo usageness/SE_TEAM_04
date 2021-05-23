@@ -94,30 +94,28 @@
   var inputtedPhoneNumber = $("#phoneNumber").val();
   var inputtedName = $("#extraAddress").val();
   var inputtedDetailAddress = $("#detailAddress").val();
+  var inputtedPostcode = $("#postcode").val();
 
   console.log(inputtedName, inputtedDetailAddress );
   var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
+
   if(!phoneNumberRegex.test(inputtedPhoneNumber)) {
     alert("잘못된 전화번호 형식");
     return false;
-  } else {
-    return true;
-  }
-  var emptyRegex = /\s/g; 
-  if(!emptyRegex.test(inputtedName)){
+  } 
+  if(inputtedName.replace(/\s|/gi,"").length==0){
     alert("배송지 이름은 빈 칸일 수 없습니다.");
     return false;
   }
-  else{
-    return true;
+  if(inputtedPostcode.replace(/\s|/gi,"").length==0) {
+    alert("우편번호 및 기본주소는 빈 칸일 수 없습니다.");
+    return false;
   }
-  if(!emptyRegex.test(inputtedDetailAddress)){
+  if(inputtedDetailAddress.replace(/\s|/gi,"").length==0){
     alert("상세주소는 빈 칸일 수 없습니다.");
     return false;
   }
-  else{
-    return true;
-  }
+ 
 });
 </script>
   </body>
