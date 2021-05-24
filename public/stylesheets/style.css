@@ -34,6 +34,14 @@ a {
 .carousel-inner > .carousel-item > img { /* width: 640px; height: 720px; */
 }
 
+.carousel-item {
+    position: relative;
+}
+.carousel-item h1{
+    position: absolute;
+    top:50%;
+    left:50%;
+}
 .is-pulled-right {
     float: right !important;
 }

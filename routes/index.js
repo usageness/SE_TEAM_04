@@ -23,12 +23,15 @@ router.get('/', async function(req, res, next) {
   var products = await db.Product.findAll({
     attributes: ["id", "title", "price"],
   });
-
+  var eventadList = await db.Eventad.findAll({});
   res.render('index', {
     title: 'Express',
     session: session,
     nickname: session.nickname,
-    items: products
+    items: products,
+    data:{
+      eventadList
+    }
   });
 });
 
