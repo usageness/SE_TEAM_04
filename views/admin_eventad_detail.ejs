@@ -13,7 +13,8 @@
     
 
     <!-- Bootstrap core CSS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
     <!-- Jquery Datatables -->
@@ -22,7 +23,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
     <style>
       html,body{
         width: 100%;
@@ -74,11 +76,13 @@
           font-size: 3.5rem;
         }
       }
+      html, body {
+        overflow-y: auto;
+      }
     </style>
 
     
-    <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+    
   </head>
   <body>
     
@@ -144,24 +148,22 @@
   <h1 id="eventad-form-description">
   이벤트 상세정보 및 수정
   </h1>
-  <form action="/admin/eventad/:eventadId" method="POST" id="eventad-form">
+  <form id="eventad-form">
     <label for="eventad_title">이벤트 제목</label><br>
-    <input type="text" placeholder="이벤트 제목" id="title" name="title" value="<%= data.updateEventad.title %>" required="true" /><br>
+    <input type="text" placeholder="이벤트 제목" id="title" name="title" disabled=true value="<%= data.updateEventad.title %>" required="true" /><br>
     <label for="eventad_title">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" value="<%= data.updateEventad.start %> - <%= data.updateEventad.end %>" required="true"/><br>
-    <label for="eventad_title">이벤트 이미지URL</label><br>
-    <input type="text" id="imageurl" name="imageurl" value="<%= data.updateEventad.imageurl %>" required="true" /><br>
+    <input type="text" id="datetimes" name="datetimes" disabled=true value="<%= data.updateEventad.start %> - <%= data.updateEventad.end %>" required="true"/><br>
+    <img class="fit-picture"
+      src="/image/<%=data.updateEventad.imageurl %>"
+      alt="ImageNotFounded">
+    <label class="form-label" for="image">이벤트 이미지</label><br>
+    <input type="file" class="form-control" id="image" accept="image/*" disabled=true name="image"  ><br>
     <label for="content">이벤트 설명:</label>
-    <textarea id="content" name="content"  rows="5" cols="33"><%= data.updateEventad.content %></textarea>
-    <input id="submit" type="submit" value="이벤트 수정" />
+    <textarea id="content" name="content"  disabled=true rows="5" cols="33"><%= data.updateEventad.content %></textarea>
   </form>
-  <form action="/admin/eventad/:eventadId/delete" method="POST">
-    <input id="delete" type="submit" value="이벤트 삭제" />
-  </form>
+  <button id="submit" class="btn btn-primary" >이벤트 수정</button>
+  <button id="delete" class="btn btn-danger"  >이벤트 삭제</button>
   </div>
-  <span>
-    <img src="<%= data.updateEventad.imageurl %>">
-  </span>
   
 </div>
   
@@ -209,6 +211,17 @@
       });
     </script>
     <script>
+      async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+
+        // console.log(result_base64); // aGV5IHRoZXJl...
+
+        return result_base64;
+      }
       $(function() {
         let today = new Date();
         $('input[name="datetimes"]').daterangepicker({
@@ -218,8 +231,101 @@
             format: 'YYYY M/DD hh:mm A'
           }
         });
-       
-});
+            
+      });
+      $(document).ready(function(){
+        $("#submit").on("click", async () => {
+          if($("#submit").text() == '이벤트 수정'){
+            $("#submit").text('완료');
+            $("#title").attr("disabled", false)
+            $("#datetimes").attr("disabled", false)
+            $("#image").attr("disabled", false)
+            $("#content").attr("disabled", false)
+
+          }else{
+            $("#submit").text('이벤트 수정');
+            var formData = new FormData($("#eventad-form")[0])
+            if(formData.get('title') == "" ){
+              alert('이벤트 제목은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('datetimes') == "" ){
+              alert('이벤트 기간은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('content') == "" ){
+              alert('이벤트 설명은 필수 입력사항입니다.');
+              return;
+            }
+            
+            if($("#image")[0].files.length == 0 ){
+              formData.delete('image')
+              $.ajax({
+                url: '/admin/eventad/<%=data.updateEventad.id%>',
+                type: 'POST',
+                data : Object.fromEntries(formData),
+                success: function(){
+                  alert("등록했습니다.");
+                  
+                  console.log('form submitted.');
+                  window.location.href = '/admin/eventad/<%=data.updateEventad.url%>';
+                },
+                error: function(){
+                  alert("등록 실패했습니다.");
+                  console.log('실패');
+                }
+              });
+            }else{
+              formData.delete('image')
+              formData.append('imageName', $("#image")[0].files[0].name);
+              var imageText = await readFileAsDataURL($("#image")[0].files[0])
+              formData.append('imageText', imageText);
+              $.ajax({
+                url: '/admin/eventad/<%=data.updateEventad.id%>',
+                type: 'POST',
+                data : formData,
+                processData: false,
+                contentType: false,
+                success: function(){
+                  alert("등록했습니다.");
+                  
+                  console.log('form submitted.');
+                  window.location.href = '/admin/eventad/<%=data.updateEventad.url%>';
+
+                },
+                error: function(){
+                  alert("등록 실패했습니다.");
+                  console.log('실패');
+                }
+              });
+            }
+
+            
+
+          }
+          
+        });
+        $("#delete").on("click", () => {
+          var formData = new FormData($("#eventad-form")[0])
+          
+          $.ajax({
+            url: '/admin/eventad/<%=data.updateEventad.id%>/delete',
+            type: 'POST',
+            data : formData,
+            success: function(){
+              alert("삭제했습니다.");
+              console.log('form submitted.');
+              window.location.href = '/admin/eventad';
+            },
+            error: function(){
+              alert("삭제 실패했습니다.");
+              console.log('실패');
+            }
+          });
+        });
+      })
+
+
       </script>
   </body>
 </html>
