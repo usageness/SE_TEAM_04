@@ -83,11 +83,13 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" >
+            <% if(data.eventadList[0]) { %>
             <div class="carousel-item active">
                 <img class="d-block w-50"
                      src="<%=data.eventadList[0].imageurl %>">
                      <h1><%= data.eventadList[0].title %></h1>
             </div>
+            <% } %>
         <% data.eventadList.forEach(function(eventad,i){ %>
             <% if(i>0) { %>}
                 <div class="carousel-item">
