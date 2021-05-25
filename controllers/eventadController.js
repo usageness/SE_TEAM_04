@@ -10,20 +10,20 @@ const crypto = require('crypto');
  }
 const postEventad = async (req, res) => {
   const {
-    body: { title, imageurl, content, datetimes },
+    body: { title, imageurl, content, startDate, endDate },
   } = req;
   
-const datetimesArray = datetimes.split("-");
+
 const hashedTitle = crypto.createHmac('sha256',process.env.HASH_SECRET).update(title).digest('hex');
-console.log(datetimesArray);
+
   await Eventad.create({
    
     title: title,
     url: hashedTitle,
     imageurl: imageurl,
     content: content,
-    start:datetimesArray[0],
-    end:datetimesArray[1],
+    start: startDate,
+    end:endDate,
     flag: 1,
     visible: 1,
   }).catch(function(error){
