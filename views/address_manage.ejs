@@ -4,14 +4,24 @@
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-		
+		<style>
+      input {
+        margin-top: 15px;
+      }
+      #submit {
+        margin-top: 25px;;
+      }
+    
+    </style>
   </head>
   <body>
     <div id="wrapper">
       <table id="table" class="table" sortable="checked">
+        <h1>배송지 목록</h1>
+        <form action="/address" method="POST">
         <thead>
           <tr>
-             <th scope="col">선택</th>
+            <th scope="col">기본배송지</th>
             <th scope="col">배송지</th>
             <th scope="col">배송주소</th>
             <th scope="col">우편번호</th>
@@ -19,27 +29,30 @@
           </tr>
         </thead>
         <tbody>
+          <% if(data.defaultAddress) { %>
           <tr>
-            <td scope="row"><input type="checkbox" name="color" value="blue"></td>
-            <td><a style="color:#212529" href="/admin/item/1">시타델</a></td>
-            <td>35,000</td>
-            <td>1</td>
+            <td scope="row"><input type="radio" name="address" value="<%= data.defaultAddress.name %>" checked></td>
+            <td><a style="color:#212529" href="/address/<%= data.defaultAddress.id %>/update"><%= data.defaultAddress.name %></a></td>
+            <td><%= data.defaultAddress.address %> , <%= data.defaultAddress.detailesAddress %></td>
+            <td><%= data.defaultAddress.postalCode %></td>
+            <td><%= data.defaultAddress.phoneNumber %></td>
           </tr>
-          <tr>
-            <td scope="row">2</td>
-            <td>뱅</td>
-            <td>23,000</td>
-            <td>3</td>
-          </tr>
-          <tr >
-            <td scope="row">3</td>
-            <!-- <td colspan="2">딕시트</td> colspan은 열 두 칸 차지--> 
-            <td>딕시트</td>
-            <td>13,000</td>
-            <td>5</td>
-          </tr>
+          <% } %>
+          <% data.addressList.forEach(function(address, i){ %>
+            <tr>
+              <td scope="row"><input type="radio" name="address" value="<%= address.name %>"></td>
+              <td><a style="color:#212529" href="/address/<%= address.id %>/update"><%= address.name %></a></td>
+              <td><%= address.address %> , <%= address.detailesAddress %></td>
+              <td><%= address.postalCode %></td>
+              <td><%= address.phoneNumber %></td>
+            </tr>
+          <% }) %>
         </tbody>
       </table>
+      <a style="color:#212529" href="/address/new"><input type="button" value="신규 배송지 등록"></a>
+      
+        <input type="submit" name="register" value="변경 사항 저장" >
+      </form>
     </div>
   </body>
 </html>
