@@ -136,6 +136,11 @@
       <input type="file" class="form-control" id="formMainImage" accept="image/*" name="mainImage" >
       <label class="form-label" for="formMainImage">메인 이미지</label>
     </div>
+
+    <div class="form-outline mb-4">
+      <input type="file" class="form-control" id="formSubImage" accept="image/*" name="subImage"  multiple >
+      <label class="form-label" for="formSubImage">설명 이미지</label>
+    </div>
     
     <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
       <% for(var i=0; i<category.length; i++) {%>
@@ -215,6 +220,10 @@
           alert('최소 인원이 최대 인원보다 적어야 합니다.');
           return;
         }
+        if(parseInt(formData.get('peopleMin')) < 1 ){
+          alert('최소인원은 1이상이어야 합니다.');
+          return;
+        }
         if(formData.get('description').length < 10 ){
           alert('상세 설명 10글자 이상 등록해야합니다.');
           return;
@@ -229,33 +238,59 @@
         formData.delete('mainImage')
         formData.append('mainImageName', $("#formMainImage")[0].files[0].name);
 
+        formData.delete('subImage')
+        async function readFileAsDataURL(file) {
+          let result_base64 = await new Promise((resolve) => {
+              let fileReader = new FileReader();
+              fileReader.onload = (e) => resolve(fileReader.result);
+              fileReader.readAsDataURL(file);
+          });
+
+          // console.log(result_base64); // aGV5IHRoZXJl...
+
+          return result_base64;
+        }
+        if($("#formSubImage")[0].files.length > 0){
+          var subImageFiles = []
+
+          for(let i = 0 ; i < $("#formSubImage")[0].files.length; i++){
+            var file = $("#formSubImage")[0].files[i];
+            subImageFiles.push({imageNum: i, imageName: file.name, imageText:  await readFileAsDataURL(file)});
+
+          }
+          formData.append('subImageFiles', JSON.stringify(subImageFiles));
+
+        }
+
         formData.delete('btnradio')
         formData.append('category', $('#divradio>.active').text().trim());
 
-        let reader = new FileReader()
-        reader.onload = (event) => {
-          formData.append('mainImageText', event.target.result);
-          $.ajax({
-            url: '/admin/newitem',
-            method: 'POST',
-            processData: false,
-            contentType: false,
-            // enctype: 'multipart/form-data',
-            cache : false,
-            data : formData,
-            success: function(){
-              alert("등록했습니다.");
-              console.log('form submitted.');
-              // window.location.href = '/admin/item';
-            },
-            error: function(){
-              alert("등록 실패했습니다.");
-              console.log('실패');
-            }
-          });
+        var mainImageText = await readFileAsDataURL($("#formMainImage")[0].files[0])
+        formData.append('mainImageText', mainImageText);
+        for (var key of formData.keys()) {
+          console.log(key);
         }
-        reader.readAsDataURL($("#formMainImage")[0].files[0]);
-        
+        for (var value of formData.values()) {
+          console.log(typeof(value) + ': '+ value);
+        }
+        $.ajax({
+          url: '/admin/newitem',
+          method: 'POST',
+          processData: false,
+          contentType: false,
+          // enctype: 'multipart/form-data',
+          cache : false,
+          data : formData,
+          success: function(){
+            alert("등록했습니다.");
+            console.log('form submitted.');
+            window.location.href = '/admin/item';
+          },
+          error: function(){
+            alert("등록 실패했습니다.");
+            console.log('실패');
+          }
+        });
       });
     </script>
   </body>

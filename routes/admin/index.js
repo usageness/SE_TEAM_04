@@ -92,28 +92,27 @@ router
     // console.log(req.body)
     try {
       var date = new Date()
-      var dStr = date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) ;
+      var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
+      // console.log(req.body.subImageFiles.slice(0,30))
+      // console.log(JSON.parse(req.body.subImageFiles)[0])
 
       const fileText = req.body.mainImageText
-      const fileName = 'data/image/'+  dStr +'.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
+      const fileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
       var base64Data = fileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "");
 
-      fs.writeFile(fileName, base64Data, 'base64', function(err) {
+      fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
         console.log(err);
       });
-    } catch (error) {
-      console.log(error)
-      res.sendStatus(400);
-      return;
-    }
-    
-    try {
+
+
+      
+
       var itemId = "-";
       var product = await db.Product.create({
         title: req.body.name,
         designer: req.body.creator,
         tag: "태그",
-        imageurl: '/' + dStr + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1],
+        imageurl: 'productmainimage_' + fileName,
         url: "-",
         content: req.body.description,
         price: req.body.price,
@@ -133,18 +132,44 @@ router
       // product.setcategoryin(category)
       await product.save()
       // await db.sequelize.query("UPDATE product SET categoryinId = " +category.id + " WHERE id = " + product.id);
+
+      var subFileText;
+      var subFileName;
+      var productImage;
+      var subImageFiles = JSON.parse(req.body.subImageFiles)
+      
+
+      subImageFiles.forEach(async (subImageFile) => {
+        date = new Date()
+        dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
+        subFileNum = subImageFile.imageNum;
+        subFileText = subImageFile.imageText;
+        subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+        
+        base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
+        fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
+          console.log(err);
+        });
+
+        productImage = await db.ProductImage.create({
+          num: subFileNum,
+          fileName: 'productsubimage_' + subFileName,
+        });
+        productImage.productId = product.id;
+        productImage.save();
+      });
+
+
     } catch (error) {
       console.log(error)
       res.sendStatus(400);
       return;
     }
     
+    
     if(product){
       res.sendStatus(200);
-
-      // req.session.save(() => {
-      //   res.redirect('/admin/item/'+product.id);
-      // });
+      
     }else{
       res.sendStatus(400);
     }
@@ -162,20 +187,44 @@ router
       where: {
         id: itemId,
       },
+      include: [{
+        model: db.ProductImage,
+      }]
     });
-    res.render("admin_item_detail", { item: product });
+    var category = await db.Category.findAll();
+    console.log(product)
+    res.render("admin_item_detail", { item: product, category: category });
   })
-  .put(isLoggedIn, async function (req, res, next) {
+  .put(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
+    // console.log(req.body)
+    // console.log(req.params)
+
+    if(req.body.deleteSubImageList != undefined){
+      var deleteSubImageList = JSON.parse(req.body.deleteSubImageList)
+      deleteSubImageList.forEach(async id => {
+        var productImage = await db.ProductImage.findOne({
+          where: {
+            id: id,
+          },
+        });
+        await productImage.destroy();
+      });
+    }
+
+    
+
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
         id: itemId,
-      }
+      },
+      include: [{
+        model: db.ProductImage
+      }]
     });
     product.title =  req.body.name;
     product.designer =  req.body.creator;
     product.tag =  "태그";
-    product.imageurl =  "-";
     product.url =  "-";
     product.content =  req.body.description;
     product.price =  req.body.price;
@@ -184,10 +233,61 @@ router
     product.playTime =  10;
     product.difficulty =  1;
     product.deliveryFee =  2000;
+    product.categoryinId = req.body.category;
+    console.log(1)
+
+    if(req.body.mainImageName != undefined){
+      var date = new Date()
+      var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
+      // console.log(req.body.subImageFiles.slice(0,30))
+      // console.log(JSON.parse(req.body.subImageFiles)[0])
+
+      const fileText = req.body.mainImageText
+      const fileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
+      var base64Data = fileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "");
+
+      fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
+        console.log(err);
+      });
+      product.imageurl =  'productmainimage_' + fileName;
+
+    }
+
+    if(req.body.subImageFiles != undefined){
+      var subFileText;
+      var subFileName;
+      var productImage;
+      var subImageFiles = JSON.parse(req.body.subImageFiles)
+      
+
+      subImageFiles.forEach(async (subImageFile) => {
+        var date = new Date()
+        var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
+        subFileNum = subImageFile.imageNum;
+        subFileText = subImageFile.imageText;
+        subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+        
+        base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
+        fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
+          console.log(err);
+        });
+
+        productImage = await db.ProductImage.create({
+          num: subFileNum,
+          fileName: 'productsubimage_' + subFileName,
+        });
+        productImage.productId = product.id;
+        productImage.save();
+      });
+
+    }
+    console.log(1)
+
     var result = await product.save();
 
     if (result) {
       res.sendStatus(200);
+
     } else {
       res.sendStatus(400);
     }
