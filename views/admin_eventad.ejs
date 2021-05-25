@@ -229,39 +229,19 @@
         $('#min, #max').change(function() {
   table.draw();
 });
+
+$('#submit').click(
+  function(){
+    
+    if (document.getElementById("startDate").value>=document.getElementById("endDate").value){
+      alert("ffdfdf");
+      return false;
+    }
+  }
+);
         
       });
     </script>
-    <script>
-    
-      $(function() {
-        let today = new Date();
-        $('input[name="datetimes"]').daterangepicker({
-          alwaysShowCalendars: true,
-          timePicker: true,
-          startDate: moment().startOf('hour'),
-          endDate: moment().startOf('hour').add(32, 'hour'),
-          range: today.toLocaleDateString(),
-          locale: {
-            format: 'YYYY M/DD hh:mm A'
-          }
-        });
-        $('input[name="datetimesSearch"]').daterangepicker({
-          alwaysShowCalendars: true,
-          timePicker: true,
-          startDate: moment().startOf('hour'),
-          endDate: moment().startOf('hour').add(32, 'hour'),
-          range: today.toLocaleDateString(),
-          locale: {
-            format: 'YYYY M/DD hh:mm A'
-          }
-        });
-
-        
-});
-
-
-   </script>
   <script>
     
 
@@ -275,6 +255,7 @@ $.fn.dataTable.ext.search.push(
     var startDate = new Date(data[2]);
     var endDate = new Date(data[3]);
     //window.confirm(startDate);
+    
     if (!min_date && !max_date) {
       return true;
     }
@@ -288,10 +269,13 @@ $.fn.dataTable.ext.search.push(
       return true;
     }
     return false;
-  }
+  },
+
+  
 );
 
- 
+
+
 
 // Event listener to the two range filtering inputs to redraw on input
 
