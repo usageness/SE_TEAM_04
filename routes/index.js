@@ -4,6 +4,7 @@ const db = require("../models");
 var adminRouter = require('./admin');
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const path = require('path')
 
 const {
   getAddress,
@@ -34,6 +35,13 @@ router.get('/', async function(req, res, next) {
       eventadList
     }
   });
+});
+router.get('/image/:imageFileName', async function(req, res, next) {
+  let session = req.session;
+  var imageFileName = req.params.imageFileName;
+
+
+  res.sendFile(path.join(__dirname, '../data/image/' + imageFileName));
 });
 
 router.get('/notice', function(req, res, next) {

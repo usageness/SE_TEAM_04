@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 		
+    
+
+    
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -31,11 +36,10 @@
           font-size: 3.5rem;
         }
       }
+      html, body {
+        overflow-y: auto;
+      }
     </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
   </head>
   <body>
     
@@ -134,10 +138,38 @@
       </div>
     </div>
     <div class="form-outline mb-4">
-      <input type="file" class="form-control" id="formimage" name="image">
-      <label class="form-label" for="formimage">이미지</label>
+      <img class="fit-picture"
+      src="/image/<%=item.imageurl %>"
+      alt="ImageNotFounded">
+      <input type="file" class="form-control" id="formMainImage" accept="image/*" disabled=true name="mainImage" >
+      <label class="form-label" for="formMainImage">메인 이미지</label>
     </div>
-      
+
+    <div class="form-outline mb-4">
+      <% for(var i=0; i<item.ProductImages.length; i++) {%>
+        <img class="fit-picture"
+        src="/image/<%=item.ProductImages[i].fileName %>"
+        alt="ImageNotFounded">
+        <div class="btn btn-outline-primary subImageDeleteBtn" id="deleteSubImage_<%= item.ProductImages[i].id %>" disabled=true onclick="DeleteSubImage('deleteSubImage_<%= item.ProductImages[i].id %>', <%= item.ProductImages[i].id %>)"> x </div>
+        <br>
+      <% } %>
+      <input type="file" class="form-control" id="formSubImage" accept="image/*" disabled=true name="subImage"  multiple >
+      <label class="form-label" for="formSubImage">설명 이미지</label>
+    </div>
+    <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
+      <% for(var i=0; i<category.length; i++) {%>
+       
+        <label class="btn btn-outline-primary">
+          <% if(category[i].id == item.categoryinId)  {%>
+          <input type="radio" name="btnradio" id="btnradio<%= i %>" disabled=true  checked><%= category[i].name %></input>
+          <% }else {%>
+          <input type="radio" name="btnradio" id="btnradio<%= i %>" disabled=true  ><%= category[i].name %></input>
+          <% } %>
+
+          
+        </label>
+      <% } %>
+    </div>
   
     <!-- Message input -->
     <div class="form-outline mb-4">
@@ -146,7 +178,8 @@
     </div>
   
 
-    
+  </form>
+  
   
     <!-- Submit button -->
     <div>
@@ -155,18 +188,46 @@
       <button id="update-item" type="button" class="btn btn-primary mb-4 float-right">수정하기</button>
     </div>
     
-  </form>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
     <script>
+      var deleteSubImageList = []
+      function DeleteSubImage(divId, id){
+        // console.log(id)
+        // console.log(divId)
+        if($("#update-item").text() == "수정 완료"){
+          if($("#"+divId).hasClass('active')){
+            $("#"+divId).removeClass('active');
+            const idx = deleteSubImageList.indexOf(id);
+            if (idx > -1) deleteSubImageList.splice(idx, 1);
+          }else{
+            $("#"+divId).addClass('active');
+            deleteSubImageList.push(id);
+          }
+        }else{
+          alert("수정하기 상태일 때 삭제 가능합니다.");
+        }
+        
+      }
+      async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+
+        // console.log(result_base64); // aGV5IHRoZXJl...
+
+        return result_base64;
+      }
       $(document).ready(function(){
         var $form = $("#form")[0];
 
         $("#delete-item").on("click", () => {
-
+          if(!confirm('정말 삭제하시겠습니까?')) return;
 
           $.ajax({
             url: $form.getAttribute("action"),
@@ -183,8 +244,9 @@
             }
           });
         });
-        $("#update-item").on("click", () => {
-
+        $("#update-item").on("click", async () => {
+          // e.preventDefault();
+          // console.log(1)
           if($("#update-item").text() == "수정하기"){
             $("#update-item").text("수정 완료")
             $("#formname").attr("disabled", false)
@@ -193,28 +255,156 @@
             $("#formpeoplemin").attr("disabled", false)
             $("#formpeoplemax").attr("disabled", false)
             $("#formdescription").attr("disabled", false)
+            $("#formMainImage").attr("disabled", false)
+            $("#formSubImage").attr("disabled", false)
+            $(".subImageDeleteBtn").attr("disabled", false)
+            $("#divradio>label>input").attr("disabled", false)
           }else{
-            $("#update-item").text("수정하기")
-            $.ajax({
-              url: $form.getAttribute("action"),
-              type: 'PUT',
-              data : $("#form").serialize(),
-              success: function(){
-                alert("수정했습니다.");
-                $("#update-item").text("수정 완료")
-                $("#formname").attr("disabled", true)
-                $("#formprice").attr("disabled", true)
-                $("#formcreator").attr("disabled", true)
-                $("#formpeoplemin").attr("disabled", true)
-                $("#formpeoplemax").attr("disabled", true)
-                $("#formdescription").attr("disabled", true)
-                console.log('form submitted.');
-              },
-              error: function(){
-                alert("수정 실패했습니다.");
-                console.log('실패');
+            var formData = new FormData($("#form")[0])
+            
+
+            if(formData.get('name') == "" ){
+              alert('보드게임 이름은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('price') == "" ){
+              alert('보드게임 가격은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('creator') == "" ){
+              alert('제작사는 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('peopleMin') == "" ){
+              alert('최소 인원은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('peopleMax') == "" ){
+              alert('최대 인원은 필수 입력사항입니다.');
+              return;
+            }
+            if($('#divradio>.active').text().trim() == ""){
+              alert('카테고리는 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('description') == "" ){
+              alert('상세 설명은 필수 입력사항입니다.');
+              return;
+            }
+            if(parseInt(formData.get('price'))%1000 != 0 ){
+              alert('보드게임 가격은 1,000 단위로 입력해야 합니다.');
+              return;
+            }
+            if(parseInt(formData.get('peopleMin')) > parseInt(formData.get('peopleMax')) ){
+              alert('최소 인원이 최대 인원보다 적어야 합니다.');
+              return;
+            }
+            if(parseInt(formData.get('peopleMin')) < 1 ){
+              alert('최소인원은 1이상이어야 합니다.');
+              return;
+            }
+            if(formData.get('description').length < 10 ){
+              alert('상세 설명 10글자 이상 등록해야합니다.');
+              return;
+            }
+
+
+            console.log(deleteSubImageList)
+
+            if(deleteSubImageList.length != 0){
+              console.log(1)
+              formData.append('deleteSubImageList', JSON.stringify(deleteSubImageList));
+            }
+
+            formData.delete('subImage')
+            
+
+            formData.delete('mainImage')
+            if($("#formMainImage")[0].files.length != 0){
+              formData.append('mainImageName', $("#formMainImage")[0].files[0].name);
+              var mainImageText = await readFileAsDataURL($("#formMainImage")[0].files[0])
+              formData.append('mainImageText', mainImageText);
+            }
+            if($("#formSubImage")[0].files.length != 0){
+              var subImageFiles = []
+
+              for(let i = 0 ; i < $("#formSubImage")[0].files.length; i++){
+                var file = $("#formSubImage")[0].files[i];
+                var text = await readFileAsDataURL(file);
+                subImageFiles.push({imageNum: i, imageName: file.name, imageText:  text});
+
               }
-            });
+              formData.append('subImageFiles', JSON.stringify(subImageFiles));
+            }
+
+            formData.delete('btnradio')
+            formData.append('category', $('#divradio>.active').text().trim());
+            
+            
+            
+            $("#update-item").text("수정하기")
+            if($("#formMainImage")[0].files.length == 0  && $("#formSubImage")[0].files.length == 0){
+              
+              $.ajax({
+                url: '/admin/item/<%=item.id%>',
+                type: 'PUT',
+                data : Object.fromEntries(formData),
+                // contentType: "application/json",
+                // enctype: 'multipart/form-data',
+                success: function(){
+                  alert("수정했습니다.");
+                  $("#update-item").text("수정하기")
+                  $("#formname").attr("disabled", true)
+                  $("#formprice").attr("disabled", true)
+                  $("#formcreator").attr("disabled", true)
+                  $("#formpeoplemin").attr("disabled", true)
+                  $("#formpeoplemax").attr("disabled", true)
+                  $("#formdescription").attr("disabled", true)
+                  $("#formMainImage").attr("disabled", true)
+                  $("#formSubImage").attr("disabled", true)
+                  $(".subImageDeleteBtn").attr("disabled", true)
+                  $("#divradio>label>input").attr("disabled", true)
+                  
+                  console.log('form submitted.');
+                  window.location.href = '/admin/item/<%=item.id%>';
+                },
+                error: function(){
+                  alert("수정 실패했습니다.");
+                  console.log('실패');
+                }
+              });
+            }else{
+              $.ajax({
+                url: '/admin/item/<%=item.id%>',
+                type: 'PUT',
+                method: 'PUT',
+                processData: false,
+                contentType: false,
+                data : formData,
+                success: function(){
+                  alert("수정했습니다.");
+                  $("#update-item").text("수정하기")
+                  $("#formname").attr("disabled", true)
+                  $("#formprice").attr("disabled", true)
+                  $("#formcreator").attr("disabled", true)
+                  $("#formpeoplemin").attr("disabled", true)
+                  $("#formpeoplemax").attr("disabled", true)
+                  $("#formdescription").attr("disabled", true)
+                  $("#formMainImage").attr("disabled", true)
+                  $("#formSubImage").attr("disabled", true)
+                  $(".subImageDeleteBtn").attr("disabled", true)
+
+                  $("#divradio>label>input").attr("disabled", true)
+                  console.log('form submitted.');
+                  window.location.href = '/admin/item/<%=item.id%>';
+                },
+                error: function(){
+                  alert("수정 실패했습니다.");
+                  console.log('실패');
+                }
+              });
+            }
+            
             
           }
           
