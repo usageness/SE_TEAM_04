@@ -169,7 +169,17 @@
 
     <script src="sidebars.js"></script>
     <script>
+      async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
 
+        // console.log(result_base64); // aGV5IHRoZXJl...
+
+        return result_base64;
+      }
       $("#submitData").on("click", async (e) => {
         e.preventDefault();
 
@@ -237,30 +247,20 @@
         // }
         formData.delete('mainImage')
         formData.append('mainImageName', $("#formMainImage")[0].files[0].name);
-
         formData.delete('subImage')
-        async function readFileAsDataURL(file) {
-          let result_base64 = await new Promise((resolve) => {
-              let fileReader = new FileReader();
-              fileReader.onload = (e) => resolve(fileReader.result);
-              fileReader.readAsDataURL(file);
-          });
 
-          // console.log(result_base64); // aGV5IHRoZXJl...
-
-          return result_base64;
-        }
-        if($("#formSubImage")[0].files.length > 0){
+        if($("#formSubImage")[0].files.length != 0){
           var subImageFiles = []
 
           for(let i = 0 ; i < $("#formSubImage")[0].files.length; i++){
             var file = $("#formSubImage")[0].files[i];
-            subImageFiles.push({imageNum: i, imageName: file.name, imageText:  await readFileAsDataURL(file)});
+            var text = await readFileAsDataURL(file);
+            subImageFiles.push({imageNum: i, imageName: file.name, imageText:  text});
 
           }
           formData.append('subImageFiles', JSON.stringify(subImageFiles));
-
         }
+        
 
         formData.delete('btnradio')
         formData.append('category', $('#divradio>.active').text().trim());

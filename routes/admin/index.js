@@ -13,6 +13,9 @@ const {
 } = require("../../controllers/eventadController");
 const db = require("../../models");
 
+const multer = require('multer');
+const mainImageUpload = multer({ dest: 'data/image/' });
+
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()
@@ -56,12 +59,12 @@ router.get("/logout", function (req, res, next) {
 router.get("/eventad", isLoggedIn, getEventad);
 
 
-router.post("/eventad",isLoggedIn,postEventad);
+router.post("/eventad",isLoggedIn, mainImageUpload.single('mainImageName'), postEventad);
 
 router
   .route("/eventad/:eventadId")
   .get( isLoggedIn, getUpdateEventad)
-  .post(isLoggedIn, postUpdateEventad);
+  .post(isLoggedIn, mainImageUpload.single('mainImageName'), postUpdateEventad);
 
 router
   .route("/eventad/:eventadId/delete")
@@ -77,8 +80,7 @@ router.get("/item", isLoggedIn, async function (req, res, next) {
   res.render("admin_item", { items: products });
 });
 
-const multer = require('multer');
-const mainImageUpload = multer({ dest: 'data/image/' });
+
 
 router
   .route("/newitem")
@@ -132,32 +134,34 @@ router
       // product.setcategoryin(category)
       await product.save()
       // await db.sequelize.query("UPDATE product SET categoryinId = " +category.id + " WHERE id = " + product.id);
-
-      var subFileText;
-      var subFileName;
-      var productImage;
-      var subImageFiles = JSON.parse(req.body.subImageFiles)
-      
-
-      subImageFiles.forEach(async (subImageFile) => {
-        date = new Date()
-        dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
-        subFileNum = subImageFile.imageNum;
-        subFileText = subImageFile.imageText;
-        subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+      if(req.body.subImageFiles != undefined){
+        var subFileText;
+        var subFileName;
+        var productImage;
+        var subImageFiles = JSON.parse(req.body.subImageFiles)
         
-        base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
-        fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
-          console.log(err);
-        });
 
-        productImage = await db.ProductImage.create({
-          num: subFileNum,
-          fileName: 'productsubimage_' + subFileName,
+        subImageFiles.forEach(async (subImageFile) => {
+          date = new Date()
+          dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
+          subFileNum = subImageFile.imageNum;
+          subFileText = subImageFile.imageText;
+          subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+          
+          base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
+          fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
+            console.log(err);
+          });
+
+          productImage = await db.ProductImage.create({
+            num: subFileNum,
+            fileName: 'productsubimage_' + subFileName,
+          });
+          productImage.productId = product.id;
+          productImage.save();
         });
-        productImage.productId = product.id;
-        productImage.save();
-      });
+      }
+      
 
 
     } catch (error) {

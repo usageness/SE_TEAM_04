@@ -25,9 +25,9 @@
                     카테고리
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/product?category=Game">게임</a>
-                    <a class="dropdown-item" href="/product?category=casual">캐쥬얼</a>
-                    <a class="dropdown-item" href="/product?category=strategy">전략</a>
+                    <a class="dropdown-item" href="/product?c=1">전략</a>
+                    <a class="dropdown-item" href="/product?c=2">추리</a>
+                    <a class="dropdown-item" href="/product?c=3">캐쥬얼</a>
                 </div>
             </div>
         </div>
@@ -81,12 +81,27 @@
 
     <!-- 상품 목록 -->
     <div class="container">
-        <h3 id="category"></h3><span>(<%= items.length%>)</span>
-        <div class="sortby"><a href="#">이름순</a> <span class="divider">|</span> <a href="#">가격순</a> <span
-                    class="divider">|</span> <a href="#">최신등록순</a></div>
-        <% for(var i=0; i<items.length; i++) {%>
+        <h3 id="category"></h3><span>(<%= count %>)</span>
+        <div class="sortby">
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0">이름순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1">가격순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=2">최신등록순</a>
+            <hr>
+            <strong>카테고리 필터</strong><span class="divider">|</span>
+            <form action="search" method="get">
+                <input type="hidden" name="q" value="<%= searchWord %>">
+            <% for(let i=0; i<category.length; i++) {%>
+                <label><input type="checkbox" id="<%= category[i].name%>" name="c" value="<%= category[i].id %>" onclick="filtering()"><%= category[i].name %></label>
+            <% } %><br>
+            <strong>가격 필터</strong><span class="divider">|</span><label><input type="text" name="minPrice"></label> ~ <label><input type="text" name="maxPrice"></label>
+                <input type="submit" value="적용">
+            </form>
+        </div>
+
         <div class="product-list">
             <div class="row">
+                <% for(var i=0; i<items.length; i++) {
+                %>
                 <div class="card product-button" style="width: 16rem;">
                     <img class="card-img-top"
                          src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
@@ -95,109 +110,38 @@
                         <h5 class="card-title"><%= items[i].title %></h5>
                         <p class="price"><%= items[i].price %>원</p>
                         <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
                     </div>
                 </div>
-                <p></p>
-                <p></p>
                 <% } %>
-        <div class="product-list">
-            <div class="row">
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-                <div class="card" style="width: 16rem;">
-                    <img class="card-img-top"
-                         src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">트레져러쉬</h5>
-                        <p class="price">17,600원</p>
-                        <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
-
-                    </div>
-                </div>
-
+                <% if(items.length === 0) {%>
+                    <p>검색 결과가 없습니다.</p>
+                <% } %>
             </div>
+        </div>
+    </div>
 
-
-            <hr>
-            <!-- footer -->
-            <% include ./footer.ejs %>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <% for(let i = 0; i<count/12;i++) { %>
+                <li class="page-item"><a class="page-link" href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=<%= sortby%>&page=<%= i+1%>"><%= i+1%></a></li>
+            <% } %>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <hr>
+    <!-- footer -->
+    <% include ./footer.ejs %>
 <!-- script -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -219,6 +163,5 @@
     let categoryParameter = getParameterByName("q");
     category.innerText = categoryParameter + "의 검색결과";
 </script>
-
 </body>
 </html>

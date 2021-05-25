@@ -24,9 +24,9 @@
                     카테고리
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/product?category=Game">게임</a>
-                    <a class="dropdown-item" href="/product?category=casual">캐쥬얼</a>
-                    <a class="dropdown-item" href="/product?category=strategy">전략</a>
+                    <a class="dropdown-item" href="/product?c=1">전략</a>
+                    <a class="dropdown-item" href="/product?c=2">추리</a>
+                    <a class="dropdown-item" href="/product?c=3">캐쥬얼</a>
                 </div>
             </div>
         </div>
@@ -82,23 +82,27 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
-        <div class="carousel-inner" >
-            <div class="carousel-item active">
-                <img class="d-block w-100"
-                     src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617332437_0.jpg"
-                     alt="First slide">
 
+        <div class="carousel-inner" >
+            <% if(data.eventadList[0]) { %>
+            <div class="carousel-item active">
+                <img class="d-block w-50"
+                     src="/image/<%=data.eventadList[0].imageurl %>">
+                     <h1><%= data.eventadList[0].title %></h1>
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100"
-                     src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"
-                     alt="Second slide">
+            <% } %>
+        <% data.eventadList.forEach(function(eventad,i){ %>
+            <% if(i>0) { %>
+                <div class="carousel-item">
+                <img src="/image/<%= eventad.imageurl %>" class="d-block w-50"
+                     alt="...">
+                <h1><%= eventad.title %></h1>
+                <div class="carousel-caption d-none d-md-block">
+                   
+                </div>
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100"
-                     src="https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                     alt="Third slide">
-            </div>
+            <% } %>
+        <% }) %>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -120,12 +124,12 @@
     <span class="h3" style="font-weight: bold;">최신등록 상품</span> | <span>퀵보드가 엄선한 최신 상품</span>
     <div class="product">
         <div class="d-flex flex-row justify-content-center">
-            <% for(var i=items.length-1; i>=0; i--) {%>
             <div class="product-list">
                 <div class="row">
+            <% for(var i=items.length-1; i>=0; i--) {%>
                     <div class="card product-button" style="width: 16rem;">
                         <img class="card-img-top"
-                             src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
+                             src="/image/<%= items[i].imageurl %>"
                              alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><%= items[i].title %></h5>
@@ -134,44 +138,13 @@
 
                         </div>
                     </div>
-                <p></p>
-                <p></p>
             <% } %>
-            <div class="p-2 product-button big-product">
-                <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617856777254/C2_1_%E1%84%92%E1%85%A1%E1%86%AB%E1%84%80%E1%85%AE%E1%86%A8%E1%84%8A%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A6%E1%86%B7.jpg">
-            </div>
-            <div class="p-2 product-button big-product">
-                <img src="https://static.coupangcdn.com/ga/cmg_paperboy/image/1617931569702/C2_2_%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%8B%E1%85%AF%E1%86%AB%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1.jpg">
-            </div>
-        </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/da/cmg_paperboy/image/1617928480691/C2_4_%E1%84%91%E1%85%B5%E1%84%8B%E1%85%A2%E1%86%AB%E1%84%8C%E1%85%B5.jpg">
-            </div>
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/na/cmg_paperboy/image/1617928501319/C2_5_%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1%E1%84%89%E1%85%AE%E1%84%86%E1%85%B5.jpg">
-            </div>
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/aa/cmg_paperboy/image/1617931609840/C2_6_%E1%84%82%E1%85%A9%E1%84%83%E1%85%B3%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B3%E1%86%AB.jpg">
-            </div>
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/aa/cmg_paperboy/image/1617931590470/C2_3_%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1%E1%84%87%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%91%E1%85%A9%E1%84%8B%E1%85%A6%E1%86%B7.jpg">
-            </div>
-        </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div class="p-2 product-button big-product">
-                <img src="https://static.coupangcdn.com/qa/cmg_paperboy/image/1617928518742/C2_7_%E1%84%8C%E1%85%AE%E1%84%89%E1%85%B5%E1%86%A8%E1%84%92%E1%85%AC%E1%84%89%E1%85%A1%E1%84%89%E1%85%A1%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%86%B7.jpg">
-            </div>
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/sa/cmg_paperboy/image/1617856757184/C2_8_%E1%84%85%E1%85%A9%E1%86%BA%E1%84%83%E1%85%A6%E1%84%91%E1%85%AE%E1%84%83%E1%85%B3.jpg">
-            </div>
-            <div class="p-2 product-button small-product">
-                <img src="https://static.coupangcdn.com/za/cmg_paperboy/image/1617856806825/C2_9_%E1%84%85%E1%85%B5%E1%84%87%E1%85%B5%E1%86%BC%E1%84%92%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%89%E1%85%B3.jpg">
+                </div>
             </div>
         </div>
     </div>
     <hr>
-    <span class="h4" style="font-weight: bold;">이런 보드게임은 어때요?</span>
+    <p class="h4" style="font-weight: bold;">이런 보드게임은 어때요?</p>
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" style="margin-top:1rem;">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
