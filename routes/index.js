@@ -16,7 +16,7 @@ const {
   deleteAddress,
 } = require("../controllers/addressController");
 const { route } = require("./admin");
-const { eventadVisibelCheck } = require("../controllers/eventadController");
+const { eventadVisibelCheck, getEventadDetail } = require("../controllers/eventadController");
 
 /* GET home page. */
 router.get('/', eventadVisibelCheck, async function(req, res, next) {
@@ -522,6 +522,9 @@ router.get('/search', async function(req, res, next) {
     count: count
   });
 });
+
+router.route('/event/:eventadId').get(getEventadDetail);
+
 router.get('/address', getAddress);
 
 router.route("/address/new").get(getAddressRegister).post(postAddressRegister);

@@ -150,4 +150,19 @@ function leadingZeros(n, digits) {
   next();
 };
 
-module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad,eventadVisibelCheck,};
+const getEventadDetail = async (req,res) => {
+const {
+  params: eventadId
+} =req;
+let session = req.session;
+console.log(eventadId);
+let eventad = await Eventad.findOne({where: {id:req.params.eventadId}});
+console.log(eventad);
+res.render("event_detail", { title: "", session,
+data:{
+eventad
+} });
+
+};
+
+module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad,eventadVisibelCheck,getEventadDetail};
