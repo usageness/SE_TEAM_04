@@ -195,9 +195,11 @@
             <td><%= eventad.end %></td>
             <% if (eventad.visible == 1) { %>
               <td>✅</td>
-              <% } else { %>
+              <% } else if(eventad.visible == 0){ %>
               <td>❌</td>
-              <% } %>
+              <% } else {%>
+               <td>⛔임시중단</td> 
+              <% } %> 
           </tr>
          <% }) %>
         </tbody>

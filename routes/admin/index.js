@@ -10,7 +10,8 @@ const {
   getUpdateEventad,
   postUpdateEventad,
   deleteEventad,
-  eventadVisibelCheck
+  eventadVisibelCheck,
+  
 } = require("../../controllers/eventadController");
 const db = require("../../models");
 
@@ -70,6 +71,8 @@ router
 router
   .route("/eventad/:eventadId/delete")
   .post(isLoggedIn, deleteEventad);
+
+  
 
 router.get("/item", isLoggedIn, async function (req, res, next) {
   var products = await db.Product.findAll({

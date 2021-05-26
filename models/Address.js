@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(20),
         allowNull: false,
       },
+      receiver: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+      },
       address: {
         type: DataTypes.STRING(70),
         allowNull: false,
