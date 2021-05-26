@@ -25,9 +25,9 @@
                     카테고리
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/product?c=1">전략</a>
-                    <a class="dropdown-item" href="/product?c=2">추리</a>
-                    <a class="dropdown-item" href="/product?c=3">캐쥬얼</a>
+                    <% for(var i=0; i<category.length; i++) {%>
+                        <a class="dropdown-item" href="/product?c=<%= category[i].id%>"><%= category[i].name%></a>
+                    <% } %>
                 </div>
             </div>
         </div>

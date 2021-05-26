@@ -24,12 +24,16 @@ router.get('/', async function(req, res, next) {
     attributes: ["id", "title", "price", "imageurl"],
     limit: 4,
   });
+  let category = await db.Category.findAll({
+    attributes: ["id", "name"],
+  });
   var eventadList = await db.Eventad.findAll({});
   res.render('index', {
     title: 'Express',
     session: session,
     nickname: session.nickname,
     items: products,
+    category: category,
     data:{
       eventadList
     }
