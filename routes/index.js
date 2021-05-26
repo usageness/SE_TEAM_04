@@ -95,9 +95,6 @@ router.get('/product', async function(req, res, next) {
   });
 });
 
-router.get('/address', getAddress);
-
-router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.get('/search', async function(req, res, next) {
   let session = req.session;
@@ -524,6 +521,9 @@ router.get('/search', async function(req, res, next) {
     count: count
   });
 });
+router.get('/address', getAddress);
+
+router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.route("/address/:addressId/delete").post(deleteAddress);
 

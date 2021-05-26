@@ -18,7 +18,7 @@
       <h1 id="address-form-description">
        신규 배송지 등록
       </h1>
-      <form action="/address/new" method="POST" id="address-form">
+      <form action="/:userId/address/new" method="POST" id="address-form">
         <input type="text" name="addressname" id="extraAddress" placeholder="배송지 이름"><br>
         <input type="text" name="postcode" id="postcode" placeholder="우편번호" readonly/>
         <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
@@ -26,6 +26,7 @@
         <span id="guide" style="color:#999;display:none"></span>
         <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소"><br>
         <input type="text" name="extraAddress" id="phoneNumber" placeholder="전화번호 ( - 없음)"><br>
+        <input type="text" name="receiver" id="receiver" placeholder="수령인 이름"><br>
         <input type="submit" id="submit" value="배송지 등록">
       </form>
     </div>
