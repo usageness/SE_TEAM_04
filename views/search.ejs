@@ -85,9 +85,11 @@
     <div class="container">
         <h3 id="category"></h3><span>(<%= count %>)</span>
         <div class="sortby">
-            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0">이름순</a> <span class="divider">|</span>
-            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1">가격순</a> <span class="divider">|</span>
-            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=2">최신등록순</a>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0&b=1">이름순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0&b=0">이름역순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1&b=0">가격높은순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1&b=1">가격낮은순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=2&b=0">최신등록순</a>
             <hr>
             <strong>카테고리 필터</strong><span class="divider">|</span>
             <form action="search" method="get">
@@ -131,7 +133,7 @@
                 </a>
             </li>
             <% for(let i = 0; i<count/12;i++) { %>
-                <li class="page-item"><a class="page-link" href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=<%= sortby%>&page=<%= i+1%>"><%= i+1%></a></li>
+                <li class="page-item"><a class="page-link" href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=<%= sortby%>&b=<%= by%>&page=<%= i+1%>"><%= i+1%></a></li>
             <% } %>
             <li class="page-item">
                 <a class="page-link" href="#" aria-label="Next">
