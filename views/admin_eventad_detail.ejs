@@ -164,12 +164,12 @@
     <label for="content">이벤트 설명:</label>
     <textarea id="content" name="content"  disabled=true rows="5" cols="33"><%= data.updateEventad.content %></textarea>
     
-      <label class="form-label" for="image">이벤트 활성화 
+      <label class="form-label" for="status">이벤트 활성화 
        <br> (임시중단 해제, 기간 지난경우 불가)</label><br>
       <input type="radio" id="status" name="status" disabled=true value="1" 
       <% if(data.updateEventad.visible==1) { %> checked <% } %>>
       <br>
-      <label class="form-label" for="image">이벤트 비활성화</label><br>
+      <label class="form-label" for="status2">이벤트 비활성화</label><br>
       <input type="radio" id="status2" name="status" disabled=true value="2" 
       <% if(data.updateEventad.visible==2) { %> checked <% } %>>
    
