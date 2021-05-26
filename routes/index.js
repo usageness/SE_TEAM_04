@@ -111,17 +111,31 @@ router.get('/search', async function(req, res, next) {
     offset: offset,
     limit: 12,
     where: {
-      title: {
-        [Op.like]: "%" + searchWord + "%",
-      }
+      [Op.and]: [
+        {
+          title: {
+            [Op.like]: "%" + searchWord + "%",
+          }
+        },
+        {
+          hidden: 0
+        }
+      ]
     },
     order: [[sorting[sort], 'desc']]
   });
   count = await db.Product.count({
     where: {
-      title: {
-        [Op.like]: "%" + searchWord + "%",
-      }
+      [Op.and]: [
+        {
+          title: {
+            [Op.like]: "%" + searchWord + "%",
+          }
+        },
+        {
+          hidden: 0
+        }
+      ]
     }
   });
 
@@ -138,6 +152,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -153,6 +170,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -174,6 +194,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -191,6 +214,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -212,6 +238,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -229,6 +258,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -253,6 +285,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -273,6 +308,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -297,6 +335,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -317,6 +358,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -347,6 +391,9 @@ router.get('/search', async function(req, res, next) {
                 }
               }
             ]
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -373,6 +420,9 @@ router.get('/search', async function(req, res, next) {
                 }
               }
             ]
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -407,6 +457,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       },
@@ -436,6 +489,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       }
