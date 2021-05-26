@@ -157,7 +157,7 @@ router
             num: subFileNum,
             fileName: 'productsubimage_' + subFileName,
           });
-          productImage.productId = product.id;
+          productImage.ProductId = product.id;
           productImage.save();
         });
       }
@@ -280,7 +280,7 @@ router
           num: subFileNum,
           fileName: 'productsubimage_' + subFileName,
         });
-        productImage.productId = product.id;
+        productImage.ProductId = product.id;
         productImage.save();
       });
 
