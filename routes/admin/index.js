@@ -1,4 +1,6 @@
 var express = require("express");
+const fs = require('fs')
+
 var router = express.Router();
 const User = require("../../models").User;
 const { isLoggedIn } = require("./middleware");
@@ -11,14 +13,17 @@ const {
 } = require("../../controllers/eventadController");
 const db = require("../../models");
 
+const multer = require('multer');
+const mainImageUpload = multer({ dest: 'data/image/' });
+
 router.get("/", isLoggedIn, function (req, res, next) {
-  dateMin = new Date()
-  dateMax = new Date()
+  var dateMin = new Date()
+  var dateMax = new Date()
 
   dateMin.setDate(dateMin.getDate() - 7)
 
-  dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
-  dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+  var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+  var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
 
   res.render("admin_main", { title: "AdminMain", dateMin: dMin, dateMax: dMax });
 
@@ -48,18 +53,18 @@ router.get("/logout", function (req, res, next) {
   req.session.destroy();
   res.clearCookie(process.env.SESSION_SECRET);
 
-  res.redirect('/admin');
+  res.redirect('/');
 });
 
 router.get("/eventad", isLoggedIn, getEventad);
 
 
-router.post("/eventad",isLoggedIn,postEventad);
+router.post("/eventad",isLoggedIn, mainImageUpload.single('mainImageName'), postEventad);
 
 router
   .route("/eventad/:eventadId")
   .get( isLoggedIn, getUpdateEventad)
-  .post(isLoggedIn, postUpdateEventad);
+  .post(isLoggedIn, mainImageUpload.single('mainImageName'), postUpdateEventad);
 
 router
   .route("/eventad/:eventadId/delete")
@@ -68,38 +73,107 @@ router
 router.get("/item", isLoggedIn, async function (req, res, next) {
   var products = await db.Product.findAll({
     attributes: ["id", "title", "price"],
+    where: {
+      hidden: false
+    }
   });
   res.render("admin_item", { items: products });
 });
 
 
+
 router
   .route("/newitem")
-  .get(isLoggedIn,function (req, res, next) {
+  .get(isLoggedIn, async function (req, res, next) {
     var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
+    var category = await db.Category.findAll();
+    res.render("admin_newitem", { ItemId: itemId, category: category});
   })
-  .post(isLoggedIn, async function (req, res, next) {
-    var itemId = "-";
-    var product = await db.Product.create({
-      title: req.body.name,
-      designer: req.body.creator,
-      tag: "태그",
-      imageurl: "-",
-      url: "-",
-      content: req.body.description,
-      price: req.body.price,
-      playersMin: req.body.peopleMin,
-      playersMax: req.body.peopleMax,
-      playTime: 10,
-      difficulty: 1,
-      deliveryFee: 2000,
-    });
-    if(product){
-      req.session.save(() => {
-        res.redirect('/admin/item/'+product.id);
+  .post(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
+    // console.log(req.params)
+    // console.log(req.body)
+    try {
+      var date = new Date()
+      var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
+      // console.log(req.body.subImageFiles.slice(0,30))
+      // console.log(JSON.parse(req.body.subImageFiles)[0])
+
+      const fileText = req.body.mainImageText
+      const fileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
+      var base64Data = fileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "");
+
+      fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
+        console.log(err);
       });
+
+
+      
+
+      var itemId = "-";
+      var product = await db.Product.create({
+        title: req.body.name,
+        designer: req.body.creator,
+        tag: "태그",
+        imageurl: 'productmainimage_' + fileName,
+        url: "-",
+        content: req.body.description,
+        price: req.body.price,
+        playersMin: req.body.peopleMin,
+        playersMax: req.body.peopleMax,
+        playTime: 10,
+        difficulty: 1,
+        deliveryFee: 2000,
+      });
+      var category = await db.Category.findOne({
+        where: {
+          name: req.body.category
+        }
+      });
+      product.categoryinId = category.id;
+      // console.log(product)
+      // product.setcategoryin(category)
+      await product.save()
+      // await db.sequelize.query("UPDATE product SET categoryinId = " +category.id + " WHERE id = " + product.id);
+      if(req.body.subImageFiles != undefined){
+        var subFileText;
+        var subFileName;
+        var productImage;
+        var subImageFiles = JSON.parse(req.body.subImageFiles)
+        
+
+        subImageFiles.forEach(async (subImageFile) => {
+          date = new Date()
+          dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
+          subFileNum = subImageFile.imageNum;
+          subFileText = subImageFile.imageText;
+          subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+          
+          base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
+          fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
+            console.log(err);
+          });
+
+          productImage = await db.ProductImage.create({
+            num: subFileNum,
+            fileName: 'productsubimage_' + subFileName,
+          });
+          productImage.ProductId = product.id;
+          productImage.save();
+        });
+      }
+      
+
+
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(400);
+      return;
+    }
+    
+    
+    if(product){
+      res.sendStatus(200);
+      
     }else{
       res.sendStatus(400);
     }
@@ -117,20 +191,44 @@ router
       where: {
         id: itemId,
       },
+      include: [{
+        model: db.ProductImage,
+      }]
     });
-    res.render("admin_item_detail", { item: product });
+    var category = await db.Category.findAll();
+    console.log(product)
+    res.render("admin_item_detail", { item: product, category: category });
   })
-  .put(isLoggedIn, async function (req, res, next) {
+  .put(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
+    // console.log(req.body)
+    // console.log(req.params)
+
+    if(req.body.deleteSubImageList != undefined){
+      var deleteSubImageList = JSON.parse(req.body.deleteSubImageList)
+      deleteSubImageList.forEach(async id => {
+        var productImage = await db.ProductImage.findOne({
+          where: {
+            id: id,
+          },
+        });
+        await productImage.destroy();
+      });
+    }
+
+    
+
     var itemId = req.params.itemId;
     var product = await db.Product.findOne({
       where: {
         id: itemId,
-      }
+      },
+      include: [{
+        model: db.ProductImage
+      }]
     });
     product.title =  req.body.name;
     product.designer =  req.body.creator;
     product.tag =  "태그";
-    product.imageurl =  "-";
     product.url =  "-";
     product.content =  req.body.description;
     product.price =  req.body.price;
@@ -139,10 +237,61 @@ router
     product.playTime =  10;
     product.difficulty =  1;
     product.deliveryFee =  2000;
+    product.categoryinId = req.body.category;
+    console.log(1)
+
+    if(req.body.mainImageName != undefined){
+      var date = new Date()
+      var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
+      // console.log(req.body.subImageFiles.slice(0,30))
+      // console.log(JSON.parse(req.body.subImageFiles)[0])
+
+      const fileText = req.body.mainImageText
+      const fileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + req.body.mainImageName.split('.')[req.body.mainImageName.split('.').length - 1]
+      var base64Data = fileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "");
+
+      fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
+        console.log(err);
+      });
+      product.imageurl =  'productmainimage_' + fileName;
+
+    }
+
+    if(req.body.subImageFiles != undefined){
+      var subFileText;
+      var subFileName;
+      var productImage;
+      var subImageFiles = JSON.parse(req.body.subImageFiles)
+      
+
+      subImageFiles.forEach(async (subImageFile) => {
+        var date = new Date()
+        var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() + date.getMilliseconds();
+        subFileNum = subImageFile.imageNum;
+        subFileText = subImageFile.imageText;
+        subFileName = dStr + '_' +  (Math.floor(Math.random() * (99 - 10)) + 10) + '.' + subImageFile.imageName.split('.')[subImageFile.imageName.split('.').length - 1];
+        
+        base64Data = subFileText.replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpeg;base64,/, "")
+        fs.writeFile('data/image/' + 'productsubimage_' + subFileName, base64Data, 'base64', function(err) {
+          console.log(err);
+        });
+
+        productImage = await db.ProductImage.create({
+          num: subFileNum,
+          fileName: 'productsubimage_' + subFileName,
+        });
+        productImage.ProductId = product.id;
+        productImage.save();
+      });
+
+    }
+    console.log(1)
+
     var result = await product.save();
 
     if (result) {
       res.sendStatus(200);
+
     } else {
       res.sendStatus(400);
     }
@@ -155,7 +304,7 @@ router
       }
     });
     console.log("delete")
-    await product.destroy();
+    product.hidden = true;
     var result = await product.save();
     if (result) {
       res.sendStatus(200);
@@ -163,31 +312,7 @@ router
       res.sendStatus(400);
     }
   });
-
-router
-  .route(isLoggedIn,"/item/new")
-  .get(function (req, res, next) {
-    var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
-  })
-  .post(function (req, res, next) {
-    var itemId = "-";
-
-    res.render("admin_newitem", { ItemId: itemId });
-  });
-
-// router
-//   .route(isLoggedIn,"/salerate")
-//   .get(function (req, res, next) {
-//     console.log(req.params)
-//     console.log(req.body)
-
-//     res.json({ ItemId: 1 });
-//   })
-//   .post(function(req, res) {
-//     res.send('nothing');
-//   });
+  
 // Create a route for GET /user/test
 router.get('/salerate', async function(req, res) {
   var minDate = new Date(req.query.minDate.slice(4, 8), (req.query.minDate.slice(0, 2) - 1), req.query.minDate.slice(2, 4), 0, 0, 0)
@@ -309,5 +434,45 @@ router.get('/bestcategory', async function(req, res) {
   }
   res.json(result);
 });
+
+router.get("/order", isLoggedIn, async function (req, res, next) {
+  var dateMin = new Date()
+  var dateMax = new Date()
+
+  dateMin.setDate(dateMin.getDate() - 7)
+  if(req.params.dateMin != undefined && req.params.dateMin != undefined){
+    var dateMin = new Date(req.query.dateMin.slice(4, 8), (req.query.dateMin.slice(0, 2) - 1), req.query.dateMin.slice(2, 4), 0, 0, 0)
+    var dateMax = new Date(req.query.dateMax.slice(4, 8), (req.query.dateMax.slice(0, 2) - 1), req.query.dateMax.slice(2, 4), 23, 59, 59)
+    dateMin.setHours(dateMin.getHours() + 9)
+    dateMax.setHours(dateMax.getHours() + 9)
+  }
+
+  var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+  var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+
+  
+  var logs = await db.PurchaseLog.findAll({
+    where: {
+      date: {
+        [db.Sequelize.Op.gte]: dateMin,
+        [db.Sequelize.Op.lte]: dateMax
+      }
+      
+    },
+    attributes: ["id", "date", "count", "status"],
+    include:[
+      {
+        model: db.Product,
+        as: 'purchase',
+        attributes: ['id', 'title']
+      },
+    ]
+  });
+  res.render("admin_order", { logs: logs, dateMin: dMin, dateMax: dMax});
+});
+
+
+
+
 
 module.exports = router;

@@ -28,6 +28,12 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
+        },
+        status: { // 0 - 결제 전, 1 - 결제 완료, 2 - 배송중, 3 - 배송 완료, 4 - 구매확정
+          type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            defaultValue: 0
         }
     },
       {

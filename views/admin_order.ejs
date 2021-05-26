@@ -83,13 +83,13 @@
       </a>
     </li>
     <li>
-      <a href="/admin/item" class="nav-link active">
+      <a href="/admin/item" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
         상품관리
       </a>
     </li>
     <li>
-      <a href="/admin/order" class="nav-link text-white">
+      <a href="/admin/order" class="nav-link active">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
         주문 관리
       </a>
@@ -101,10 +101,10 @@
   <hr>
 </div>
 <main class="container">
-  <h1 class="mb-5 text-center">상품관리</h1>
+  <h1 class="mb-5 text-center">주문 관리</h1>
   <table border="0" cellspacing="5" cellpadding="5">
     <tbody><tr>
-        <td>가격:</td>
+        <td>기간:</td>
         <td><input type="text" id="min" name="min"></td>
         <td>~</td>
         <td><input type="text" id="max" name="max"></td>
@@ -116,17 +116,19 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">상품명</th>
-          <th scope="col">가격</th>
-          <th scope="col">재고</th>
+          <th scope="col">상태</th>
+          <th scope="col">개수</th>
+          <th scope="col">버튼</th>
         </tr>
       </thead>
       <tbody>
-        <% for(var i=0; i<items.length; i++) {%>
+        <% for(var i=0; i<logs.length; i++) {%>
           <tr>
             <td scope="row"><%= i+1 %></td>
-            <td><a style="color:#212529" href="/admin/item/<%= items[i].id %>"><%= items[i].title %></a></td>
-            <td><%= items[i].price %></td>
-            <td>1</td>
+            <td><%= logs[i].purchase.title %></td>
+            <td><%= logs[i].status %></td>
+            <td><%= logs[i].count %></td>
+            <td><button>asd</button></td>
           </tr>
         <% } %>
       </tbody>
@@ -153,8 +155,8 @@
             console.log(price)
             if ( ( isNaN( min ) && isNaN( max ) ) ||
                 ( isNaN( min ) && price <= max ) ||
-                ( min <= price   && isNaN( max ) ) ||
-                ( min <= price   && price <= max ) )
+                ( min <= price  && isNaN( max ) ) ||
+                ( min <= price  && price <= max ) )
             {
               return true;
             }
