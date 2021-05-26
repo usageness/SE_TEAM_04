@@ -12,12 +12,12 @@ const fs = require('fs')
  }
 const postEventad = async (req, res) => {
   const {
-    body: { title, imageurl, content, datetimes },
+    body: { title, imageurl, content, startDate, endDate },
   } = req;
   // console.log(req.body)
-  const datetimesArray = datetimes.split("-");
+ 
   const hashedTitle = crypto.createHmac('sha256',process.env.HASH_SECRET).update(title).digest('hex');
-  console.log(datetimesArray);
+  
   var date = new Date()
   var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
   // console.log(req.body.subImageFiles.slice(0,30))
@@ -35,8 +35,8 @@ const postEventad = async (req, res) => {
     url: hashedTitle,
     imageurl: 'eventad_' + fileName,
     content: content,
-    start:datetimesArray[0],
-    end:datetimesArray[1],
+    start: startDate,
+    end:endDate,
     flag: 1,
     visible: 1,
   }).catch(function(error){
@@ -62,10 +62,9 @@ const getUpdateEventad = async (req, res) => {
 };
 const postUpdateEventad = async (req,res) => {
   const {
-      body: {title, imageurl, content, datetimes}
+      body: {title, imageurl, content, startDate, endDate}
   } =req;
-  console.log(req.params.eventadId)
-  const datetimesArray = datetimes.split("-");
+  
   
 
   const eventad = await Eventad.findOne({
@@ -75,8 +74,8 @@ const postUpdateEventad = async (req,res) => {
   })
   eventad.title =  title;
   eventad.content =  content;
-  eventad.start = datetimesArray[0];
-  eventad.end = datetimesArray[1];
+  eventad.start = startDate;
+  eventad.end = endDate;
   eventad.flag =  1;
   eventad.visible =  1;
   if(req.body.imageText != undefined){
@@ -93,6 +92,7 @@ const postUpdateEventad = async (req,res) => {
     });
     eventad.imageurl = 'eventad_' + fileName;
     await eventad.save()
+    
   }
   if(eventad != undefined){
     res.sendStatus(200);
@@ -109,4 +109,34 @@ const deleteEventad = async (req,res)=> {
     } });
 };
 
+const eventadVisibelCheck = async (req,res,next) =>{
+  function getTimeStamp() {
+
+    var d = new Date();
+    var s =
+        leadingZeros(d.getFullYear(), 4) + '-' +
+        leadingZeros(d.getMonth() + 1, 2) + '-' +
+        leadingZeros(d.getDate(), 2);
+
+    return s;
+}
+function leadingZeros(n, digits) {
+
+  var zero = '';
+  n = n.toString();
+
+  if (n.length < digits) {
+      for (i = 0; i < digits - n.length; i++)
+          zero += '0';
+  }
+  return zero + n;
+}
+  var today=getTimeStamp();
+  let eventadList = await Eventad.findAll({})
+  for(let i=0; i<eventadList.length; i++) {
+    if(eventadList[i].startDate<=today&&eventadList[i].endDate>=today){
+      
+    }
+  }
+};
 module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad};

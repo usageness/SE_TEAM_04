@@ -151,11 +151,14 @@
   <form id="eventad-form">
     <label for="eventad_title">이벤트 제목</label><br>
     <input type="text" placeholder="이벤트 제목" id="title" name="title" disabled=true value="<%= data.updateEventad.title %>" required="true" /><br>
-    <label for="eventad_title">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" disabled=true value="<%= data.updateEventad.start %> - <%= data.updateEventad.end %>" required="true"/><br>
+    <label for="eventad_title">이벤트 시작일</label><br>
+    <input type="date" id="startDate" name="startDate" disabled=true value="<%= data.updateEventad.start %>" required="true"/><br>
+    <label for="eventad_title">이벤트 종료일</label><br>
+    <input type="date" id="endDate" name="endDate" disabled=true value="<%= data.updateEventad.end %>" required="true"/><br>
     <img class="fit-picture"
       src="/image/<%=data.updateEventad.imageurl %>"
-      alt="ImageNotFounded">
+      alt="ImageNotFounded"
+      width="600px">
     <label class="form-label" for="image">이벤트 이미지</label><br>
     <input type="file" class="form-control" id="image" accept="image/*" disabled=true name="image"  ><br>
     <label for="content">이벤트 설명:</label>
@@ -238,7 +241,8 @@
           if($("#submit").text() == '이벤트 수정'){
             $("#submit").text('완료');
             $("#title").attr("disabled", false)
-            $("#datetimes").attr("disabled", false)
+            $("#startDate").attr("disabled", false)
+            $("#endDate").attr("disabled", false)
             $("#image").attr("disabled", false)
             $("#content").attr("disabled", false)
 
