@@ -145,23 +145,14 @@
   이벤트 입력
   </h1>
   <form action="/admin/eventad" method="POST" id="eventad-form">
-<<<<<<< HEAD
-    <label for="eventad_title">이벤트 제목</label><br>
-    <input type="text" placeholder="이벤트 제목" id="title" name="title" required="true" /><br>
-    <label for="eventad_title">이벤트 시작일</label><br>
-    <input type="date" id="startDate" name="startDate" required="true"/><br>
-    <label for="eventad_title">이벤트 종료일</label><br>
-    <input type="date" id="endDate" name="endDate" required="true"/><br>
-    <label for="eventad_title">이벤트 이미지URL</label><br>
-    <input type="text" id="image" name="imageurl" required="true" /><br>
-=======
     <label for="title">이벤트 제목</label><br>
     <input type="text" placeholder="이벤트 제목" id="title" name="title"  /><br>
-    <label for="datetimes">이벤트 기간</label><br>
-    <input type="text" id="datetimes" name="datetimes" /><br>
+    <label for="datetimes">이벤트 시작일</label><br>
+    <input type="date" id="startDate" name="startDate" /><br>
+    <label for="datetimes">이벤트 종료일</label><br>
+    <input type="date" id="endDate" name="endDate" /><br>
     <label class="form-label" for="image">이벤트 이미지</label><br>
     <input type="file" class="form-control" id="image" accept="image/*" name="image"  ><br>
->>>>>>> 1374e1c05b06dad6de9c845e3eaf517f49dfd0e6
     <label for="content">이벤트 설명:</label>
     <textarea id="content" name="content"rows="5" cols="33"></textarea>
   </form>
@@ -198,14 +189,9 @@
           <tr>
             
             <td scope="row"><a style="color:#212529" href="/admin/eventad/<%= eventad.url %>"><%= eventad.title %></a></td>
-<<<<<<< HEAD
-            <td><img src = "<%= eventad.imageurl %>"></td>
-            <td><%= eventad.start %> </td>
-            <td><%= eventad.end %> </td>
-=======
-            <td><img src = "/image/<%= eventad.imageurl %>"></td>
-            <td><%= eventad.end %><br> - <br><%= eventad.start %>  </td>
->>>>>>> 1374e1c05b06dad6de9c845e3eaf517f49dfd0e6
+            <td><img src = "/image/<%= eventad.imageurl %>" width="500px"></td>
+            <td><%= eventad.start %></td>
+            <td><%= eventad.end %></td>
           </tr>
          <% }) %>
         </tbody>
@@ -248,7 +234,7 @@ $('#submit').click(
   function(){
     
     if (document.getElementById("startDate").value>=document.getElementById("endDate").value){
-      alert("ffdfdf");
+      alert("시작일은 종료일보다 크거나 같을수 없습니다.");
       return false;
     }
   }
@@ -256,7 +242,6 @@ $('#submit').click(
         
       });
     </script>
-<<<<<<< HEAD
   <script>
     
 
@@ -296,7 +281,6 @@ $.fn.dataTable.ext.search.push(
 
 
   </script>
-=======
     <script>
       async function readFileAsDataURL(file) {
         let result_base64 = await new Promise((resolve) => {
@@ -390,6 +374,5 @@ $.fn.dataTable.ext.search.push(
         )
      */
      </script>
->>>>>>> 1374e1c05b06dad6de9c845e3eaf517f49dfd0e6
 </body>
 </html>
