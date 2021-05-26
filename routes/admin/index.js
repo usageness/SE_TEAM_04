@@ -19,7 +19,6 @@ const mainImageUpload = multer({ dest: 'data/image/' });
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()
-
   dateMin.setDate(dateMin.getDate() - 7)
 
   var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();

@@ -22,13 +22,14 @@ router.get('/', async function(req, res, next) {
   let session = req.session;
 
   var products = await db.Product.findAll({
-    attributes: ["id", "title", "price", "imageurl"],
+    attributes: ["id", "title", "price", "imageurl", "content"],
     order: [["id", "DESC"]]
   });
   let category = await db.Category.findAll({
     attributes: ["id", "name"],
   });
   var eventadList = await db.Eventad.findAll({});
+
   res.render('index', {
     title: 'Express',
     session: session,
