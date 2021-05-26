@@ -9,6 +9,12 @@ module.exports = function (sequelize, DataTypes) {
             unique: true,
             autoIncrement: true,
         },
+        amount: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            defaultValue: 1,
+        },
     }, 
       {
         tableName: 'Cart',
