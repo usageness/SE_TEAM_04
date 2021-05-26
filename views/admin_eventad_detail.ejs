@@ -165,7 +165,7 @@
     <textarea id="content" name="content"  disabled=true rows="5" cols="33"><%= data.updateEventad.content %></textarea>
   </form>
   <button id="submit" class="btn btn-primary" >이벤트 수정</button>
-  <button id="delete" class="btn btn-danger"  >이벤트 삭제</button>
+  <button id="delete"  class="btn btn-danger" >이벤트 삭제</button>
   </div>
   
 </div>
@@ -253,8 +253,12 @@
               alert('이벤트 제목은 필수 입력사항입니다.');
               return;
             }
-            if(formData.get('datetimes') == "" ){
-              alert('이벤트 기간은 필수 입력사항입니다.');
+            if(formData.get('startDate') == "" ){
+              alert('이벤트 시작일은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('endDate') == "" ){
+              alert('이벤트 종료일은 필수 입력사항입니다.');
               return;
             }
             if(formData.get('content') == "" ){
@@ -298,7 +302,7 @@
 
                 },
                 error: function(){
-                  alert("등록 실패했습니다.");
+                  alert("등록 실패했습니다. 파일이름에 '-'은 허용되지 않습니다.");
                   console.log('실패');
                 }
               });
@@ -309,6 +313,7 @@
           }
           
         });
+        
         $("#delete").on("click", () => {
           var formData = new FormData($("#eventad-form")[0])
           
@@ -328,7 +333,7 @@
           });
         });
       })
-
+      
 
       </script>
   </body>

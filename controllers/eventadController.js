@@ -4,10 +4,10 @@ const fs = require('fs')
 
 
  const getEventad = async (req, res) => {
-  const eventad = await Eventad.findAll({});
-  
+  var eventadList = await Eventad.findAll({});
+  console.log(eventadList);
   res.render("admin_eventad", { title: "", data:{
-    eventadList:eventad
+    eventadList
   } });
  }
 const postEventad = async (req, res) => {
@@ -91,9 +91,10 @@ const postUpdateEventad = async (req,res) => {
       console.log(err);
     });
     eventad.imageurl = 'eventad_' + fileName;
-    await eventad.save()
+    
     
   }
+  await eventad.save();
   if(eventad != undefined){
     res.sendStatus(200);
   }else{
@@ -102,7 +103,7 @@ const postUpdateEventad = async (req,res) => {
 };
 
 const deleteEventad = async (req,res)=> {
-  await Eventad.destroy({where:{id:req.session.updateEventadId}});
+  await Eventad.destroy({where:{id:req.params.eventadId}});
   let eventad = await Eventad.findAll({});
     res.render("admin_eventad", { title: "",  data:{
       eventadList:eventad
@@ -135,8 +136,14 @@ function leadingZeros(n, digits) {
   let eventadList = await Eventad.findAll({})
   for(let i=0; i<eventadList.length; i++) {
     if(eventadList[i].startDate<=today&&eventadList[i].endDate>=today){
-      
+      await Eventad.update({visible:1},{where:{id:eventadList[i].id}});
+    } else {
+      await Eventad.update({visible:0},{where:{id:eventadList[i].id}});
     }
+    
   }
+  next();
 };
-module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad};
+
+
+module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad,eventadVisibelCheck};

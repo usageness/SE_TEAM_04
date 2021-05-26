@@ -9,7 +9,8 @@ const {
   postEventad,
   getUpdateEventad,
   postUpdateEventad,
-  deleteEventad
+  deleteEventad,
+  eventadVisibelCheck
 } = require("../../controllers/eventadController");
 const db = require("../../models");
 
@@ -56,7 +57,7 @@ router.get("/logout", function (req, res, next) {
   res.redirect('/');
 });
 
-router.get("/eventad", isLoggedIn, getEventad);
+router.get("/eventad", isLoggedIn, eventadVisibelCheck,getEventad);
 
 
 router.post("/eventad",isLoggedIn, mainImageUpload.single('mainImageName'), postEventad);
