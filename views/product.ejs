@@ -26,18 +26,20 @@
                     카테고리
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/product?c=1">전략</a>
-                    <a class="dropdown-item" href="/product?c=2">추리</a>
-                    <a class="dropdown-item" href="/product?c=3">캐쥬얼</a>
+                    <% for(var i=0; i<category.length; i++) {%>
+                        <a class="dropdown-item" href="/product?c=<%= category[i].id%>"><%= category[i].name%></a>
+                    <% } %>
                 </div>
             </div>
         </div>
         <div class="col-10 mt-4">
             <div class="row mb-3">
                 <div class="col-3">
-                    <img src="https://image7.coupangcdn.com/image/coupang/common/logo_coupang_w350.png"
-                         style="width: 100%"
-                         alt="">
+                    <a href="/">
+                        <img src="https://user-images.githubusercontent.com/28296575/119583104-d5bad200-be00-11eb-8115-6b82b6991c50.png"
+                             style="width: 100%"
+                             alt="">
+                    </a>
                 </div>
                 <div class="col-6">
                     <form class="form-inline" action='search' method="get">
@@ -94,12 +96,12 @@
                 %>
                     <div class="card product-button" style="width: 16rem;">
                         <img class="card-img-top"
-                             src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
+                             src="/image/<%= items[i].imageurl %>"
                              alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><%= items[i].title %></h5>
                             <p class="price"><%= items[i].price %>원</p>
-                            <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
+                            <p class="card-text"><%= items[i].content %></p>
                         </div>
                     </div>
                 <% } %>

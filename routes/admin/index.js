@@ -21,7 +21,6 @@ const mainImageUpload = multer({ dest: 'data/image/' });
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()
-
   dateMin.setDate(dateMin.getDate() - 7)
 
   var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
@@ -109,9 +108,6 @@ router
       fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
         console.log(err);
       });
-
-
-      
 
       var itemId = "-";
       var product = await db.Product.create({
