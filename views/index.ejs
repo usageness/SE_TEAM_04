@@ -87,26 +87,26 @@
 
         <div class="carousel-inner" >
             <% if(data.eventadList[0]) { %>
-            <a href="/event/<%= data.eventadList[0].id %>">
           <div class="carousel-item active">
+            <a href="/event/<%= data.eventadList[0].id %>">
                 <img class="d-block w-50"
                      src="/image/<%=data.eventadList[0].imageurl %>">
                      <h1><%= data.eventadList[0].title %></h1>
                      <h2><%= data.eventadList[0].start %>~<%= data.eventadList[0].end %></h2>
-            </div>
             </a>
+            </div>
             <% } %>
         <% data.eventadList.forEach(function(eventad,i){ %>
             <% if(i>0) { %>
-                <a style="color:#212529" href="/event/<%= eventad.id %>">
                 <div class="carousel-item">
+                    <a style="color:#212529" href="/event/<%= eventad.id %>">
                 <img src="/image/<%= eventad.imageurl %>" class="d-block w-50"
                      alt="...">
             
                     <h1><%= eventad.title %></h1>
                     <h2><%= eventad.start %>~<%= eventad.end %></h2>
-                </div>
                 </a>
+                </div>
             <% } %>
         <% }) %>
         </div>

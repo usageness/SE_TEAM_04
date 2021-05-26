@@ -139,7 +139,7 @@ function leadingZeros(n, digits) {
   
   for(let i=0; i<eventadList.length; i++) {
     if(eventadList[i].visible!=2){
-    if(eventadList[i].start<=today&&eventadList[i].end>=today){
+    if(eventadList[i].start<=today&&eventadList[i].end>=today||eventadList[i].start==today||eventadList[i].end==today){
       await Eventad.update({visible:1},{where:{id:eventadList[i].id}});
     } else {
       await Eventad.update({visible:0},{where:{id:eventadList[i].id}});
