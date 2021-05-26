@@ -5,7 +5,11 @@ const users = require("../models");
 
 /* GET signUp page. */
 router.get('/', function (req, res, next) {
-    res.render('signUp', {title: 'Express'});
+    let session = req.session;
+    res.render('signUp', {
+        title: 'Express',
+        session: session
+    });
 });
 
 /* POST signUp request. */

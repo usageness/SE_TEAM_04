@@ -28,9 +28,10 @@ const getAddressRegister = async (req, res) => {
 
 const postAddressRegister = async (req, res) => {
   const {
-    body: { postcode, roadAddress, detailAddress, extraAddress, addressname },
+    body: { postcode, roadAddress, detailAddress, extraAddress, addressname,receiver },
   } = req;
- 
+ console.log(req.body);
+
 if(await Address.findOne({where:{name:addressname}})){
   res.send('<script type="text/javascript">alert("중복된 배송지 이름입니다.");</script>');
 }
@@ -41,6 +42,7 @@ if(await Address.findOne({where:{name:addressname}})){
       detailesAddress: detailAddress,
       postalCode: postcode,
       phoneNumber: extraAddress,
+      receiver: receiver,
       isChecked: 0,
     },
     {
@@ -76,7 +78,7 @@ const getUpdateAddress = async (req, res) => {
 const postUpdateAddress = async (req, res) => {
   const {
    params:{addressId},
-    body:{postcode, roadAddress, detailAddress, extraAddress, addressname }
+    body:{postcode, roadAddress, detailAddress, extraAddress, addressname,receiver }
   } = req;
   console.log(req.params);
 console.log(addressId);
@@ -87,6 +89,7 @@ console.log(addressId);
     postalCode: postcode,
     phoneNumber: extraAddress,
     isChecked: 0,
+    receiver:receiver
   },{where:{id: addressId}});
   
   res.redirect("/address");

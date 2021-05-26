@@ -16,21 +16,27 @@ const {
   deleteAddress,
 } = require("../controllers/addressController");
 const { route } = require("./admin");
+const { eventadVisibelCheck, getEventadDetail } = require("../controllers/eventadController");
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', eventadVisibelCheck, async function(req, res, next) {
   let session = req.session;
 
   var products = await db.Product.findAll({
-    attributes: ["id", "title", "price", "imageurl"],
-    limit: 4,
+    attributes: ["id", "title", "price", "imageurl", "content"],
+    order: [["id", "DESC"]]
   });
-  var eventadList = await db.Eventad.findAll({});
+  let category = await db.Category.findAll({
+    attributes: ["id", "name"],
+  });
+  var eventadList = await db.Eventad.findAll({where:{visible:1}});
+
   res.render('index', {
     title: 'Express',
     session: session,
     nickname: session.nickname,
     items: products,
+    category: category,
     data:{
       eventadList
     }
@@ -56,9 +62,11 @@ router.get('/product', async function(req, res, next) {
     attributes: ["id", "name"],
   });
   let sort = req.query.sortby ? req.query.sortby : 0;
+  let by = req.query.b ? req.query.b : 0;
   let offset = 0;
   let pageNum = req.query.page;
   let sorting = ['title', 'price', 'id'];
+  let byList = ['desc', 'asc'];
 
   if(pageNum > 1){
     offset = 12 * (pageNum - 1);
@@ -70,7 +78,7 @@ router.get('/product', async function(req, res, next) {
     where: {
       categoryinId: (req.query.c)
     },
-    order: [[sorting[sort], 'desc']]
+    order: [[sorting[sort], byList[by]]]
   });
 
   let count = await db.Product.count({
@@ -86,13 +94,11 @@ router.get('/product', async function(req, res, next) {
     category: category,
     cate: cate,
     sortby: sort,
+    by: by,
     count: count
   });
 });
 
-router.get('/address', getAddress);
-
-router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.get('/search', async function(req, res, next) {
   let session = req.session;
@@ -101,10 +107,12 @@ router.get('/search', async function(req, res, next) {
   let min = req.query.minPrice;
   let max = req.query.maxPrice;
   let sort = req.query.sortby ? req.query.sortby : 0;
+  let by = req.query.b ? req.query.b : 0;
   let pageNum = req.query.page;
   let offset = 0;
   let count;
   let sorting = ['title', 'price', 'id'];
+  let byList = ['desc', 'asc'];
 
   if(pageNum > 1){
     offset = 12 * (pageNum - 1);
@@ -119,17 +127,31 @@ router.get('/search', async function(req, res, next) {
     offset: offset,
     limit: 12,
     where: {
-      title: {
-        [Op.like]: "%" + searchWord + "%",
-      }
+      [Op.and]: [
+        {
+          title: {
+            [Op.like]: "%" + searchWord + "%",
+          }
+        },
+        {
+          hidden: 0
+        }
+      ]
     },
-    order: [[sorting[sort], 'desc']]
+    order: [[sorting[sort], byList[by]]]
   });
   count = await db.Product.count({
     where: {
-      title: {
-        [Op.like]: "%" + searchWord + "%",
-      }
+      [Op.and]: [
+        {
+          title: {
+            [Op.like]: "%" + searchWord + "%",
+          }
+        },
+        {
+          hidden: 0
+        }
+      ]
     }
   });
 
@@ -146,10 +168,13 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -161,6 +186,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -182,10 +210,13 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -199,6 +230,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -220,10 +254,13 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -237,6 +274,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -261,10 +301,13 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -281,6 +324,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.gte]: min
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -305,10 +351,13 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -325,6 +374,9 @@ router.get('/search', async function(req, res, next) {
             price: {
               [Op.lte]: max
             }
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -355,10 +407,13 @@ router.get('/search', async function(req, res, next) {
                 }
               }
             ]
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -381,10 +436,13 @@ router.get('/search', async function(req, res, next) {
                 }
               }
             ]
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
   }
 
@@ -415,10 +473,13 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -444,6 +505,9 @@ router.get('/search', async function(req, res, next) {
           },
           {
             categoryinId: (req.query.c)
+          },
+          {
+            hidden: 0
           }
         ]
       }
@@ -460,9 +524,16 @@ router.get('/search', async function(req, res, next) {
     min: min,
     max: max,
     sortby: sort,
+    by: by,
     count: count
   });
 });
+
+router.route('/event/:eventadId').get(getEventadDetail);
+
+router.get('/address', getAddress);
+
+router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
 
 router.route("/address/:addressId/delete").post(deleteAddress);
 

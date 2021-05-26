@@ -9,7 +9,9 @@ const {
   postEventad,
   getUpdateEventad,
   postUpdateEventad,
-  deleteEventad
+  deleteEventad,
+  eventadVisibelCheck,
+  
 } = require("../../controllers/eventadController");
 const db = require("../../models");
 
@@ -19,7 +21,6 @@ const mainImageUpload = multer({ dest: 'data/image/' });
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()
-
   dateMin.setDate(dateMin.getDate() - 7)
 
   var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
@@ -56,7 +57,7 @@ router.get("/logout", function (req, res, next) {
   res.redirect('/');
 });
 
-router.get("/eventad", isLoggedIn, getEventad);
+router.get("/eventad", isLoggedIn, eventadVisibelCheck,getEventad);
 
 
 router.post("/eventad",isLoggedIn, mainImageUpload.single('mainImageName'), postEventad);
@@ -69,6 +70,8 @@ router
 router
   .route("/eventad/:eventadId/delete")
   .post(isLoggedIn, deleteEventad);
+
+  
 
 router.get("/item", isLoggedIn, async function (req, res, next) {
   var products = await db.Product.findAll({
@@ -105,9 +108,6 @@ router
       fs.writeFile('data/image/' + 'productmainimage_' + fileName, base64Data, 'base64', function(err) {
         console.log(err);
       });
-
-
-      
 
       var itemId = "-";
       var product = await db.Product.create({

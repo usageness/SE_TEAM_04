@@ -103,7 +103,7 @@
 
 <div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
   <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+    
     <span class="fs-4">관리자</span>
   </a>
   <hr>
@@ -194,10 +194,12 @@
             <td><%= eventad.start %></td>
             <td><%= eventad.end %></td>
             <% if (eventad.visible == 1) { %>
-              <td>✅</td>
-              <% } else { %>
-              <td>❌</td>
-              <% } %>
+              <td>✅활성</td>
+              <% } else if(eventad.visible == 0){ %>
+              <td>❌기간종료</td>
+              <% } else {%>
+               <td>⛔임시중단</td> 
+              <% } %> 
           </tr>
          <% }) %>
         </tbody>

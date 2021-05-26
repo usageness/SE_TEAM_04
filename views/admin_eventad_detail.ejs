@@ -107,7 +107,7 @@
 
 <div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
   <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+    
     <span class="fs-4">관리자</span>
   </a>
   <hr>
@@ -163,9 +163,19 @@
     <input type="file" class="form-control" id="image" accept="image/*" disabled=true name="image"  ><br>
     <label for="content">이벤트 설명:</label>
     <textarea id="content" name="content"  disabled=true rows="5" cols="33"><%= data.updateEventad.content %></textarea>
+    
+      <label class="form-label" for="image">이벤트 활성화 
+       <br> (임시중단 해제, 기간 지난경우 불가)</label><br>
+      <input type="radio" id="status" name="status" disabled=true value="1" 
+      <% if(data.updateEventad.visible==1) { %> checked <% } %>>
+      <br>
+      <label class="form-label" for="image">이벤트 비활성화</label><br>
+      <input type="radio" id="status2" name="status" disabled=true value="2" 
+      <% if(data.updateEventad.visible==2) { %> checked <% } %>>
+   
   </form>
   <button id="submit" class="btn btn-primary" >이벤트 수정</button>
-  <button id="delete" class="btn btn-danger"  >이벤트 삭제</button>
+  <button id="delete"  class="btn btn-danger" >이벤트 삭제</button>
   </div>
   
 </div>
@@ -245,6 +255,9 @@
             $("#endDate").attr("disabled", false)
             $("#image").attr("disabled", false)
             $("#content").attr("disabled", false)
+            $("#status").attr("disabled", false)
+            $("#status2").attr("disabled", false)
+
 
           }else{
             $("#submit").text('이벤트 수정');
@@ -253,8 +266,12 @@
               alert('이벤트 제목은 필수 입력사항입니다.');
               return;
             }
-            if(formData.get('datetimes') == "" ){
-              alert('이벤트 기간은 필수 입력사항입니다.');
+            if(formData.get('startDate') == "" ){
+              alert('이벤트 시작일은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('endDate') == "" ){
+              alert('이벤트 종료일은 필수 입력사항입니다.');
               return;
             }
             if(formData.get('content') == "" ){
@@ -298,7 +315,7 @@
 
                 },
                 error: function(){
-                  alert("등록 실패했습니다.");
+                  alert("등록 실패했습니다. 파일이름에 '-'은 허용되지 않습니다.");
                   console.log('실패');
                 }
               });
@@ -309,13 +326,14 @@
           }
           
         });
+        
         $("#delete").on("click", () => {
           var formData = new FormData($("#eventad-form")[0])
           
           $.ajax({
             url: '/admin/eventad/<%=data.updateEventad.id%>/delete',
             type: 'POST',
-            data : formData,
+            /*data : formData,*/
             success: function(){
               alert("삭제했습니다.");
               console.log('form submitted.');
@@ -328,7 +346,7 @@
           });
         });
       })
-
+      
 
       </script>
   </body>

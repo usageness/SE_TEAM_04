@@ -33,7 +33,8 @@ router.post("/", async function(req,res,next) {
                 console.log("비밀번호 일치");
                 req.session.user_id = body.user_id;
                 req.session.nickname = result.dataValues.nickname;
-                res.redirect("/");
+                if(result.dataValues.permission === 1) res.redirect("/admin");
+                else res.redirect("/");
             }
 
         }

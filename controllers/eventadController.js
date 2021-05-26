@@ -4,10 +4,10 @@ const fs = require('fs')
 
 
  const getEventad = async (req, res) => {
-  const eventad = await Eventad.findAll({});
-  
+  var eventadList = await Eventad.findAll({});
+ 
   res.render("admin_eventad", { title: "", data:{
-    eventadList:eventad
+    eventadList
   } });
  }
 const postEventad = async (req, res) => {
@@ -62,10 +62,9 @@ const getUpdateEventad = async (req, res) => {
 };
 const postUpdateEventad = async (req,res) => {
   const {
-      body: {title, imageurl, content, startDate, endDate}
+      body: {title, imageurl, content, startDate, endDate,status}
   } =req;
-  
-  
+  console.log(status);
 
   const eventad = await Eventad.findOne({
     where: {
@@ -77,7 +76,7 @@ const postUpdateEventad = async (req,res) => {
   eventad.start = startDate;
   eventad.end = endDate;
   eventad.flag =  1;
-  eventad.visible =  1;
+  eventad.visible =  status;
   if(req.body.imageText != undefined){
     var date = new Date()
     var dStr = '' + date.getFullYear() + (date.getMonth() + 1)  + date.getDate() + date.getHours() + date.getMinutes() + date.getSeconds() ;
@@ -91,9 +90,10 @@ const postUpdateEventad = async (req,res) => {
       console.log(err);
     });
     eventad.imageurl = 'eventad_' + fileName;
-    await eventad.save()
+    
     
   }
+  await eventad.save();
   if(eventad != undefined){
     res.sendStatus(200);
   }else{
@@ -132,11 +132,37 @@ function leadingZeros(n, digits) {
   return zero + n;
 }
   var today=getTimeStamp();
-  let eventadList = await Eventad.findAll({})
+  today.toString(today);
+  
+  let eventadList = await Eventad.findAll({});
+  
+  
   for(let i=0; i<eventadList.length; i++) {
-    if(eventadList[i].startDate<=today&&eventadList[i].endDate>=today){
-      
+    if(eventadList[i].visible!=2){
+    if(eventadList[i].start<=today&&eventadList[i].end>=today){
+      await Eventad.update({visible:1},{where:{id:eventadList[i].id}});
+    } else {
+      await Eventad.update({visible:0},{where:{id:eventadList[i].id}});
     }
   }
+  }
+
+  next();
 };
-module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad};
+
+const getEventadDetail = async (req,res) => {
+const {
+  params: eventadId
+} =req;
+let session = req.session;
+console.log(eventadId);
+let eventad = await Eventad.findOne({where: {id:req.params.eventadId}});
+console.log(eventad);
+res.render("event_detail", { title: "", session,
+data:{
+eventad
+} });
+
+};
+
+module.exports = {getEventad,postEventad, getUpdateEventad,postUpdateEventad,deleteEventad,eventadVisibelCheck,getEventadDetail};

@@ -39,8 +39,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
-        visible: { // 0 = 볼 수 없음 , 1 = 볼 수 있음
-            type: DataTypes.BOOLEAN,
+        visible: { // 0 = 볼 수 없음 , 1 = 볼 수 있음 , 2= 볼 수 없게함
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
       },
