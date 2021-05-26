@@ -102,7 +102,7 @@ const postUpdateEventad = async (req,res) => {
 };
 
 const deleteEventad = async (req,res)=> {
-  await Eventad.destroy({where:{id:req.session.updateEventadId}});
+  await Eventad.destroy({where:{id:req.params.eventadId}});
   let eventad = await Eventad.findAll({});
     res.render("admin_eventad", { title: "",  data:{
       eventadList:eventad
