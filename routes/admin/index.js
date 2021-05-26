@@ -43,6 +43,7 @@ router.post("/login", async (req, res, next) => {
     result.password === req.body.password
   ) {
     req.session.user_id = req.body.user_id;
+    req.session.permission = 1;
     // res.render("admin_main", { title: "", session: req.session });
     res.redirect('/admin');
   } else {
