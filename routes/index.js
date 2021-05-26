@@ -61,9 +61,11 @@ router.get('/product', async function(req, res, next) {
     attributes: ["id", "name"],
   });
   let sort = req.query.sortby ? req.query.sortby : 0;
+  let by = req.query.b ? req.query.b : 0;
   let offset = 0;
   let pageNum = req.query.page;
   let sorting = ['title', 'price', 'id'];
+  let byList = ['desc', 'asc'];
 
   if(pageNum > 1){
     offset = 12 * (pageNum - 1);
@@ -75,7 +77,7 @@ router.get('/product', async function(req, res, next) {
     where: {
       categoryinId: (req.query.c)
     },
-    order: [[sorting[sort], 'desc']]
+    order: [[sorting[sort], byList[by]]]
   });
 
   let count = await db.Product.count({
@@ -91,6 +93,7 @@ router.get('/product', async function(req, res, next) {
     category: category,
     cate: cate,
     sortby: sort,
+    by: by,
     count: count
   });
 });
@@ -106,10 +109,12 @@ router.get('/search', async function(req, res, next) {
   let min = req.query.minPrice;
   let max = req.query.maxPrice;
   let sort = req.query.sortby ? req.query.sortby : 0;
+  let by = req.query.b ? req.query.b : 0;
   let pageNum = req.query.page;
   let offset = 0;
   let count;
   let sorting = ['title', 'price', 'id'];
+  let byList = ['desc', 'asc'];
 
   if(pageNum > 1){
     offset = 12 * (pageNum - 1);
@@ -135,7 +140,7 @@ router.get('/search', async function(req, res, next) {
         }
       ]
     },
-    order: [[sorting[sort], 'desc']]
+    order: [[sorting[sort], byList[by]]]
   });
   count = await db.Product.count({
     where: {
@@ -171,7 +176,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -213,7 +218,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -257,7 +262,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -304,7 +309,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -354,7 +359,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -410,7 +415,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -439,7 +444,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
   }
 
@@ -476,7 +481,7 @@ router.get('/search', async function(req, res, next) {
           }
         ]
       },
-      order: [[sorting[sort], 'desc']]
+      order: [[sorting[sort], byList[by]]]
     });
     count = await db.Product.count({
       where: {
@@ -521,6 +526,7 @@ router.get('/search', async function(req, res, next) {
     min: min,
     max: max,
     sortby: sort,
+    by: by,
     count: count
   });
 });
