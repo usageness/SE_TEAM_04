@@ -105,9 +105,8 @@
             
                     <h1><%= eventad.title %></h1>
                     <h2><%= eventad.start %>~<%= eventad.end %></h2>
-                
-                 </a>
-            </div>
+                </div>
+                </a>
             <% } %>
         <% }) %>
         </div>
@@ -133,7 +132,9 @@
         <div class="d-flex flex-row justify-content-center">
             <div class="product-list">
                 <div class="row">
-            <% for(var i=0; i<4; i++) { %>
+                <% if (items[0]) { %>
+                <% for(var i=0; i<items.length; i++) { %>
+                <% if(i<4) { %>
                 <a href="/product/<%= items[i].id %>">
                     <div class="card product-button" style="width: 16rem;">
                         <img class="card-img-top"
@@ -143,11 +144,10 @@
                             <h5 class="card-title"><%= items[i].title %></h5>
                             <p class="price"><%= items[i].price %>원</p>
                             <p class="card-text"><%= items[i].content %></p>
-
                         </div>
                     </div>
                 </a>
-            <% } %>
+            <% } } } %>
                 </div>
             </div>
         </div>
