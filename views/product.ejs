@@ -101,6 +101,7 @@
                             <p class="price"><%= items[i].price %>원</p>
                             <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
                         </div>
+                        <div id="addCart<%= items[i].id%>" class="btn btn-outline-primary" onclick="AddCart(<%= items[i].id%>)">장바구니에 추가</div>
                     </div>
                 <% } %>
                 <% if(items.length === 0) {%>
@@ -137,16 +138,37 @@
 <!-- footer -->
 <% include ./footer.ejs %>
 <!-- script -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script></script>
+<script>
+    function AddCart(id){
+        const formData = new FormData();
+        formData.append('itemId', id)
+        $.ajax({
+            url: '/cart',
+            type: 'POST',
+            data : Object.fromEntries(formData),
+            success: function(){
+                alert("추가했습니다.");
+                console.log('form submitted.');
+            },
+            error: function(){
+                alert("추가 실패했습니다.");
+                console.log('실패');
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        
+    })
+</script>
 
 </body>
 </html>
