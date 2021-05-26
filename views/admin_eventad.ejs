@@ -182,6 +182,7 @@
             <th scope="col">이미지</th>
             <th scope="col">시작일</th>
             <th scope="col">종료일</th>
+            <th scope="col">활성화</th>
           </tr>
         </thead>
         <tbody>
@@ -192,6 +193,11 @@
             <td><img src = "/image/<%= eventad.imageurl %>" width="500px"></td>
             <td><%= eventad.start %></td>
             <td><%= eventad.end %></td>
+            <% if (eventad.visible == 1) { %>
+              <td>✅</td>
+              <% } else { %>
+              <td>❌</td>
+              <% } %>
           </tr>
          <% }) %>
         </tbody>
