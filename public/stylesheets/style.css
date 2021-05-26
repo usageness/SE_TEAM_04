@@ -9,7 +9,11 @@ body {
 }
 
 a {
-    color: #00B7FF;
+    color:#212529;
+    text-decoration: none;
+}
+a:hover {
+    color:#212529;
     text-decoration: none;
 }
 
@@ -40,7 +44,12 @@ a {
 .carousel-item h1{
     position: absolute;
     top:50%;
-    left:50%;
+    left:52%;
+}
+.carousel-item h2{
+    position: absolute;
+    top:80%;
+    left:52%;
 }
 .is-pulled-right {
     float: right !important;
@@ -172,3 +181,42 @@ input {
     margin-top: 30px;
     font-size: 40px;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+  }
+  .productCategory { grid-area: 1 / 1 / 2 / 2; }
+  .image { grid-area: 2 / 1 / 3 / 2; }
+  .productLink {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "amount address"
+      "productCart purchase";
+    grid-area: 2 / 2 / 3 / 3;
+  }
+  .productCart { grid-area: productCart; }
+  .purchase { grid-area: purchase; }
+  .amount { grid-area: amount; }
+  .address { grid-area: address; }
+  .productContent { grid-area: 3 / 1 / 4 / 3; }
+  .namePrice {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "name"
+      "price";
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  .name { grid-area: name; }
+  .price { grid-area: price; }
+  .productImage { grid-area: 2 / 1 / 3 / 2; }
+
+  

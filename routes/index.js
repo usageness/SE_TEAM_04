@@ -17,6 +17,7 @@ const {
 } = require("../controllers/addressController");
 const { route } = require("./admin");
 const { eventadVisibelCheck, getEventadDetail } = require("../controllers/eventadController");
+const { getProductDetail } = require("../controllers/productController");
 
 /* GET home page. */
 router.get('/', eventadVisibelCheck, async function(req, res, next) {
@@ -99,6 +100,7 @@ router.get('/product', async function(req, res, next) {
   });
 });
 
+router.get('/product/:productId',getProductDetail);
 
 router.get('/search', async function(req, res, next) {
   let session = req.session;
