@@ -96,12 +96,12 @@
                 %>
                     <div class="card product-button" style="width: 16rem;">
                         <img class="card-img-top"
-                             src="https://thumbnail8.coupangcdn.com/thumbnails/remote/230x230ex/image/vendor_inventory/269b/b25e1140af6fed443547f988bf349df290e5b934325560f1c05f0ba1795b.jpg"
+                             src="/image/<%= items[i].imageurl %>"
                              alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title"><%= items[i].title %></h5>
                             <p class="price"><%= items[i].price %>원</p>
-                            <p class="card-text">보물을 가장 빨리 찾는 사람은 누구인가</p>
+                            <p class="card-text"><%= items[i].content %></p>
                         </div>
                     </div>
                 <% } %>

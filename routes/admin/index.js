@@ -106,9 +106,6 @@ router
         console.log(err);
       });
 
-
-      
-
       var itemId = "-";
       var product = await db.Product.create({
         title: req.body.name,

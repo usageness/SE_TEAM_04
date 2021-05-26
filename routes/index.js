@@ -23,7 +23,7 @@ router.get('/', async function(req, res, next) {
 
   var products = await db.Product.findAll({
     attributes: ["id", "title", "price", "imageurl"],
-    limit: 4,
+    order: [["id", "DESC"]]
   });
   let category = await db.Category.findAll({
     attributes: ["id", "name"],
