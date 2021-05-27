@@ -18,7 +18,7 @@
     <div id="wrapper">
       <table id="table" class="table" sortable="checked">
         <h1>배송지 목록</h1>
-        <form action="/address" method="POST">
+        <form action="/user/<%= session.user_id %>/address" method="POST">
         <thead>
           <tr>
             <th scope="col">기본배송지</th>
@@ -33,7 +33,7 @@
           <% if(data.defaultAddress) { %>
           <tr>
             <td scope="row"><input type="radio" name="address" value="<%= data.defaultAddress.name %>" checked></td>
-            <td><a style="color:#212529" href="/:userId/address/<%= data.defaultAddress.id %>/update"><%= data.defaultAddress.name %></a></td>
+            <td><a style="color:#212529" href="/user/<%= session.user_id %> /address/<%= data.defaultAddress.id %>/update"><%= data.defaultAddress.name %></a></td>
             <td><%= data.defaultAddress.receiver %></td>
             <td><%= data.defaultAddress.address %> , <%= data.defaultAddress.detailesAddress %></td>
             <td><%= data.defaultAddress.postalCode %></td>
@@ -43,7 +43,7 @@
           <% data.addressList.forEach(function(address, i){ %>
             <tr>
               <td scope="row"><input type="radio" name="address" value="<%= address.name %>"></td>
-              <td><a style="color:#212529" href="/:userId/address/<%= address.id %>/update"><%= address.name %></a></td>
+              <td><a style="color:#212529" href="/user/<%= session.user_id %>/address/<%= address.id %>/update"><%= address.name %></a></td>
               <td><%= address.receiver %></td>
               <td><%= address.address %> , <%= address.detailesAddress %></td>
               <td><%= address.postalCode %></td>
@@ -52,9 +52,12 @@
           <% }) %>
         </tbody>
       </table>
-      <a style="color:#212529" href="/address/new"><input type="button" value="신규 배송지 등록"></a>
+      <a style="color:#212529" href="/user/<%= session.user_id %>/address/new"><input type="button" value="신규 배송지 등록"></a>
       
         <input type="submit" name="register" value="변경 사항 저장" >
+      </form>
+      <form action="/" method="GET"> 
+        <input type="submit" value="홈으로 이동">
       </form>
     </div>
   </body>

@@ -18,8 +18,8 @@
       <h1 id="address-form-description">
        배송지 수정
       </h1>
-      <form action="/:userId/address/<%= data.updateAddress.id %>/update" method="POST" id="address-form">
-        <input type="text" name="addressname" id="extraAddress" value="<%= data.updateAddress.name %>"><br>
+      <form action="/user/<%= data.session.user_id %>/address/<%= data.updateAddress.id %>/update" method="POST" id="address-form">
+        <input type="text" name="addressname" id="extraAddress" value="<%= data.updateAddress.name %>" maxlength='20'><br>
         <input type="text" name="postcode" id="postcode"  value="<%= data.updateAddress.postalCode %>" readonly/>
         <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
         <input type="text" name="roadAddress" id="roadAddress"value="<%= data.updateAddress.address %>"readonly/><br>
@@ -29,7 +29,7 @@
         <input type="text" name="receiver" id="receiver" placeholder="수령인 이름" value="<%= data.updateAddress.receiver %>"><br>
         <input type="submit" id="submit" value="배송지 수정">
       </form>
-      <form action="/:userId/address/<%= data.updateAddress.id %>/delete" method="POST">
+      <form action="/user/<%= data.session.user_id %>/address/<%= data.updateAddress.id %>/delete" method="POST">
         <input type="submit" id="delete" value="배송지 삭제">
       </form>
     </div>

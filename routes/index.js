@@ -533,13 +533,14 @@ router.get('/search', async function(req, res, next) {
 
 router.route('/event/:eventadId').get(getEventadDetail);
 
-router.get('/address', getAddress);
+router.get('/user/:userId/address', getAddress);
+router.post('/user/:userId/address',postAddress);
 
-router.route("/address/new").get(getAddressRegister).post(postAddressRegister);
+router.route("/user/:userId/address/new").get(getAddressRegister).post(postAddressRegister);
 
-router.route("/address/:addressId/delete").post(deleteAddress);
+router.route("/user/:userId/address/:addressId/delete").post(deleteAddress);
 
-router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
+router.route("/user/:userId/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 router.use("/admin", adminRouter);
 
 module.exports = router;
