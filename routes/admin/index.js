@@ -1,5 +1,6 @@
 var express = require("express");
 const fs = require('fs')
+const crypto = require('crypto');
 
 var router = express.Router();
 const User = require("../../models").User;
@@ -36,11 +37,15 @@ router.get("/login", (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   const result = await db.User.findOne({ where: { permission: 1 } });
+  let salt = result.dataValues.salt;
+  let dbPassword = result.dataValues.password;
+  let inputPassword = req.body.password;
+  let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
+
   console.log(result)
   if (
-    result !== null &&
     result.user_id === req.body.user_id &&
-    result.password === req.body.password
+    dbPassword === hashPassword
   ) {
     req.session.user_id = req.body.user_id;
     req.session.permission = 1;
