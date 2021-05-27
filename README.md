@@ -1,6 +1,6 @@
 # 소프트웨어공학 4팀
 
-보드게임을 판매하는 쇼핑몰입니다. [링크](http://ec2-3-35-220-38.ap-northeast-2.compute.amazonaws.com/)에서 확인 가능합니다. 
+보드게임을 판매하는 쇼핑몰입니다. [링크](http://ec2-3-37-87-181.ap-northeast-2.compute.amazonaws.com:3000/)에서 확인 가능합니다. 
 
 ## 팀원
 - 김용래 (팀장)
