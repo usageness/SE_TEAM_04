@@ -17,23 +17,34 @@
 <body>
 <% include ./header.ejs %>
 <div class="grid-container">
-  <div class="category"></div>
-  <div class="image"></div>
-  <div class="link">
-    <div class="cart"></div>
-    <div class="purchase"></div>
-    <div class="amount"></div>
-    <div class="address">
-      <% if(session.user_id){ %>
-      <a href="/user/<%= session.user_id %>/address"><input type="button" value="배송지"></a>
-      <% } %>
+  <div class="g"></div>
+  <div class="category">  <%= data.category.name %></div>
+  <div class="image"><img src="/image/<%= data.product.imageurl %>"></div>
+  <div class="left_p">
+    <div class="name">제목:<p><%= data.product.title %></p>
+    정가: <p id="price"><%= data.product.price %></p>
+    제작사: <p><%= data.product.designer %></p>
+    플레이 인원: <p><%= data.product.playersMin %> ~ <%= data.product.playersMax %> 명</p>
     </div>
+    <div class="cart_p"></div>
   </div>
-  <div class="content"></div>
-  <div class="namePrice">
-    <div class="name"></div>
-    <div class="price"></div>
+  <div class="right_p">
+    <div class="address"><% if(session.user_id){ %>
+      <a href="/user/<%= session.user_id %>/address"><input type="button" value="배송지"></a>
+      <% } else { %>
+        <a href="/login"><input type="button" value="배송지"></a>
+      <% } %></div>
+    <div class="purchase_p">
+      <form name="form" method="get"></form>
+      수량:<input type=hidden id="sell_price" value="<%= data.product.price %>">
+      <input type="text" id="amount" value="1" size="3" onchange="change();">
+      <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br>
+      
+      금액 : <input type="text" id="sum" size="11" readonly>원
+    </form>
+      <input type="button" value="바로구매"></div>
   </div>
+  <div class="content"><%= data.product.content %></div>
 </div>
 <% include ./footer.ejs %>
 <!-- script -->
@@ -47,4 +58,42 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
+<script  language="JavaScript">
+  var sell_price;
+var amount;
+
+window.onload = function init () {
+	sell_price = document.getElementById('sell_price').value;
+	amount = document.getElementById('amount').value;
+	document.getElementById('sum').value = sell_price;
+	change();
+}
+
+function add () {
+	hm = document.getElementById('amount');
+	sum = document.getElementById('sum');
+	hm.value ++ ;
+
+	sum.value = parseInt(hm.value) * sell_price;
+}
+
+function del () {
+	hm = document.getElementById('amount');
+	sum = document.getElementById('sum');
+		if (hm.value > 1) {
+			hm.value -- ;
+			sum.value = parseInt(hm.value) * sell_price;
+		}
+}
+
+function change () {
+	hm = document.getElementById('amount');
+	sum = document.getElementById('sum');
+
+		if (hm.value < 0) {
+			hm.value = 0;
+		}
+	sum.value = parseInt(hm.value) * sell_price;
+}  
+</script>
 </html>

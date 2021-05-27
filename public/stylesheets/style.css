@@ -184,39 +184,40 @@ input {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2.1fr 0.8fr 0.9fr;
+    grid-template-rows: 0.4fr 1.7fr 0.9fr;
     gap: 0px 0px;
   }
-  .productCategory { grid-area: 1 / 1 / 2 / 2; }
+  .g { grid-area: 1 / 1 / 2 / 2; }
+  .category { grid-area: 1 / 1 / 2 / 2; }
   .image { grid-area: 2 / 1 / 3 / 2; }
-  .productLink {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      "amount address"
-      "productCart purchase";
-    grid-area: 2 / 2 / 3 / 3;
-  }
-  .productCart { grid-area: productCart; }
-  .purchase { grid-area: purchase; }
-  .amount { grid-area: amount; }
-  .address { grid-area: address; }
-  .productContent { grid-area: 3 / 1 / 4 / 3; }
-  .namePrice {
+  .left_p {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 0px 0px;
     grid-template-areas:
       "name"
-      "price";
-    grid-area: 1 / 2 / 2 / 3;
+      "cart_p";
+    grid-area: 2 / 2 / 3 / 3;
   }
   .name { grid-area: name; }
-  .price { grid-area: price; }
-  .productImage { grid-area: 2 / 1 / 3 / 2; }
-
+  .cart_p { grid-area: cart_p; }
+  .right_p {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "address"
+      "purchase_p";
+    grid-area: 2 / 3 / 3 / 4;
+  }
+  .address { grid-area: address; }
+  .purchase_p { grid-area: purchase_p; }
+  .content { grid-area: 3 / 1 / 4 / 4; }
   
+  
+  
+    
+   
