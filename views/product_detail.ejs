@@ -26,7 +26,7 @@
     제작사: <p><%= data.product.designer %></p>
     플레이 인원: <p><%= data.product.playersMin %> ~ <%= data.product.playersMax %> 명</p>
     </div>
-    <div class="cart_p"></div>
+    <div class="cart_p"> <div id="addCart<%= data.product.id %>" class="btn btn-outline-primary" onclick="AddCart(<%= data.product.id %>)">장바구니에 추가</div></div>
   </div>
   <div class="right_p">
     <div class="address"><% if(session.user_id){ %>
@@ -44,13 +44,11 @@
     </form>
       <input type="button" value="바로구매"></div>
   </div>
-  <div class="content"><%= data.product.content %></div>
+  <div class="content">상세정보: <%= data.product.content %></div>
 </div>
 <% include ./footer.ejs %>
 <!-- script -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -58,7 +56,24 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
-<script  language="JavaScript">
+<script  >
+  function AddCart(id){
+        const formData = new FormData();
+        formData.append('itemId', id)
+        $.ajax({
+            url: '/cart',
+            type: 'POST',
+            data : Object.fromEntries(formData),
+            success: function(){
+                alert("추가했습니다.");
+                console.log('form submitted.');
+            },
+            error: function(){
+                alert("추가 실패했습니다.");
+                console.log('실패');
+            }
+        });
+    }
   var sell_price;
 var amount;
 
@@ -96,4 +111,5 @@ function change () {
 	sum.value = parseInt(hm.value) * sell_price;
 }  
 </script>
+
 </html>
