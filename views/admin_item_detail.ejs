@@ -114,6 +114,12 @@
       <input type="number" id="formprice" class="form-control" name="price" disabled=true value="<%= item.price %>"/>
       <label class="form-label" for="formprice">보드게임 가격</label>
     </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="formDeliverFee" class="form-control" name="deliveryFee" disabled=true value="<%= item.deliveryFee %>"/>
+      <label class="form-label" for="form6Example4">배송비 가격</label>
+    </div>
   
     <!-- Email input -->
     <div class="form-outline mb-4">
@@ -251,6 +257,7 @@
             $("#update-item").text("수정 완료")
             $("#formname").attr("disabled", false)
             $("#formprice").attr("disabled", false)
+            $("#formDeliverFee").attr("disabled", false)
             $("#formcreator").attr("disabled", false)
             $("#formpeoplemin").attr("disabled", false)
             $("#formpeoplemax").attr("disabled", false)
@@ -293,6 +300,14 @@
             }
             if(parseInt(formData.get('price'))%1000 != 0 ){
               alert('보드게임 가격은 1,000 단위로 입력해야 합니다.');
+              return;
+            }
+            if(parseInt(formData.get('deliveryFee'))%1000 != 0 ){
+              alert('배송비는 1,000 단위로 입력해야 합니다.');
+              return;
+            }
+            if(parseInt(formData.get('deliveryFee')) < 1000 ){
+              alert('배송비는 1,000 원보다 커야합니다.');
               return;
             }
             if(parseInt(formData.get('peopleMin')) > parseInt(formData.get('peopleMax')) ){
@@ -356,6 +371,7 @@
                   $("#update-item").text("수정하기")
                   $("#formname").attr("disabled", true)
                   $("#formprice").attr("disabled", true)
+                  $("#formDeliverFee").attr("disabled", true)
                   $("#formcreator").attr("disabled", true)
                   $("#formpeoplemin").attr("disabled", true)
                   $("#formpeoplemax").attr("disabled", true)
@@ -386,6 +402,7 @@
                   $("#update-item").text("수정하기")
                   $("#formname").attr("disabled", true)
                   $("#formprice").attr("disabled", true)
+                  $("#formDeliverFee").attr("disabled", true)
                   $("#formcreator").attr("disabled", true)
                   $("#formpeoplemin").attr("disabled", true)
                   $("#formpeoplemax").attr("disabled", true)

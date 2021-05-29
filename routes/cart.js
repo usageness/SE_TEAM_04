@@ -48,11 +48,17 @@ router.post('/', async function (req, res, next) {
         where:{
             id : req.body.itemId,
         },
+    })
+    const cart = await db.Cart.findOne({
+        where: {
+            userId: user.id,
+            status: 0,
+        },
         include: [{
-            model: db.Cart,
-            as: 'carts',
-            on: {
-                userid: user.id,
+            model: db.Product,
+            as: 'products',
+            where: {
+                id: req.body.itemId,
             } 
         }]
     })
@@ -68,8 +74,10 @@ router.post('/', async function (req, res, next) {
     //         } 
     //     }]
     // })
+    console.log(product)
+    console.log(cart)
     var result;
-    if(product.carts.length != 0){
+    if(cart != null){
         // product.carts[0].id
         // const cart = await db.Cart.findOne({
         //     where: {
@@ -78,19 +86,21 @@ router.post('/', async function (req, res, next) {
         // })
         // cart.amount += 1;
         // result = await cart.save();
+        res.sendStatus(300);
+        return;
     }else{
-        const cart = await db.Cart.create({
+        const _cart = await db.Cart.create({
             userId: user.id,
             amount: 1
         })
-        cart.addProducts(product, {
+        _cart.addProducts(product, {
             through: {createAt: new Date(), updateAt: new Date() }
         })
-        result = await cart.save();
+        result = await _cart.save();
     }
 
-    console.log(product)
-    console.log(product.carts)
+    // console.log(product)
+    // console.log(product.carts)
     // console.log(cart.products)
     // res.render('cart', {title: 'Express', session: session, carts: cart});
     if(result){
