@@ -128,7 +128,7 @@ router
         playersMax: req.body.peopleMax,
         playTime: 10,
         difficulty: 1,
-        deliveryFee: 2000,
+        deliveryFee: req.body.deliveryFee,
       });
       var category = await db.Category.findOne({
         where: {
@@ -238,11 +238,11 @@ router
     product.url =  "-";
     product.content =  req.body.description;
     product.price =  req.body.price;
+    product.deliveryFee =  req.body.deliveryFee;
     product.playersMin =  req.body.peopleMin;
     product.playersMax =  req.body.peopleMax;
     product.playTime =  10;
     product.difficulty =  1;
-    product.deliveryFee =  2000;
     product.categoryinId = req.body.category;
     console.log(1)
 
@@ -343,6 +343,7 @@ router.get('/salerate', async function(req, res) {
     ]
   })
   var result = []
+  // console.log(logs)
   for(var i = 0; i < logs.length; i++){
     // result.push({date: logs[i].date, count: logs[i].count, sum: logs[i].sum})
     result.push(logs[i].dataValues)
@@ -385,7 +386,7 @@ router.get('/bestitem', async function(req, res) {
     ]
   })
   var result = []
-  console.log(logs)
+  // console.log(logs)
   for(var i = 0; i < logs.length; i++){
     result.push(logs[i].dataValues)
   }
@@ -441,12 +442,13 @@ router.get('/bestcategory', async function(req, res) {
   res.json(result);
 });
 
-router.get("/order", isLoggedIn, async function (req, res, next) {
+router.route("/order")
+.get(isLoggedIn, async function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()
 
   dateMin.setDate(dateMin.getDate() - 7)
-  if(req.params.dateMin != undefined && req.params.dateMin != undefined){
+  if(req.params.dateMin != undefined && req.params.dateMax != undefined){
     var dateMin = new Date(req.query.dateMin.slice(4, 8), (req.query.dateMin.slice(0, 2) - 1), req.query.dateMin.slice(2, 4), 0, 0, 0)
     var dateMax = new Date(req.query.dateMax.slice(4, 8), (req.query.dateMax.slice(0, 2) - 1), req.query.dateMax.slice(2, 4), 23, 59, 59)
     dateMin.setHours(dateMin.getHours() + 9)
@@ -465,17 +467,55 @@ router.get("/order", isLoggedIn, async function (req, res, next) {
       }
       
     },
-    attributes: ["id", "date", "count", "status"],
+    attributes: [
+      "id", "date", "count", "status", 'amount', 'count', 'logId', 
+      [db.Sequelize.literal('SUM(`amount` * `count`)'), 'amountAll'],
+      [db.Sequelize.fn('COUNT', db.Sequelize.col('purchaselog.id')), 'productsCount'],
+    ],
     include:[
       {
         model: db.Product,
         as: 'purchase',
         attributes: ['id', 'title']
       },
-    ]
+    ],
+    group: ['logId']
   });
+  // console.log(logs)
+  console.log(logs[6].id)
+  console.log(logs[6].dataValues.amountAll)
   res.render("admin_order", { logs: logs, dateMin: dMin, dateMax: dMax});
-});
+})
+.put(isLoggedIn, async function (req, res, next) {
+  const logId = req.body.logId;
+  const currentStatus = req.body.currentStatus;
+  const targetStatus = req.body.targetStatus;
+  const log = await db.PurchaseLog.findOne({
+    where: {
+      logId: logId,
+    }
+  })
+  console.log(log.status)
+  console.log(currentStatus)
+  console.log(targetStatus)
+
+  var result = false;
+  if(currentStatus == 1 && log.status == 1 && targetStatus == 2){
+    result = await db.PurchaseLog.update({status: 2},{where:{logId: logId}});
+  }else if(currentStatus == 2 && log.status == 2 && targetStatus == 3){
+    result = await db.PurchaseLog.update({status: 3},{where:{logId: logId}});
+
+  }
+
+  if(result){
+    res.sendStatus(200);
+  }else{
+    res.sendStatus(400);
+  }
+  
+
+})
+
 
 
 

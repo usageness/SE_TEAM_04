@@ -15,6 +15,11 @@ module.exports = function (sequelize, DataTypes) {
             unique: false,
             defaultValue: 1,
         },
+        status: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0, // 0 - before pay, 1 - ready pay, 2 - ended pay
+        },
     }, 
       {
         tableName: 'Cart',

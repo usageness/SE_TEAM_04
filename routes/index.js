@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const db = require("../models");
 var adminRouter = require('./admin');
+var payRouter = require('./pay.js');
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 const path = require('path')
@@ -541,5 +542,6 @@ router.route("/address/:addressId/delete").post(deleteAddress);
 
 router.route("/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 router.use("/admin", adminRouter);
+router.use("/pay", payRouter);
 
 module.exports = router;

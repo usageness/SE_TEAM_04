@@ -13,7 +13,7 @@
     
 
     <!-- Bootstrap core CSS -->
-		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
     <!-- Jquery Datatables -->
@@ -22,6 +22,14 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
+    <!-- datepicker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+    
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -36,11 +44,13 @@
           font-size: 3.5rem;
         }
       }
+      html,body{
+        overflow-y: auto;
+      }
     </style>
 
     
-    <!-- Custom styles for this template -->
-    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+    
   </head>
   <body>
     
@@ -103,70 +113,196 @@
 <main class="container">
   <h1 class="mb-5 text-center">주문 관리</h1>
   <table border="0" cellspacing="5" cellpadding="5">
-    <tbody><tr>
-        <td>기간:</td>
-        <td><input type="text" id="min" name="min"></td>
-        <td>~</td>
-        <td><input type="text" id="max" name="max"></td>
-    </tr>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class='col-md-3 mr-5 col-xs-4'> 
+        <div class="form-group"> 
+          <div class="input-group date" id="datetimepicker1" data-target-input="nearest"> 
+            
+            <input type="text" id="minDate" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="<%= dateMin%>"> 
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker"> 
+              <div class="input-group-text">
+                <i class="fa fa-calendar">
+  
+                </i>
+              </div> 
+            </div> 
+          </div> 
+        </div> 
+      </div> 
+      ~
+      <div class='col-md-3 ml-5 col-xs-4'> 
+        <div class="form-group"> 
+          <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
+            <input type="text" id="maxDate"class="form-control datetimepicker-input" data-target="#datetimepicker2" value="<%= dateMax%>"> 
+            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker"> 
+              <div class="input-group-text">
+                <i class="fa fa-calendar">
+  
+                </i>  
+              </div> 
+            </div> 
+          </div> 
+        </div> 
+      </div>
+      
+    </div>
+    
+  </div>
   </tbody></table>
   <div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
     <table id="table" class="table" sortable="checked">
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">주문 일자</th>
           <th scope="col">상품명</th>
           <th scope="col">상태</th>
-          <th scope="col">개수</th>
+          <th scope="col">총 가격</th>
           <th scope="col">버튼</th>
         </tr>
       </thead>
       <tbody>
+        <% month = ['01', '02','03','04','05','06','07','08','09','10','11','12']%>
         <% for(var i=0; i<logs.length; i++) {%>
-          <tr>
-            <td scope="row"><%= i+1 %></td>
+          <tr id = "<%=logs[i].logId%>">
+            <td scope="row"><%=logs[i].logId%></td>
+            <% d = new Date(logs[i].date)%>
+            <td><%=d.getFullYear() + '/' + ((((d.getMonth()+1) - 9) > 0) ? '' + (d.getMonth()+1):'0' +  (d.getMonth()+1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate():'0' +  d.getDate()); %></td>
+            <% if(logs[i].dataValues.productsCount == 1){%>
             <td><%= logs[i].purchase.title %></td>
-            <td><%= logs[i].status %></td>
-            <td><%= logs[i].count %></td>
-            <td><button>asd</button></td>
+            <% }else{%>
+            <td><%= logs[i].purchase.title + ' 외 ' + (parseInt(logs[i].dataValues.productsCount) - 1) %></td>
+            <% }%>
+
+            <% if(logs[i].status == 1){%>
+            <td class="status">결제 완료</td>
+            <% }else if(logs[i].status == 2) {%>
+            <td class="status">배송 중</td>
+            <% }else if(logs[i].status == 3) {%>
+            <td class="status">배송 완료</td>
+            <% }else if(logs[i].status == 4) {%>
+            <td class="status">구매 확정</td>
+            <% }%>
+            <td><%= logs[i].dataValues.amountAll + '원' %></td>
+            <% if(logs[i].status == 1){%>
+            <td><button class="btn btn-outline-primary start-delivery">배송 시작</button></td>
+            <% }else if(logs[i].status == 2) {%>
+            <td><button class="btn btn-outline-primary finish-delivery">배송 완료</button></td>
+            <% }else if(logs[i].status == 3) {%>
+            <td><button class="btn btn-outline-secondery wait-confirm" disabled=true >구매 확정 대기</button></td>
+            <% }else if(logs[i].status == 4) {%>
+            <td><button class="btn btn-outline-secondery finish-confirm" disabled=true >구매 완료</button></td>
+            <% }%>
+            
           </tr>
         <% } %>
       </tbody>
     </table>
   </div>
-  <a class="mt-3 mb-3 mr-3 btn btn-primary float-right" href="/admin/newitem">상품 등록</a>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="sidebars.js"></script>
     <script>
+
+      $('.start-delivery').on('click', (e) => {
+        var el = e.target.parentElement.parentElement
+        var formData = new FormData();
+        formData.append('logId', el.id);
+        formData.append('currentStatus', 1);
+        formData.append('targetStatus', 2);
+
+        $.ajax({
+          url: '/admin/order',
+          type: 'PUT',
+          data : Object.fromEntries(formData),
+          success: function(){
+            alert("배송 시작했습니다.");
+            console.log('form submitted.');
+            window.location.href = '/admin/order'
+            // el.querySelector('.status').innerHTML = '배송 중'
+            // el.querySelector('.start-delivery').innerHTML = '배송 완료'
+            // el.querySelector('.start-delivery').classList.add("finish-delivery")
+            // el.querySelector('.start-delivery').classList.remove("start-delivery")
+          },
+          error: function(){
+            alert("배송 시작 실패했습니다.");
+            console.log('실패');
+          }
+        });
+      })
+      $('.finish-delivery').on('click', (e) => {
+        var el = e.target.parentElement.parentElement
+        var formData = new FormData();
+        formData.append('logId', el.id);
+        formData.append('currentStatus', 2);
+        formData.append('targetStatus', 3);
+
+        $.ajax({
+          url: '/admin/order',
+          type: 'PUT',
+          data : Object.fromEntries(formData),
+          success: function(){
+            alert("배송 시작했습니다.");
+            console.log('form submitted.');
+            window.location.href = '/admin/order'
+            // el.querySelector('.status').innerHTML = '배송 완료'
+            // el.querySelector('.finish-delivery').innerHTML = '구매 확정 대기'
+            // el.querySelector('.finish-delivery').setAttribute('disabled', true)
+            // el.querySelector('.finish-delivery').classList.add("btn-outline-secondery")
+            // el.querySelector('.finish-delivery').classList.add("wait-confirm")
+            // el.querySelector('.finish-delivery').classList.remove("btn-outline-primary")
+            // el.querySelector('.finish-delivery').classList.remove("finish-delivery")
+            
+          },
+          error: function(){
+            alert("배송 시작 실패했습니다.");
+            console.log('실패');
+          }
+        });
+      })
       
       $(document).ready(function(){
-        
         var table = $('#table').DataTable();
-        // Event listener to the two range filtering inputs to redraw on input
-        console.log($.fn.dataTable.ext.search)
+
+        $('#datetimepicker1').datetimepicker({ format: 'L'}); 
+        $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false }); 
+        $("#datetimepicker1").on("change.datetimepicker", async function (e) { 
+          $('#datetimepicker2').datetimepicker('minDate', e.date); 
+          
+          table.draw();
+        }); 
+        $("#datetimepicker2").on("change.datetimepicker", function (e) { 
+          $('#datetimepicker1').datetimepicker('maxDate', e.date); 
+          table.draw();
+          
+        }); 
+        
+        
         $.fn.dataTable.ext.search.push(
           function( settings, data, dataIndex ) {
-            var min = parseInt( $('#min').val(), 10 );
-            var max = parseInt( $('#max').val(), 10 );
-            var price = data[2].replace(',', '') || 0; // use data for the age column
-            console.log(price)
-            if ( ( isNaN( min ) && isNaN( max ) ) ||
-                ( isNaN( min ) && price <= max ) ||
-                ( min <= price  && isNaN( max ) ) ||
-                ( min <= price  && price <= max ) )
+            var min = $('#minDate').val();
+            var max = $('#maxDate').val();
+            // console.log(min)
+            // console.log(max)
+            min = min.slice(6, 10) + '/' + min.slice(0, 5)
+            max = max.slice(6, 10) + '/' + max.slice(0, 5)
+            var date = data[1]|| 0; // use data for the age column
+            console.log(date + '  ' + min  + '  ' + max)
+            console.log(date >= min)
+            // console.log(min)
+            // console.log(max)
+            if ( ( !min.match('[0-9]{4}\/[0-9]{2}\/[0-9]{2}').length && !max.match('[0-9]{4}\/[0-9]{2}\/[0-9]{2}').length ) ||
+                ( !min.match('[0-9]{4}\/[0-9]{2}\/[0-9]{2}').length && date <= max ) ||
+                ( min <= date  && !max.match('[0-9]{4}\/[0-9]{2}\/[0-9]{2}').length ) ||
+                ( min <= date  && date <= max ) )
             {
               return true;
             }
             return false;
           }
         );
-
-        $('#min, #max').keyup( function() {
-          table.draw();
-        } );
 
         
       });

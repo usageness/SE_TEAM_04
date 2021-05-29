@@ -158,15 +158,26 @@
             url: '/cart',
             type: 'POST',
             data : Object.fromEntries(formData),
-            success: function(){
+            success: function(data, status){
+                console.log(status)
                 alert("추가했습니다.");
                 console.log('form submitted.');
+
+                
             },
-            error: function(){
-                alert("추가 실패했습니다.");
-                console.log('실패');
+            error: function(data, status){
+                if(data.status == 300){
+                    alert("이미 장바구니에 있습니다.");
+                    console.log('form submitted.');
+                }else{
+                    
+                    alert("추가 실패했습니다.");
+                    console.log('실패');
+                }
+                
+                
             }
-        });
+        })
     }
 
     $(document).ready(function(){
