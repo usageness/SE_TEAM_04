@@ -40,17 +40,18 @@
 
         <div class="product-list">
             <div class="row">
-                <% for(var i=0; i<items.length; i++) {
-                %>
+                <% for(var i=0; i<items.length; i++) { %>
                     <div class="card product-button" style="width: 16rem;">
-                        <img class="card-img-top"
-                             src="/image/<%= items[i].imageurl %>"
-                             alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= items[i].title %></h5>
-                            <p class="price"><%= items[i].price %>원</p>
-                            <p class="card-text"><%= items[i].content %></p>
-                        </div>
+                        <a href="/product/<%= items[i].id %>">
+                            <img class="card-img-top"
+                                 src="/image/<%= items[i].imageurl %>"
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= items[i].title %></h5>
+                                <p class="price"><%= items[i].price %>원</p>
+                                <p class="card-text"><%= items[i].content %></p>
+                            </div>
+                        </a>
                     </div>
                 <% } %>
                 <% if(items.length === 0) {%>
