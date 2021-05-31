@@ -66,6 +66,7 @@
 <div style="clear:both;"></div>
 
 <div class="container">
+    <!-- 최신 상품 섹션 -->
     <span class="h3" style="font-weight: bold;">최신등록 상품</span> | <span>퀵보드가 엄선한 최신 상품</span>
     <div class="product">
         <div class="d-flex flex-row justify-content-center">
@@ -87,6 +88,32 @@
                     </div>
                 </a>
             <% } } } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 인기 상품 섹션 -->
+    <span class="h3" style="font-weight: bold;">인기 상품</span> | <span>퀵보드 최고 인기 상품</span>
+    <div class="product">
+        <div class="d-flex flex-row justify-content-center">
+            <div class="product-list">
+                <div class="row">
+                    <% if (items[0]) { %>
+                        <% for(var i=0; i<items.length; i++) { %>
+                            <% if(i<4) { %>
+                                <a href="/product/<%= items[i].id %>">
+                                    <div class="card product-button" style="width: 16rem;">
+                                        <img class="card-img-top"
+                                             src="/image/<%= items[i].imageurl %>"
+                                             alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= items[i].title %></h5>
+                                            <p class="price"><%= items[i].price %>원</p>
+                                            <p class="card-text"><%= items[i].content %></p>
+                                        </div>
+                                    </div>
+                                </a>
+                    <% } } } %>
                 </div>
             </div>
         </div>
