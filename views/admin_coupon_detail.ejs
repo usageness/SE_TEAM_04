@@ -97,7 +97,7 @@
 <main class="container">
   <form id="form" >
     <h1 class="mb-5 text-center">새 쿠폰 등록하기</h1>
-
+    <%if(coupon.type == 1){%>
     <div class="btn-group btn-group-toggle" id="typedivradio" data-toggle="buttons">
       <label class="btn btn-outline-primary">
         <input type="radio" class="type" name="typebtnradio" id="typebtnradio1" disabled=true checked>[최소 가격] 이상 구매시, [할인 가격] 할인</input>
@@ -106,6 +106,17 @@
         <input type="radio" class="type" name="typebtnradio" id="typebtnradio2" disabled=true>[카테고리] 상품 구매시, [할인율] 할인, 최대 [최대 할인 가격]</input>
       </label>
     </div>
+    <%}else{%>
+    <div class="btn-group btn-group-toggle" id="typedivradio" data-toggle="buttons">
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio1" disabled=true>[최소 가격] 이상 구매시, [할인 가격] 할인</input>
+      </label>
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio2" disabled=true checked>[카테고리] 상품 구매시, [할인율] 할인, 최대 [최대 할인 가격]</input>
+      </label>
+    </div>
+    <%}%>
+
     <br>
 
     쿠폰타입
