@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.DATE,
           allowNull: false,
       },
-      Type: { // 0 - minPrice 이상 구매 시 discountStatic 할인, 1 - 카테고리(categoryId) 포함 시 (discountPercent/100) % 할인 최대 maxDiscount원 할인
+      Type: { // 1 - minPrice 이상 구매 시 discountStatic 할인, 2 - 카테고리(categoryId) 포함 시 (discountPercent/100) % 할인 최대 maxDiscount원 할인
           type: DataTypes.INTEGER,
           allowNull: false,
       },

@@ -19,6 +19,9 @@ const db = require("../../models");
 const multer = require('multer');
 const mainImageUpload = multer({ dest: 'data/image/' });
 
+router.use("/coupon", require('./coupon'));
+
+
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
   var dateMax = new Date()

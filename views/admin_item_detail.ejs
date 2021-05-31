@@ -236,7 +236,7 @@
           if(!confirm('정말 삭제하시겠습니까?')) return;
 
           $.ajax({
-            url: $form.getAttribute("action"),
+            url: '/admin/item/<%=item.id%>',
             type: 'DELETE',
             data : $("#form").serialize(),
             success: function(){
