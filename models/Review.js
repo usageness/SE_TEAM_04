@@ -23,9 +23,13 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         },
         date: { // 작성일
-            type: DataTypes.DATE,
-            allowNull: false,
+          type: DataTypes.DATE,
+          allowNull: false,
         },
+        like: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+        }
     }, 
       {
         tableName: 'Review',
@@ -35,14 +39,6 @@ module.exports = function (sequelize, DataTypes) {
       }
     )
     Review.associate = (models) => {
-      Review.belongsTo(models.User, {
-        as: "review",
-        foreignKey: "userId",
-      });
-      Review.belongsTo(models.Product, {
-        as: "reviews",
-        foreignkey: "productId",
-      });
     }
     return Review
   }

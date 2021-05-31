@@ -56,6 +56,15 @@ module.exports = function (sequelize, DataTypes) {
         as: "purchase",
         foreignKey: "productId",
       });
+      PurchaseLog.hasOne(models.Review, {
+        as: "reviews",
+        foreignkey: "purcahseLogId",
+      });
+      PurchaseLog.hasMany(models.Inquiry, {
+        as: "QNA",
+        foreignkey: "purcahseLogId",
+      });
+      
     }
     
     return PurchaseLog;

@@ -68,6 +68,10 @@ module.exports = function (sequelize, DataTypes) {
         as: "review",
         foreignKey: "userId",
       });
+      User.belongsToMany(models.Coupon, {
+        as: "coupon",
+        through: "Coupon_User",
+      });
     }
     return User;
   }
