@@ -36,6 +36,9 @@ router.post("/", async function(req,res,next) {
                 console.log("유저의 퍼미션 : " + result.dataValues.permission);
                 if(result.dataValues.permission === 1) res.redirect("/admin");
                 else res.redirect("/");
+            }else{
+                console.log("비밀번호 불일치");
+                res.send('<script type="text/javascript">alert("아이디 또는 비밀번호가 일치하지 않습니다"); location.href = "/login";</script>');
             }
 
         }else {
