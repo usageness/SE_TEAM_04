@@ -4,7 +4,6 @@ module.exports = function (sequelize, DataTypes) {
       {
         used: {
             type: DataTypes.BOOLEAN,
-            primaryKey: true,
             allowNull: false,
             defaultValue: false
         },
