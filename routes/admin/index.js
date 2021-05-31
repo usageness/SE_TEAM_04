@@ -37,22 +37,26 @@ router.get("/login", (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   const result = await db.User.findOne({ where: { permission: 1 } });
-  let salt = result.dataValues.salt;
-  let dbPassword = result.dataValues.password;
-  let inputPassword = req.body.password;
-  let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
+  if (result !== null) {
+    let salt = result.dataValues.salt;
+    let dbPassword = result.dataValues.password;
+    let inputPassword = req.body.password;
+    let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
 
-  console.log(result)
-  if (
-    result.user_id === req.body.user_id &&
-    dbPassword === hashPassword
-  ) {
-    req.session.user_id = req.body.user_id;
-    req.session.permission = 1;
-    // res.render("admin_main", { title: "", session: req.session });
-    res.redirect('/admin');
-  } else {
-    res.status(401).send("잘못된 접근입니다.");
+    console.log(result)
+    if (
+      result.user_id === req.body.user_id &&
+      dbPassword === hashPassword
+    ) {
+        req.session.user_id = req.body.user_id;
+        req.session.permission = 1;
+        // res.render("admin_main", { title: "", session: req.session });
+        res.redirect('/admin');
+    } else {
+      res.status(401).send("잘못된 접근입니다.");
+    }
+  }else{
+    res.send('<script type="text/javascript">alert("아이디 또는 비밀번호가 일치하지 않습니다"); location.href = "/admin";</script>');
   }
 });
 

@@ -52,9 +52,12 @@ router.get('/image/:imageFileName', async function(req, res, next) {
   res.sendFile(path.join(__dirname, '../data/image/' + imageFileName));
 });
 
-router.get('/notice', function(req, res, next) {
+router.get('/notice', async function(req, res, next) {
   let session = req.session;
-  res.render('index', { title: 'Express', session: session });
+  let category = await db.Category.findAll({
+    attributes: ["id", "name"],
+  });
+  res.render('index', { title: 'Express', session: session, category: category });
 });
 
 router.get('/product', async function(req, res, next) {

@@ -6,6 +6,9 @@ const db = require("../models");
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     let session = req.session;
+    let category = await db.Category.findAll({
+        attributes: ["id", "name"],
+    });
     if(req.session.user_id == undefined){
         res.send('로그인 후 접속하세요.<br><a href="/">홈으로</a> ')
         return;
@@ -27,7 +30,7 @@ router.get('/', async function (req, res, next) {
     })
 
     console.log(cart)
-    res.render('cart', {title: 'Express', session: session, carts: cart});
+    res.render('cart', {title: 'Express', session: session, carts: cart, category: category});
 });
 
 router.post('/', async function (req, res, next) {
