@@ -486,8 +486,6 @@ router.route("/order")
     group: ['logId']
   });
   // console.log(logs)
-  console.log(logs[6].id)
-  console.log(logs[6].dataValues.amountAll)
   res.render("admin_order", { logs: logs, dateMin: dMin, dateMax: dMax});
 })
 .put(isLoggedIn, async function (req, res, next) {
