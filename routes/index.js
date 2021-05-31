@@ -547,5 +547,6 @@ router.route("/user/:userId/address/:addressId/delete").post(deleteAddress);
 router.route("/user/:userId/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 router.use("/admin", adminRouter);
 router.use("/pay", payRouter);
+router.use("/coupon", require('./coupon'));
 
 module.exports = router;
