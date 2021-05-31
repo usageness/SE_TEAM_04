@@ -1,14 +1,18 @@
 var express = require('express');
 var router = express.Router();
 const crypto = require('crypto');
-const users = require("../models");
+const db = require("../models");
 
 /* GET signUp page. */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
     let session = req.session;
+    let category = await db.Category.findAll({
+        attributes: ["id", "name"],
+    });
     res.render('signUp', {
         title: 'Express',
-        session: session
+        session: session,
+        category: category
     });
 });
 
@@ -21,14 +25,14 @@ router.post('/', function (req, res, next) {
     let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
 
     let existCheckId =
-        users.User.findOne({
+        db.User.findOne({
             where: {
                 user_id: body.user_id
             }
         });
 
     let existCheckEmail =
-        users.User.findOne({
+        db.User.findOne({
             where: {
                 email: body.email
             }
@@ -38,7 +42,7 @@ router.post('/', function (req, res, next) {
         if(!result) {
             existCheckEmail.then((result) => {
                 if(!result) {
-                    users.User.create({
+                    db.User.create({
                         user_id: body.user_id,
                         password: hashPassword,
                         nickname: body.nickname,

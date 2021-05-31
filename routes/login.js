@@ -1,22 +1,25 @@
 var express = require('express');
 var router = express.Router();
-const users = require("../models");
+const db = require("../models");
 const crypto = require('crypto');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
     let session = req.session;
-
+    let category = await db.Category.findAll({
+        attributes: ["id", "name"],
+    });
     res.render('login', {
         title: 'Express',
-        session: session
+        session: session,
+        category: category
     });
 });
 
 router.post("/", async function(req,res,next) {
     let body = req.body;
 
-    let result = await users.User.findOne({
+    let result = await db.User.findOne({
         where: {
             user_id: body.user_id
         }
