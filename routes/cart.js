@@ -26,11 +26,26 @@ router.get('/', async function (req, res, next) {
         include: [{
             model: db.Product,
             as: 'products',
+            include: [{
+                model: db.Category,
+                as: "categoryin"
+            }]
+        }]
+    })
+    const _user = await db.User.findOne({
+        where:{
+            user_id: req.session.user_id,
+        },
+        include: [{
+            model: db.Coupon,
+            as: 'coupon',
+            through:'Coupon_User',
         }]
     })
 
-    console.log(cart)
-    res.render('cart', {title: 'Express', session: session, carts: cart, category: category});
+    // console.log(cart)
+    // console.log(_user.coupon)
+    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[]});
 });
 
 router.post('/', async function (req, res, next) {
@@ -39,6 +54,7 @@ router.post('/', async function (req, res, next) {
         res.sendStatus('400')
         return;
     }
+
     
 
     const user = await db.User.findOne({
@@ -46,6 +62,7 @@ router.post('/', async function (req, res, next) {
             user_id: req.session.user_id,
         },
     })
+    
 
     const product = await db.Product.findOne({
         where:{
@@ -65,30 +82,13 @@ router.post('/', async function (req, res, next) {
             } 
         }]
     })
-    // const cart = await db.Cart.findOne({
-    //     where: {
-    //         userId: user.id,
-    //     },
-    //     include: [{
-    //         model: db.Product,
-    //         as: 'products',
-    //         on: {
-    //             id: req.body.itemId,
-    //         } 
-    //     }]
-    // })
-    console.log(product)
-    console.log(cart)
+    
+
+    // console.log(product)
+    // console.log(cart)
     var result;
     if(cart != null){
         // product.carts[0].id
-        // const cart = await db.Cart.findOne({
-        //     where: {
-        //         id: product.carts[0].id,
-        //     }
-        // })
-        // cart.amount += 1;
-        // result = await cart.save();
         res.sendStatus(300);
         return;
     }else{
