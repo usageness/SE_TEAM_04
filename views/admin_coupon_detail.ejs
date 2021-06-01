@@ -316,7 +316,7 @@
           formData.delete('btnradio')
           formData.append('category', $('#divradio>.active').text().trim());
           formData.delete('typedivradio')
-          formData.append('type', ($('#divradio>.active').id == 'typebtnradio1') ? 1 : 2);
+          formData.append('type', ($('#typedivradio>.active>input')[0].id == 'typebtnradio1') ? 1 : 2);
 
           
           $.ajax({
