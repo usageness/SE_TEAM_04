@@ -48,7 +48,7 @@ router
       discountPercent: discountPercent,
       maxDiscount: maxDiscount,
       date: new Date(),
-      Type: type,
+      type: type,
       CategoryId: _category?_category.id:null
     })
     result = true;
@@ -100,7 +100,7 @@ router
     coupon.discountPercent = discountPercent,
     coupon.maxDiscount = maxDiscount,
     coupon.date = new Date(),
-    coupon.Type = type,
+    coupon.type = type,
     coupon.CategoryId = _category?_category.id:null
 
     result = await coupon.save();
