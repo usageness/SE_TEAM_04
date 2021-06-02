@@ -19,6 +19,14 @@ router.get('/', async function (req, res, next) {
             user_id: req.session.user_id,
         }
     })
+    await db.Cart.update({
+        status:0
+    },
+    {
+        where: {
+            userId: user.id
+        }
+    })
     const cart = await db.Cart.findAll({
         where: {
             userId: user.id
