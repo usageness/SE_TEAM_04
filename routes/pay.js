@@ -155,6 +155,42 @@ router.get('/success', async (req, res) => {
       as: 'products',
     }]
   })
+  var price = 0
+  var deliveryFee = 0
+  for (let index = 0; index < carts.length; index++) {
+    if(deliveryFee < carts[index].products[0].deliveryFee){
+      deliveryFee = carts[index].products[0].deliveryFee
+    }
+    price += parseInt(carts[index].products[0].price) * parseInt(carts[index].amount);
+  }
+
+  const couponUser = await db.Coupon_User.findOne({
+    where:{
+      used:1, 
+      UserId: user.id
+    }
+  })
+  const coupon = await db.Coupon.findOne({
+    where: {
+      id: couponUser.CouponId
+    }
+  })
+  var totalAmount = parseInt(price) + parseInt(deliveryFee);
+  console.log(coupon)
+  if(coupon){
+    if(coupon.type == 1){
+      totalAmount -= parseInt(coupon.discountStatic)
+    }else{
+      if(totalAmount * parseInt(coupon.discountPercent) / 100 >= parseInt(coupon.maxDiscount)){
+        totalAmount -= parseInt(coupon.maxDiscount)
+      }else{
+        totalAmount -= Math.floor(totalAmount * parseInt(coupon.discountPercent) / 100)
+      }
+    }
+  }
+  
+  console.log(totalAmount)
+
   var logId = -1;
   for (let i = 0; i < carts.length; i++) {
     const cart = carts[i];
@@ -163,7 +199,7 @@ router.get('/success', async (req, res) => {
         date: new Date(),
         count: cart.amount,
         logId: 0,
-        amount: cart.amount * cart.products[0].price,
+        amount: totalAmount,
         status: 1,
         // addressId: 0,
         productId: cart.products[0].id,
@@ -177,7 +213,7 @@ router.get('/success', async (req, res) => {
         date: new Date(),
         count: cart.amount,
         logId: logId,
-        amount: cart.amount * cart.products[0].price,
+        amount: 0,
         status: 1,
         // addressId: 0,
         productId: cart.products[0].id,
@@ -187,6 +223,7 @@ router.get('/success', async (req, res) => {
     const _cart = await db.Cart.findOne({where:{id:cart.id}})
     _cart.destroy();
     await db.Coupon_User.update({used:2}, {where:{used:1, UserId: user.id}})
+
 
   }
 
