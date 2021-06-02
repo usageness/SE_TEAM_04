@@ -14,12 +14,11 @@ const getProductDetail = async (req,res) => {
     },
     attributes:[
       'id', 'title', 'designer', 'tag', 'imageurl', 'url', 'content', 'price', 'playersMin', 'playersMax', 'playTime', 'difficulty', 'deliveryFee', 'hidden', 'CategoryId', 'uploaderId', 'categoryinId',
-      [db.Sequelize.literal('avg(review.score)'), 'avgScore'],
+      [db.Sequelize.literal('avg(Reviews.score)'), 'avgScore'],
     
     ],
     include:[{
       model: db.Review,
-      as: "review"
     }]
   });
   let category = await Category.findOne({where: {id: product.categoryinId}});

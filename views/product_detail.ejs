@@ -24,7 +24,7 @@
   <div class="image"><img src="/image/<%= data.product.imageurl %>"></div>
   <div class="left_p">
     <div class="name">상품명:<p><%= data.product.title %></p>
-    별점: <p id="avgScore"><%= data.product.dataValues.avgScore?parseFloat(data.product.dataValues.avgScore).toFixed(1):0.0 %></p>
+    별점: <p id="avgScore"><%= data.product.dataValues.avgScore?parseFloat(data.product.dataValues.avgScore).toFixed(1):'0.0' %></p>
     정가: <p id="price"><%= data.product.price %></p>
     제작사: <p><%= data.product.designer %></p>
     플레이 인원: <p><%= data.product.playersMin %> ~ <%= data.product.playersMax %> 명</p>
@@ -58,7 +58,7 @@
     <thead>
       <tr>
         <th scope="col" >추천</th>
-        <th scope="col" >배송평가</th>
+        <th scope="col" >별점</th>
         <th scope="col" >내용</th>
         <th scope="col" >아이디</th>
         <th scope="col" >일자</th>
@@ -71,7 +71,8 @@
         <td ><%=reviews[i].score%></td>
         <td ><%=reviews[i].content%></td>
         <td ><%=reviews[i].user.user_id%></td>
-        <td ><%=reviews[i].date%></td>
+        <% d = new Date(reviews[i].date)%>
+        <td><%=d.getFullYear() + '/' + ((((d.getMonth()+1) - 9) > 0) ? '' + (d.getMonth()+1):'0' +  (d.getMonth()+1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate():'0' +  d.getDate()); %></td>
       </tr>
    <% }%>
     </tbody>
