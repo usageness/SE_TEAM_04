@@ -93,8 +93,6 @@ module.exports = function (sequelize, DataTypes) {
             foreignkey: "productId",
         });
         Product.hasMany(models.Review, {
-            as: "review",
-            foreignkey: "productId",
         });
     }
     return Product

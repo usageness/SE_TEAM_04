@@ -30,7 +30,7 @@ const getProductDetail = async (req,res) => {
 
   const reviews = await db.Review.findAll({
     where:{
-      productId: product.id,
+      ProductId: product.id,
     },
     include:[{
       model: db.User,
