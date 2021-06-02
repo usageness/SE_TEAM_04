@@ -548,5 +548,6 @@ router.route("/user/:userId/address/:addressId/update").get(getUpdateAddress).po
 router.use("/admin", adminRouter);
 router.use("/pay", payRouter);
 router.use("/coupon", require('./coupon'));
+router.use("/order", require('./order'));
 
 module.exports = router;
