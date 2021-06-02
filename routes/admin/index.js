@@ -476,7 +476,7 @@ router.route("/order")
     },
     attributes: [
       "id", "date", "count", "status", 'amount', 'count', 'logId', 
-      [db.Sequelize.literal('SUM(`amount` * `count`)'), 'amountAll'],
+      [db.Sequelize.literal('SUM(`amount`)'), 'amountAll'],
       [db.Sequelize.fn('COUNT', db.Sequelize.col('purchaselog.id')), 'productsCount'],
     ],
     include:[
