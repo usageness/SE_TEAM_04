@@ -4,35 +4,36 @@ const db = require("../models");
 
 
 /* GET home page. */
-router.get('/', async function (req, res, next) {
-    let session = req.session;
-    let category = await db.Category.findAll({
-        attributes: ["id", "name"],
-    });
-    if(req.session.user_id == undefined){
-        res.sendStatus(400)
-        return;
-    }
+// router.get('/', async function (req, res, next) {
+//     let session = req.session;
+//     let category = await db.Category.findAll({
+//         attributes: ["id", "name"],
+//     });
+//     if(req.session.user_id == undefined){
+//         res.sendStatus(400)
+//         return;
+//     }
 
-    const user = await db.User.findOne({
-        where:{
-            user_id: req.session.user_id,
-        },
-        include: [{
-            model: db.Coupon,
-            as: 'coupon',
-            through:'Coupon_User',
-            where:{
-                'Coupon_User.used': 0,
-            },
-            include:[{
-                model: db.Category
-            }]
-        }]
-    })
+//     const user = await db.User.findOne({
+//         where:{
+//             user_id: req.session.user_id,
+//         },
+//         include: [{
+//             model: db.Coupon,
+//             as: 'coupon',
+//             through:'Coupon_User',
+//             where:{
+//                 'Coupon_User.used': 0,
+//             },
+//             include:[{
+//                 model: db.Category
+//             }]
+//         }]
+//     })
 
-    res.json({coupons: coupon});
-});
+//     res.json({coupons: coupon});
+// });
+
 /* GET home page. */
 router.get('/:coupon_code', async function (req, res, next) {
     let session = req.session;
