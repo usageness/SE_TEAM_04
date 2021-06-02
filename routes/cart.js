@@ -47,7 +47,13 @@ router.get('/', async function (req, res, next) {
         include: [{
             model: db.Coupon,
             as: 'coupon',
-            through:'Coupon_User',
+            through: {
+                model: db.Coupon_User,
+                where:{
+                    used: 0
+                }
+            },
+            
         }]
     })
 

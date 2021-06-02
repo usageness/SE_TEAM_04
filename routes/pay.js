@@ -80,8 +80,8 @@ router.post('/', async function(req, res, next) {
             }
         }]
     })
-    console.log(coupon)
-    if(coupon.user.used){
+    console.log(coupon.user[0].Coupon_User.used)
+    if(coupon.user[0].Coupon_User.used != 0){
       res.send('쿠폰을 이미 사용했습니다')
       return;
     }
@@ -94,6 +94,7 @@ router.post('/', async function(req, res, next) {
         totalAmount -= Math.floor(totalAmount * coupon.discountPercent / 100)
       }
     }
+    await db.Coupon_User.update({used:1}, {where:{CouponId: coupon.id, UserId: user.id}})
   }
   //Parameters - replace values as you want, **except cid**.
   const data = qs.stringify({
@@ -185,6 +186,8 @@ router.get('/success', async (req, res) => {
     }
     const _cart = await db.Cart.findOne({where:{id:cart.id}})
     _cart.destroy();
+    await db.Coupon_User.update({used:2}, {where:{used:1, UserId: user.id}})
+
   }
 
   
@@ -227,6 +230,8 @@ router.get('/cancel', async (req, res) => {
     _cart.status = 0;
     _cart.save();
   }
+  await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
+
 
   res.send('결제 취소했습니다.')
 })
@@ -257,6 +262,8 @@ router.get('/fail', async (req, res) => {
     _cart.status = 0;
     _cart.save();
   }
+  await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
+
   res.send('결제 실패했습니다.')
 })
 

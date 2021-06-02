@@ -23,7 +23,7 @@ router.get('/', async function (req, res, next) {
             as: 'coupon',
             through:'Coupon_User',
             where:{
-                'Coupon_User.used': false,
+                'Coupon_User.used': 0,
             },
             include:[{
                 model: db.Category
