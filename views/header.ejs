@@ -65,15 +65,29 @@
                     </form>
                 </div>
                 <div class="col-3">
-                    <div class="btn-group float-right ">
-                        <button type="button" class="btn btn-primary">개인정보</button>
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                    <div class="btn-group float-right">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                            장바구니
+                            개인정보
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/cart">장바구니 바로가기</a>
+                            <a class="dropdown-item" href="/order">주문내역</a>
+                            <% if(session.user_id){ %>
+                                <a class="dropdown-item" href="/user/<%= session.user_id %>/address">배송지관리</a>
+                                <% } else { %>
+                                <a class="dropdown-item" href="/login">배송지관리</a>
+                                <% } %>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                장바구니
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/cart">장바구니 바로가기</a>
+                            </div>
                         </div>
                     </div>
                 </div>
