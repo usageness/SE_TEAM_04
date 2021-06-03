@@ -170,11 +170,14 @@ router.get('/success', async (req, res) => {
       UserId: user.id
     }
   })
-  const coupon = await db.Coupon.findOne({
-    where: {
-      id: couponUser.CouponId
-    }
-  })
+  if(couponUser){
+    const coupon = await db.Coupon.findOne({
+      where: {
+        id: couponUser.CouponId
+      }
+    })
+  }
+  
   var totalAmount = parseInt(price) + parseInt(deliveryFee);
   console.log(coupon)
   if(coupon){
