@@ -179,18 +179,21 @@ router.get('/success', async (req, res) => {
   }
   
   var totalAmount = parseInt(price) + parseInt(deliveryFee);
-  console.log(coupon)
-  if(coupon){
-    if(coupon.type == 1){
-      totalAmount -= parseInt(coupon.discountStatic)
-    }else{
-      if(totalAmount * parseInt(coupon.discountPercent) / 100 >= parseInt(coupon.maxDiscount)){
-        totalAmount -= parseInt(coupon.maxDiscount)
+  
+  
+    if(typeof coupon !== "undefined"){
+      if(coupon.type == 1){
+        totalAmount -= parseInt(coupon.discountStatic)
       }else{
-        totalAmount -= Math.floor(totalAmount * parseInt(coupon.discountPercent) / 100)
+        if(totalAmount * parseInt(coupon.discountPercent) / 100 >= parseInt(coupon.maxDiscount)){
+          totalAmount -= parseInt(coupon.maxDiscount)
+        }else{
+          totalAmount -= Math.floor(totalAmount * parseInt(coupon.discountPercent) / 100)
+        }
       }
     }
-  }
+  
+  
   
   console.log(totalAmount)
 
