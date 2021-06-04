@@ -92,6 +92,8 @@ module.exports = function (sequelize, DataTypes) {
         Product.hasMany(models.ProductImage, {
             foreignkey: "productId",
         });
+        Product.hasMany(models.Review, {
+        });
     }
     return Product
   }

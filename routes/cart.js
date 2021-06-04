@@ -27,6 +27,15 @@ router.get('/', async function (req, res, next) {
             userId: user.id
         }
     })
+    await db.Coupon_User.update({
+        used: 0
+    },
+    {
+        where: {
+            UserId: user.id,
+            used: 1
+        },
+    })
     const cart = await db.Cart.findAll({
         where: {
             userId: user.id
@@ -47,7 +56,13 @@ router.get('/', async function (req, res, next) {
         include: [{
             model: db.Coupon,
             as: 'coupon',
-            through:'Coupon_User',
+            through: {
+                model: db.Coupon_User,
+                where:{
+                    used: 0
+                }
+            },
+            
         }]
     })
 

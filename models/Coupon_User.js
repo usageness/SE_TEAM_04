@@ -3,7 +3,7 @@ module.exports = function (sequelize, DataTypes) {
       'Coupon_User',
       {
         used: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: false
         },

@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
-</HEAD>
+
+    
+  </HEAD>
 
 <body>
 <% include ./header.ejs %>
@@ -50,7 +52,8 @@
   </div>
   </div>
   <div class="left_p">
-    <div class="name">제목:<p><%= data.product.title %></p>
+    <div class="name">상품명:<p><%= data.product.title %></p>
+    별점: <p id="avgScore"><%= data.product.dataValues.avgScore?parseFloat(data.product.dataValues.avgScore).toFixed(1):'0.0' %></p>
     정가: <p id="price"><%= data.product.price %></p>
     제작사: <p><%= data.product.designer %></p>
     플레이 인원: <p><%= data.product.playersMin %> ~ <%= data.product.playersMax %> 명</p>
@@ -75,6 +78,35 @@
   </div>
   <div class="content">상세정보: <%= data.product.content %></div>
 </div>
+
+<div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+
+  
+  <p style="font-size: xx-large;" >상품평</p>
+  <table id="table" class="table" sortable="checked">
+    <thead>
+      <tr>
+        <th scope="col" >추천</th>
+        <th scope="col" >별점</th>
+        <th scope="col" >내용</th>
+        <th scope="col" >아이디</th>
+        <th scope="col" >일자</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% for(var i = 0; i < reviews.length; i++){%>
+      <tr>
+        <td scope="row"><%=reviews[i].like?'추천':'비추'%></td>
+        <td ><%=reviews[i].score%></td>
+        <td ><%=reviews[i].content%></td>
+        <td ><%=reviews[i].user.user_id%></td>
+        <% d = new Date(reviews[i].date)%>
+        <td><%=d.getFullYear() + '/' + ((((d.getMonth()+1) - 9) > 0) ? '' + (d.getMonth()+1):'0' +  (d.getMonth()+1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate():'0' +  d.getDate()); %></td>
+      </tr>
+   <% }%>
+    </tbody>
+  </table>
+</div>
 <% include ./footer.ejs %>
 <!-- script -->
 <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
@@ -84,6 +116,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<!-- Jquery Datatables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+
 </body>
 <script  >
   function AddCart(id){
@@ -112,6 +148,9 @@ window.onload = function init () {
 	document.getElementById('sum').value = sell_price;
 	change();
 }
+$(document).ready(function(){
+  var table = $('#table').DataTable();
+})
 
 function add () {
 	hm = document.getElementById('amount');

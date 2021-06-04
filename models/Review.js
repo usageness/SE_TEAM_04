@@ -26,7 +26,7 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.DATE,
           allowNull: false,
         },
-        like: {
+        like: { 
           type: DataTypes.BOOLEAN,
           allowNull: false,
         }
@@ -39,6 +39,11 @@ module.exports = function (sequelize, DataTypes) {
       }
     )
     Review.associate = (models) => {
+      Review.belongsTo(models.Product, {
+      });
+      Review.belongsTo(models.User, {
+        as: "user",
+      });
     }
     return Review
   }
