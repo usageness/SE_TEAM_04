@@ -125,9 +125,9 @@
         <% }%>
         <td><%= logs[i].dataValues.amountAll + '원' %></td>
         <% if(logs[i].status == 1){%>
-          <td><button class="btn btn-outline-primary inquiry">문의하기</button></td>
+          <td><a href="/qna"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
         <% }else if(logs[i].status == 2) {%>
-          <td><button class="btn btn-outline-primary inquiry">문의하기</button></td>
+          <td><a href="/qna"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
         <% }else if(logs[i].status == 3) {%>
           <td><button class="btn btn-outline-primary purchase-confirm" >구매 확정</button></td>
         <% }else if(logs[i].status == 4) {%>
@@ -144,10 +144,22 @@
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="sidebars.js"></script>
-<script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js">
 
   $('.inquiry').on('click', (e) => {
-    alert("문의하기 미구현입니다.")
+    $.ajax({
+      url: '/qna',
+      type: 'PUT',
+      success: function(){
+        console.log('form submitted.');
+        window.location.href = '/qna'
+
+      },
+      error: function(){
+        alert("문의하기 실패했습니다.");
+        console.log('실패');
+      }
+    })
 
   })
   $('.purchase-confirm').on('click', (e) => {
@@ -174,7 +186,7 @@
     });
   })
   $('.review').on('click', (e) => {
-    alert("상품평 미구현입니다.")
+    alert("상품평 미구현입니다.");
   })
 
   $(document).ready(function(){
