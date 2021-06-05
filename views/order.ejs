@@ -131,7 +131,7 @@
         <% }else if(logs[i].status == 3) {%>
           <td><button class="btn btn-outline-primary purchase-confirm" >구매 확정</button></td>
         <% }else if(logs[i].status == 4) {%>
-          <td><button class="btn btn-outline-primary review" >상품평</button></td>
+          <td><a class="btn btn-outline-primary review" href="/product/<%=logs[i].productId%>">상품평</a></td>
         <% }%>
 
       </tr>
@@ -172,9 +172,6 @@
         console.log('실패');
       }
     });
-  })
-  $('.review').on('click', (e) => {
-    alert("상품평 미구현입니다.")
   })
 
   $(document).ready(function(){

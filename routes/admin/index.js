@@ -206,11 +206,28 @@ router
       },
       include: [{
         model: db.ProductImage,
-      }]
+      },{
+        model: db.Review,
+      }],
+      attributes:{
+        include:[
+          [db.Sequelize.literal('avg(Reviews.score)'), 'avgScore'],
+        ]
+      
+      },
     });
+    const reviews = await db.Review.findAll({
+      where:{
+        ProductId: product.id,
+      },
+      include:[{
+        model: db.User,
+        as: 'user'
+      }]
+    })
     var category = await db.Category.findAll();
     console.log(product)
-    res.render("admin_item_detail", { item: product, category: category });
+    res.render("admin_item_detail", { item: product, category: category, reviews, reviews });
   })
   .put(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
     // console.log(req.body)
