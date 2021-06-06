@@ -6,9 +6,11 @@ const db = require("../models");
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     let session = req.session;
+    let cartCount = 0;
     let category = await db.Category.findAll({
         attributes: ["id", "name"],
     });
+
     if(req.session.user_id == undefined){
         res.send('로그인 후 접속하세요.<br><a href="/">홈으로</a> ')
         return;
@@ -18,7 +20,16 @@ router.get('/', async function (req, res, next) {
         where:{
             user_id: req.session.user_id,
         }
-    })
+    });
+
+    if(req.session.user_id !== undefined) {
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+    }
+
     await db.Cart.update({
         status:0
     },
@@ -68,17 +79,16 @@ router.get('/', async function (req, res, next) {
 
     // console.log(cart)
     // console.log(_user.coupon)
-    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[]});
+    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[], cartCount: cartCount});
 });
 
 router.post('/', async function (req, res, next) {
     let session = req.session;
+
     if(req.session.user_id == undefined){
         res.sendStatus('400')
         return;
     }
-
-    
 
     const user = await db.User.findOne({
         where:{

@@ -10,6 +10,21 @@ const getProductDetail = async (req,res) => {
     params: productId
   } =req;
   let session = req.session;
+  let cartCount = 0;
+
+  if (req.session.user_id !== undefined) {
+    const user = await db.User.findOne({
+      where: {
+        user_id: req.session.user_id,
+      }
+    });
+
+    cartCount = await db.Cart.count({
+      where: {
+        userId: user.id
+      }
+    });
+  }
 
   let product = await Product.findOne({
     where:{
@@ -57,6 +72,7 @@ const getProductDetail = async (req,res) => {
   res.render("product_detail", {
     title: "",
     session,
+    cartCount: cartCount,
     data:{
       product,
       category,

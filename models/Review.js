@@ -22,6 +22,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
+        deliveryScore: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+        },
         date: { // 작성일
           type: DataTypes.DATE,
           allowNull: false,

@@ -6,6 +6,8 @@ const db = require("../models");
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     let session = req.session;
+    let cartCount = 0;
+
     let category = await db.Category.findAll({
         attributes: ["id", "name"],
     });
@@ -13,8 +15,20 @@ router.get('/', async function (req, res, next) {
         res.send('로그인 후 접속하세요.<br><a href="/">홈으로</a> ')
         return;
     }
-    
-    const user = await db.User.findOne({where:{user_id: req.session.user_id}})
+
+
+        const user = await db.User.findOne({
+            where: {
+                user_id: req.session.user_id,
+            }
+        });
+
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+
 
     var dateMin = new Date()
     var dateMax = new Date()
@@ -58,7 +72,7 @@ router.get('/', async function (req, res, next) {
         group: ['logId']
     });
     // console.log(logs)
-    res.render("order", { title: 'Express', session: session, category: category,logs: logs, dateMin: dMin, dateMax: dMax});
+    res.render("order", { title: 'Express', session: session, category: category,logs: logs, dateMin: dMin, dateMax: dMax, cartCount: cartCount});
 });
 
 router.put('/', async function (req, res, next) {

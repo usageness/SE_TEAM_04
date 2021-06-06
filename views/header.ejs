@@ -15,6 +15,10 @@
             <%
             if(session.user_id){ %>
                 <span><%= session.nickname %>님 환영합니다!</span>
+                <a href="/cart"><button style="background: yellow; border: 0">
+                    <img src="https://user-images.githubusercontent.com/28296575/120929751-36151200-c725-11eb-9788-206e256d0911.png" style="width:20px"/>
+                    <span><%= cartCount%></span>
+                </button></a>
                 <a href="/logout" class="header-signup">로그아웃</a>
         </div>
         <% } else { %>
