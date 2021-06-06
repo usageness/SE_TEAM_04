@@ -115,23 +115,21 @@
         </thead>
         <tbody>
           <% inquiryList.forEach(function(inquiry, i){ %>
-            <% answerList.forEach(function(answer,j){ %>
-              <% if(answer.inquiryId == inquiry.id) { %>
+           
+            <% if(inquiry.answer) { %>
           <tr>
-            <td scope="row"><%= inquiry.title %><br><hr>└ 답변: <%= answer.title %></td>
-            <td><%= inquiry.content %><br><hr>답변내용:<%= answer.content %> </td>
-            <td><%= inquiry.date %><br><hr><%= answer.date %></td>
+            <td scope="row"><%= inquiry.title %><br><hr>└ 답변: <%= inquiry.answer.title %></td>
+            <td><%= inquiry.content %><br><hr>답변내용:<%= inquiry.answer.content %> </td>
+            <td><%= inquiry.date %><br><hr><%= inquiry.answer.date %></td>
             <td>등록✅</td>
           </tr>
-            <% } else { %>
-              <tr>
-              <td scope="row"><%= inquiry.title %></td>
-              <td><%= inquiry.content %></td>
-              <td><%= inquiry.date %></td>
-              <td>미등록❌</td>
-            </tr>
+           <% } else { %>
+            <td scope="row"><%= inquiry.title %></td>
+            <td><%= inquiry.content %></td>
+            <td><%= inquiry.date %></td>
+            <td>미등록❌</td>
             <% } %>
-          <% }) %>
+         
           <% }) %>
         </tbody>
       </table>

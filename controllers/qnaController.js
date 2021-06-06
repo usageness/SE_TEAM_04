@@ -97,7 +97,7 @@ const getQnaList = async (req, res) => {
     },
     include: [{
       model: db.Inquiry,
-      as: "asnswer"
+      as: "answer"
     }]
   });
 
@@ -124,7 +124,7 @@ const getQnaManage = async (req,res) => {
    },
    include: [{
     model: db.Inquiry,
-    as: "asnswer"
+    as: "answer"
   }]
   });
   const answerList = await Inquiry.findAll({
@@ -184,6 +184,7 @@ const postQnaAns = async (req,res) => {
   inquiry.inquiryId = answer.id;
 
   await inquiry.save();
+  res.redirect("/admin/qna");
 }
 const getQnaAnsEnd = async (req,res) => {
   let session = req.session;

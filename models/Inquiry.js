@@ -35,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
     )
     Inquiry.associate = (models) => {
       Inquiry.hasOne(models.Inquiry, {
-        as: "asnswer",
+        as: "answer",
         foreignKey: "inquiryId",
       });
       Inquiry.belongsTo(models.PurchaseLog, {

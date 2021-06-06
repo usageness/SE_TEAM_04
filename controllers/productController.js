@@ -1,5 +1,7 @@
 const Product = require("../models").Product;
 const Category = require("../models").Category;
+const Address = require("../models").Address;
+const User = require("../models").User;
 const ProductImage = require("../models").ProductImage;
 const db = require("../models");
 
@@ -41,13 +43,25 @@ const getProductDetail = async (req,res) => {
   console.log(product)
   console.log(reviews)
 
+  const user = await User.findOne({
+    where:{
+      user_id:req.session.user_id
+    }
+  });
+  const address = await Address.findOne({
+    where: {
+      userId: user.id,
+      isChecked:true
+    }
+  });
   res.render("product_detail", {
     title: "",
     session,
     data:{
       product,
       category,
-      productImage
+      productImage,
+      address
     },
     category: categorylist,
     reviews: reviews,
