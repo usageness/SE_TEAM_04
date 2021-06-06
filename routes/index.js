@@ -19,7 +19,7 @@ const {
 const { route } = require("./admin");
 const { eventadVisibelCheck, getEventadDetail } = require("../controllers/eventadController");
 const { getProductDetail } = require("../controllers/productController");
-const { getQna,postQna,getQnaList } = require("../controllers/qnaController");
+const { getQna,postQna,getQnaList,getQnaAdd} = require("../controllers/qnaController");
 
 /* GET home page. */
 router.get('/', eventadVisibelCheck, async function(req, res, next) {
@@ -548,7 +548,8 @@ router.route("/user/:userId/address/:addressId/delete").post(deleteAddress);
 router.route("/user/:userId/address/:addressId/update").get(getUpdateAddress).post(postUpdateAddress);
 
 router.route("/qna/:logId").get(getQna).post(postQna);
-router.route("/qnaList").get(getQnaList);
+router.route("/qnaList/:logId").get(getQnaList);
+router.route("/qna/:logId/add").get(getQnaAdd).post(postQna);
 
 router.use("/admin", adminRouter);
 router.use("/pay", payRouter);

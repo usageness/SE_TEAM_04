@@ -3,15 +3,34 @@ const PurchaseLog = require("../models").PurchaseLog;
 const User = require("../models").User;
 const Product = require("../models").Product;
 
-const getQna = (req, res) => {
+const getQna = async (req, res) => {
   let session = req.session;
   let logId = req.params.logId;
-
+const inquiry = await Inquiry.findAll({
+  where:{
+    logId:req.params.logId
+  }
+})
+if(inquiry.length>=1)
+{
+  res.redirect("/qnaList/"+logId);
+} else {
   res.render("qnaResister", {
     session,
     logId,
   });
+}
+  
 };
+
+const getQnaAdd = (req,res) => {
+  let session = req.session;
+  let logId = req.params.logId;
+  res.render("qnaResister", {
+    session,
+    logId,
+  });
+}
 
 const postQna = async (req, res) => {
   const {
@@ -20,10 +39,7 @@ const postQna = async (req, res) => {
   } = req;
   let session = req.session;
 
-  var date = new Date();
-  var year = date.getFullYear();
-  var month = ("0" + (1 + date.getMonth())).slice(-2);
-  var day = ("0" + date.getDate()).slice(-2);
+  
 
   const loginUser = await User.findOne({
     where: {
@@ -47,7 +63,7 @@ const postQna = async (req, res) => {
     const newInquiry = await Inquiry.create({
       title,
       content: "주문번호:" + logId + " 상품명: '" + userProduct.title + "' // " + content,
-      date: year + "-" + month + "-" + day,
+      date:new Date(),
       Type: 0,
     });
 
@@ -61,7 +77,7 @@ const postQna = async (req, res) => {
   
   
 
-  res.redirect("/qnaList");
+  res.redirect("/qnaList/"+logId);
 };
 
 const getQnaList = async (req, res) => {
@@ -75,12 +91,14 @@ const getQnaList = async (req, res) => {
   const inquiryList = await Inquiry.findAll({
     where: {
       PurchaseLogId: loginUser.id,
+      logId:req.params.logId
     },
   });
-
+  let logId = req.params.logId;
   res.render("qnaList", {
     session,
     inquiryList,
+    logId
   });
 };
-module.exports = { getQna, postQna, getQnaList };
+module.exports = { getQna, postQna, getQnaList,getQnaAdd };
