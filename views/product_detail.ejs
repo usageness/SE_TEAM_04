@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<HEAD>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>퀵보드 :: 보드게임 종합 쇼핑몰</title>
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+
+</HEAD>
+
+<body>
+<% include ./header.ejs %>
+<div class="container">
+    <div class="grid-container">
+        <div class="g"></div>
+        <div class="category"> 홈 > <%= data.category.name %></div>
+
+        <div class="image">
+            <div id="carouselExampleIndicators" class="carousel slide mb-5" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-70"
+                             src="/image/<%= data.product.imageurl %>">
+                    </div>
+                    <% data.productImage.forEach(function(image, i){ %>
+                        <div class="carousel-item">
+                            <img src="/image/<%= image.fileName %>" class="d-block w-70"
+                                 alt="...">
+                        </div>
+                    <% }) %>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="left_p">
+            <div class="name"><p class="product-name"><%= data.product.title %></p>
+                <p id="price">₩<%= data.product.price %></p>
+                <hr/>
+                <table class="product-table">
+                    <tr>
+                        <td>
+                            <strong>별점</strong>
+                        </td>
+                        <td>
+                            <span id="avgScore"> <%= data.product.dataValues.avgScore ? parseFloat(data.product.dataValues.avgScore).toFixed(1) : '0.0' %></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>배송비</strong>
+                        </td>
+                        <td>
+                            ₩ <%= data.product.deliveryFee %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>제작사</strong>
+                        </td>
+                        <td>
+                            <%= data.product.designer %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>인원</strong>
+                        </td>
+                        <td>
+                            <%= data.product.playersMin %> ~ <%= data.product.playersMax %> 명
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
+            </div>
+
+            <div class="cart_p">
+                <div id="addCart<%= data.product.id %>" class="btn btn-outline-primary"
+                     onclick="AddCart(<%= data.product.id %>)">장바구니에 추가
+                </div>
+            </div>
+        </div>
+        <div class="right_p">
+            <div class="address">
+                <% if(session.user_id){ %>
+                    <a href="/user/<%= session.user_id %>/address"><input type="button" value="배송지"></a>
+                    <% if(data.address) { %>
+                        <p>기본배송지: <%= data.address.address %> , <%= data.address.detailesAddress %></p>
+                        <% } else { %>
+                        <p>기본배송지: 없음 </p>
+                        <% } %>
+                <% } else { %>
+                    <a href="/login"><input type="button" value="배송지"></a>
+        
+                <% } %>
+            </div>
+            <div class="purchase_p">
+                <form name="form" method="get"></form>
+                수량:<input type=hidden id="sell_price" value="<%= data.product.price %>">
+                <input type="text" id="amount" value="1" size="3" onchange="change();">
+                <input type="button" value=" + " onclick="add();"><input type="button" value=" - " onclick="del();"><br>
+
+                금액 : <input type="text" id="sum" size="11" readonly>원
+                </form>
+                <input type="button" value="바로구매"></div>
+        </div>
+        <div class="content">
+            <p style="font-size: xx-large;">상세정보</p>
+            <%= data.product.content %>
+        </div>
+    </div>
+
+    <p style="font-size: xx-large;">상품평</p>
+    <br>
+
+    <div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+        <div class="container ">
+
+            <form id="form" method="POST">
+                <div class="form-outline mb-4">
+                    <input type="text" id="formcontent" class="form-control" name="content" value="" maxlength='20'/>
+                    <label class="form-label" for="formcontent">한줄평</label>
+                </div>
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="number" id="formscore" class="form-control" name="score" min="1" max="5" value="5"/>
+                    <label class="form-label" for="formscore">별점</label>
+                </div>
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="number" id="formdeliveryscore" class="form-control" name="deliveryscore" min="1" max="5" value="5"/>
+                    <label class="form-label" for="formdeliveryscore">배송 점수</label>
+                </div>
+                <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="btnradio" id="reviewVeryLike" value='2'>매우추천</input>
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="btnradio" id="reviewLike" value='1' checked="checked">추천</input>
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="btnradio" id="reviewHate" value='0'>비추</input>
+                    </label>
+                </div>
+            </form>
+            <button id="addReview" type="button" class="btn btn-primary mb-4 float-right ml-2">리뷰 작성하기</button>
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+
+        <table id="table" class="table" sortable="checked">
+            <thead>
+            <tr>
+                <th scope="col" style="width:10%">추천</th>
+                <th scope="col" style="width:10%">별점</th>
+                <th scope="col" style="width:10%">배송평가</th>
+                <th scope="col" style="width:35%">내용</th>
+                <th scope="col" style="width:10%">이름</th>
+                <th scope="col" style="width:15%">일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for(var i = 0; i < reviews.length; i++){ %>
+            <tr>
+                <%if(reviews[i].like == 2){%>
+                <td scope="row">매우 추천</td>
+                <%}else if(reviews[i].like == 1){%>
+                <td scope="row">추천</td>
+                <%}else if(reviews[i].like == 0){%>
+                <td scope="row">비추</td>
+                <%}%>
+                <td><%= reviews[i].score %></td>
+                <td><%= reviews[i].deliveryScore %></td>
+                <td><%= reviews[i].content %></td>
+                <td>*<%= reviews[i].user.nickname.slice(1,reviews[i].user.nickname.length) %></td>
+                <% d = new Date(reviews[i].date) %>
+                <td><%= d.getFullYear() + '/' + ((((d.getMonth() + 1) - 9) > 0) ? '' + (d.getMonth() + 1) : '0' + (d.getMonth() + 1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate() : '0' + d.getDate()); %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<% include ./footer.ejs %>
+<!-- script -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<!-- Jquery Datatables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
+
+</body>
+<script>
+    function AddCart(id) {
+        const formData = new FormData();
+        formData.append('itemId', id)
+        $.ajax({
+            url: '/cart',
+            type: 'POST',
+            data: Object.fromEntries(formData),
+            success: function () {
+                alert("추가했습니다.");
+                console.log('form submitted.');
+            },
+            error: function () {
+                alert("추가 실패했습니다.");
+                console.log('실패');
+            }
+        });
+    }
+
+    $("#addReview").on("click", () => {
+        if ($('#formcontent')[0].value.length < 3) {
+            alert('한줄평은 3글자 이상 작성해야합니다.');
+            return;
+        }
+        $.ajax({
+            url: '/product/<%= data.product.id %>/review',
+            type: 'POST',
+            data: $("#form").serialize(),
+            success: function () {
+                alert("등록했습니다.");
+                console.log('form submitted.');
+                window.location.href = '/product/<%= data.product.id %>';
+            },
+            error: function (data) {
+                console.log(data)
+                alert(data.responseText);
+                console.log('실패');
+            }
+        });
+    });
+    var sell_price;
+    var amount;
+
+    window.onload = function init() {
+        sell_price = document.getElementById('sell_price').value;
+        amount = document.getElementById('amount').value;
+        document.getElementById('sum').value = sell_price;
+        change();
+        $("#reviewLike").attr('checked', true);
+    }
+    $(document).ready(function () {
+        var table = $('#table').DataTable();
+    })
+
+    function add() {
+        hm = document.getElementById('amount');
+        sum = document.getElementById('sum');
+        hm.value++;
+
+        sum.value = parseInt(hm.value) * sell_price;
+    }
+
+    function del() {
+        hm = document.getElementById('amount');
+        sum = document.getElementById('sum');
+        if (hm.value > 1) {
+            hm.value--;
+            sum.value = parseInt(hm.value) * sell_price;
+        }
+    }
+
+    function change() {
+        hm = document.getElementById('amount');
+        sum = document.getElementById('sum');
+
+        if (hm.value < 0) {
+            hm.value = 0;
+        }
+        sum.value = parseInt(hm.value) * sell_price;
+    }
+
+    $('.carousel').carousel({interval: 2000});
+</script>
+
+</html>

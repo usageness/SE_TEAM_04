@@ -1,8 +1,273 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    position: relative;
 }
 
 a {
-  color: #00B7FF;
+    color: #212529;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #212529;
+    text-decoration: none;
+}
+
+.header-form {
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.header-signup {
+    padding: .5rem 1rem;
+}
+
+.carousel-inner > .carousel-item > img { /* width: 640px; height: 720px; */
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item h1 {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+}
+
+.carousel-item h2 {
+    position: absolute;
+    top: 80%;
+    left: 52%;
+}
+
+.is-pulled-right {
+    float: right !important;
+}
+
+.is-pulled-left {
+    float: left !important
+}
+
+.box {
+    float: left;
+    position: relative;
+}
+
+.front {
+    position: absolute;
+    right: 30px;
+    top: 50px;
+}
+
+.back {
+    right: 0;
+    top: 0;
+}
+
+.list-group {
+    width: 100px;
+}
+
+.bd-highlight .bd-highlight {
+    background-color: white;
+}
+
+.product-button {
+    border: 1px solid #EEEEEE;
+}
+
+.product-button:hover {
+    border: 1px solid skyblue;
+}
+
+h1 a {
+    display: block;
+    background: url("https://user-images.githubusercontent.com/28296575/119583104-d5bad200-be00-11eb-8115-6b82b6991c50.png") no-repeat;
+    background-size: 89px;
+    width: 109px;
+    text-indent: -99em;
+}
+
+.divider {
+    color: #cccccc;
+    margin: 0 .5rem;
+}
+
+.footer-last {
+    background-color: #333333;
+    color: #EEEEEE;
+    text-align: center;
+    padding: 20px;
+}
+
+img {
+    max-width: 100% !important;
+}
+
+input {
+    max-width: 100% !important;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 30rem;
+}
+
+.sortby {
+    background-color: #fafafa;
+    padding: 5px 20px;
+    margin: 10px 0;
+    font-size: 10pt;
+}
+
+.sortby > a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.sortby > a:hover {
+    color: #00B7FF;
+}
+
+.product-list {
+}
+
+.card {
+    margin: 10px;
+}
+
+.price {
+    color: #ae0000;
+    font-weight: bold;
+}
+
+.passwordInfo {
+    color: #999999;
+    font-size: .8rem;
+}
+
+#eventad_image {
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+#eventad_title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 70px;
+}
+
+#eventad_date {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#eventad_content {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 40px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 2.1fr 1.8fr 1.5fr;
+    grid-template-rows: 0.4fr 1.7fr 0.9fr;
+    gap: 0 0;
+}
+
+.g {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.category {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.image {
+    grid-area: 2 / 1 / 3 / 2;
+    padding: 0 2rem 0 0;
+}
+
+.left_p {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0 0;
+    grid-template-areas:
+      "name"
+      "cart_p";
+    grid-area: 2 / 2 / 3 / 3;
+    padding: 0 2rem;
+}
+
+.name {
+    grid-area: name;
+}
+
+.cart_p {
+    grid-area: cart_p;
+}
+
+.right_p {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0 0;
+    grid-template-areas:
+      "address"
+      "purchase_p";
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+.address {
+    grid-area: address;
+}
+
+.purchase_p {
+    grid-area: purchase_p;
+}
+
+.content {
+    grid-area: 3 / 1 / 4 / 4;
+}
+
+.grid-container .category {
+    color: #999999;
+}
+
+.grid-container .product-name {
+    font-size: 1.6rem;
+}
+
+.grid-container #price {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.product-table tr td{
+    padding: .25rem 4rem .25rem 0;
+}
+
+.cart {
+    background: url("https://user-images.githubusercontent.com/28296575/120929751-36151200-c725-11eb-9788-206e256d0911.png") no-repeat;
 }

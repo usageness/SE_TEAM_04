@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container d-flex flex-wrap">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <div class="row">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">즐겨찾기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">입점신청</a>
+                </li>
+            </div>
+        </ul>
+        <div>
+            <%
+            if(session.user_id){ %>
+                <span><%= session.nickname %>님 환영합니다!</span>
+                <a href="/cart"><button style="background: yellow; border: 0">
+                    <img src="https://user-images.githubusercontent.com/28296575/120929751-36151200-c725-11eb-9788-206e256d0911.png" style="width:20px"/>
+                    <span><%= cartCount%></span>
+                </button></a>
+                <a href="/logout" class="header-signup">로그아웃</a>
+        </div>
+        <% } else { %>
+            <form action="/login" method="post">
+                        <span class="form-group">
+                            <label for="user_id" class="sr-only">Email</label>
+                            <input type="text" name="user_id" id="user_id" class="header-form" placeholder="아이디" required>
+                        </span>
+                <span class="form-group">
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" name="password" id="password" class="header-form" placeholder="비밀번호" required>
+                        </span>
+                <input name="login" id="login" class="btn btn-primary login-btn" type="submit" value="로그인">
+            </form>
+    </div>
+    <div><a href="/signUp" class="header-signup">회원가입</a></div>
+    <% } %>
+</div>
+</div>
+</nav>
+<div class="container">
+    <div class="row mt-3 pb-4">
+        <div class="col-2">
+            <div class="btn-group" style="width: 100%; height: 100%">
+                <button type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    카테고리
+                </button>
+                <div class="dropdown-menu">
+                    <% for(var i=0; i<category.length; i++) {%>
+                        <a class="dropdown-item" href="/product?c=<%= category[i].id%>"><%= category[i].name%></a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 mt-4">
+            <div class="row mb-3">
+                <div class="col-3">
+                    <a href="/">
+                        <img src="https://user-images.githubusercontent.com/28296575/119583104-d5bad200-be00-11eb-8115-6b82b6991c50.png"
+                             style="width: 100%"
+                             alt="">
+                    </a>
+                </div>
+                <div class="col-6">
+                    <form class="form-inline" action="../search" method="get">
+                        <input name="q" class="form-control mr-2" type="search" placeholder="Search" style="width: 60%" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="width: 20%">Search</button>
+                    </form>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group float-right">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            개인정보
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/order">주문내역</a>
+                            <% if(session.user_id){ %>
+                                <a class="dropdown-item" href="/user/<%= session.user_id %>/address">배송지관리</a>
+                                <% } else { %>
+                                <a class="dropdown-item" href="/login">배송지관리</a>
+                                <% } %>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                장바구니
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/cart">장바구니 바로가기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width:10%">ㅤ</th>
+                        <th scope="col" style="width:10%">ㅤ</th>
+                        <th scope="col" style="width:10%">ㅤ</th>
+                        <th scope="col" style="width:10%">ㅤ</th>
+                        <th scope="col" style="width:10%">ㅤ</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

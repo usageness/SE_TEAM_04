@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<style>
+      input {
+        margin-top: 15px;
+      }
+      #submit {
+        margin-top: 25px;;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <table id="table" class="table" sortable="checked">
+        <h1>배송지 목록</h1>
+        <form action="/user/<%= session.user_id %>/address" method="POST">
+        <thead>
+          <tr>
+            <th scope="col">기본배송지</th>
+            <th scope="col">배송지 이름</th>
+            <th scope="col">수령인 이름</th>
+            <th scope="col">배송주소</th>
+            <th scope="col">우편번호</th>
+            <th scope="col">전화번호</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(data.defaultAddress) { %>
+          <tr>
+            <td scope="row"><input type="radio" name="address" value="<%= data.defaultAddress.name %>" checked></td>
+            <td><a style="color:#212529" href="/user/<%= session.user_id %> /address/<%= data.defaultAddress.id %>/update"><%= data.defaultAddress.name %></a></td>
+            <td><%= data.defaultAddress.receiver %></td>
+            <td><%= data.defaultAddress.address %> , <%= data.defaultAddress.detailesAddress %></td>
+            <td><%= data.defaultAddress.postalCode %></td>
+            <td><%= data.defaultAddress.phoneNumber %></td>
+          </tr>
+          <% } %>
+          <% data.addressList.forEach(function(address, i){ %>
+            <tr>
+              <td scope="row"><input type="radio" name="address" value="<%= address.name %>"></td>
+              <td><a style="color:#212529" href="/user/<%= session.user_id %>/address/<%= address.id %>/update"><%= address.name %></a></td>
+              <td><%= address.receiver %></td>
+              <td><%= address.address %> , <%= address.detailesAddress %></td>
+              <td><%= address.postalCode %></td>
+              <td><%= address.phoneNumber %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <a style="color:#212529" href="/user/<%= session.user_id %>/address/new"><input type="button" value="신규 배송지 등록"></a>
+      
+        <input type="submit" name="register" value="변경 사항 저장" >
+      </form>
+      <form action="/" method="GET"> 
+        <input type="submit" value="홈으로 이동">
+      </form>
+    </div>
+  </body>
+</html>

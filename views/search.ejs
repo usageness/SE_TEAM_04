@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<HEAD>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>퀵보드 :: 보드게임 종합 쇼핑몰</title>
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</HEAD>
+<BODY>
+<% include ./header.ejs %>
+
+<div class="container">
+    <!-- 상품 목록 -->
+    <div class="container">
+        <h3 id="category"></h3><span>(<%= count %>)</span>
+        <div class="sortby">
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0&b=1">이름순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=0&b=0">이름역순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1&b=0">가격높은순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=1&b=1">가격낮은순</a> <span class="divider">|</span>
+            <a href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=2&b=0">최신등록순</a>
+            <hr>
+            <strong>카테고리 필터</strong><span class="divider">|</span>
+            <form action="search" method="get">
+                <input type="hidden" name="q" value="<%= searchWord %>">
+            <% for(let i=0; i<category.length; i++) {%>
+                <label><input type="checkbox" id="<%= category[i].name%>" name="c" value="<%= category[i].id %>" onclick="filtering()"><%= category[i].name %></label>
+            <% } %><br>
+            <strong>가격 필터</strong><span class="divider">|</span><label><input type="text" name="minPrice"></label> ~ <label><input type="text" name="maxPrice"></label>
+                <input type="submit" value="적용">
+            </form>
+        </div>
+
+        <div class="product-list">
+            <div class="row">
+                <% for(var i=0; i<items.length; i++) { %>
+                    <div class="card product-button" style="width: 16rem;">
+                        <a href="/product/<%= items[i].id %>">
+                            <img class="card-img-top"
+                                 src="/image/<%= items[i].imageurl %>"
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= items[i].title %></h5>
+                                <p class="price"><%= items[i].price %>원</p>
+                                <p class="card-text"><%= items[i].content %></p>
+                            </div>
+                        </a>
+                    </div>
+                <% } %>
+                <% if(items.length === 0) {%>
+                    <p>검색 결과가 없습니다.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <% for(let i = 0; i<count/12;i++) { %>
+                <li class="page-item"><a class="page-link" href="?q=<%= searchWord%>&c=<%= cate%>&minPrice=<%= min%>&maxPrice=<%= max%>&sortby=<%= sortby%>&b=<%= by%>&page=<%= i+1%>"><%= i+1%></a></li>
+            <% } %>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <hr>
+    <!-- footer -->
+    <% include ./footer.ejs %>
+<!-- script -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    let category = document.getElementById("category");
+    let categoryParameter = getParameterByName("q");
+    category.innerText = categoryParameter + "의 검색결과";
+</script>
+</body>
+</html>

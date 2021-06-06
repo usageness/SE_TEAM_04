@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Sidebars · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+		<script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+		
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+    <link rel='stylesheet' href='/stylesheets/partials/dashboard.css' />
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      html, body {
+        overflow-y: auto;
+      }
+    </style>
+
+    
+    
+  </head>
+  <body>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <title>Bootstrap</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+  </symbol>
+  
+  <symbol id="home" viewBox="0 0 16 16">
+    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+  </symbol>
+  <symbol id="event" viewBox="0 0 16 16">
+    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  </symbol>
+  <symbol id="item" viewBox="0 0 16 16">
+    <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
+    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+  </symbol>
+  <symbol id="order" viewBox="0 0 16 16">
+    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+  </symbol>
+  <symbol id="coupon" viewBox="0 0 16 16">
+    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+    <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+  </symbol>
+  <symbol id="qna" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+  </symbol>
+</svg>
+
+<div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+  <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    
+    <span class="fs-4">관리자</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a href="/admin" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+        메인
+      </a>
+    </li>
+    <li>
+      <a href="/admin/eventad" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#event"/></svg>
+        이벤트/광고 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/item" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#item"/></svg>
+        상품 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/order" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#order"/></svg>
+        주문 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/coupon" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#coupon"/></svg>
+        쿠폰 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/qna" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#qna"/></svg>
+        문의내역 관리
+      </a>
+    </li>
+    <li>
+      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
+    </li>
+  </ul>
+  <hr>
+</div>
+<main class="container">
+  <form id="form" >
+    <h1 class="mb-5 text-center">쿠폰 상세화면</h1>
+    <%if(coupon.type == 1){%>
+    <div class="btn-group btn-group-toggle" id="typedivradio" data-toggle="buttons">
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio1" disabled=true checked>[최소 가격] 이상 구매시, [할인 가격] 할인</input>
+      </label>
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio2" disabled=true>[카테고리] 상품 구매시, [할인율] 할인, 최대 [최대 할인 가격]</input>
+      </label>
+    </div>
+    <%}else{%>
+    <div class="btn-group btn-group-toggle" id="typedivradio" data-toggle="buttons">
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio1" disabled=true>[최소 가격] 이상 구매시, [할인 가격] 할인</input>
+      </label>
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio2" disabled=true checked>[카테고리] 상품 구매시, [할인율] 할인, 최대 [최대 할인 가격]</input>
+      </label>
+    </div>
+    <%}%>
+
+    <br>
+
+    쿠폰타입
+    <br>
+    <br>
+    
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="name" class="form-control" name="name" value="<%=coupon.name%>" disabled=true/>
+      <label class="form-label" for="name">쿠폰 이름</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="text" id="code" class="form-control" name="code" value="<%=coupon.code%>" disabled=true/>
+      <label class="form-label" for="code">쿠폰 코드</label>
+    </div>
+  
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="minPrice" class="form-control" name="minPrice" value="<%=coupon.minPrice%>" disabled=true/>
+      <label class="form-label" for="minPrice">쿠폰 적용 최소 가격</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="discountStatic" class="form-control" name="discountStatic" value="<%=coupon.discountStatic%>" disabled=true/>
+      <label class="form-label" for="discountStatic">할인 금액</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="discountPercent" class="form-control" name="discountPercent" value="<%=coupon.discountPercent%>" disabled=true/>
+      <label class="form-label" for="discountPercent">할인율</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="maxDiscount" class="form-control" name="maxDiscount" value="<%=coupon.maxDiscount%>" disabled=true/>
+      <label class="form-label" for="maxDiscount">최대 할인 금액(할인 한도)</label>
+    </div>
+  
+    
+    <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
+      <% for(var i=0; i<category.length; i++) {%>
+       
+        <label class="btn btn-outline-primary">
+          <%if(category[i].id == coupon.CategoryId){%>            
+          <input type="radio" class="category" name="btnradio" id="btnradio<%= i %>" checked disabled=true><%= category[i].name %></input>
+          <%}else{%>
+          <input type="radio" class="category" name="btnradio" id="btnradio<%= i %>" disabled=true><%= category[i].name %></input>
+          <%}%>
+        </label>
+      <% } %>
+    </div>
+    <br>
+    <label class="form-label" for="divradio">카테고리</label>
+
+    <!-- Message input -->
+    <div class="form-outline mb-4">
+      <textarea class="form-control" id="content" rows="4" name="content"  disabled=true><%=coupon.content%></textarea>
+      <label class="form-label" for="content">설명</label>
+    </div>
+  </form>
+  <div>
+    <a  class="btn btn-secondary mb-4 float-right ml-2" href="/admin/coupon">취소하기</a>
+    <button id="delete-coupon" type="button" class="btn btn-danger mb-4 float-right ml-2">삭제하기</button>
+    <button id="update-coupon" type="button" class="btn btn-primary mb-4 float-right">수정하기</button>
+  </div>
+</main>
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="sidebars.js"></script>
+    <script>
+      async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+
+        // console.log(result_base64); // aGV5IHRoZXJl...
+
+        return result_base64;
+      }
+      $("#typedivradio").on("change", (e) => {
+        if(e.target.id == 'typebtnradio1'){
+          $("#minPrice").attr("disabled", false)
+          $("#discountStatic").attr("disabled", false)
+          $("#discountPercent").attr("disabled", true)
+          $("#maxDiscount").attr("disabled", true)
+          $(".category").attr("disabled", true)
+        }else{
+          $("#minPrice").attr("disabled", true)
+          $("#discountStatic").attr("disabled", true)
+          $("#discountPercent").attr("disabled", false)
+          $("#maxDiscount").attr("disabled", false)
+          $(".category").attr("disabled", false)
+        }
+      })
+      $("#delete-coupon").on("click", () => {
+        if(!confirm('정말 삭제하시겠습니까?')) return;
+
+        $.ajax({
+          url: '/admin/coupon/<%=coupon.id%>',
+          type: 'DELETE',
+          success: function(){
+            alert("삭제했습니다.");
+            console.log('form submitted.');
+            window.location.href = '/admin/coupon';
+          },
+          error: function(){
+            alert("삭제 실패했습니다.");
+            console.log('실패');
+          }
+        });
+      });
+
+      $("#update-coupon").on("click", async () => {
+        // e.preventDefault();
+        // console.log(1)
+        if($("#update-coupon").text() == "수정하기"){
+          $("#update-coupon").text("수정 완료")
+          $(".type").attr("disabled", false)
+          $("#name").attr("disabled", false)
+          $("#code").attr("disabled", false)
+          $("#content").attr("disabled", false)
+
+          if($(".type:checked")[0].id == 'typebtnradio1'){
+            $("#minPrice").attr("disabled", false)
+            $("#discountStatic").attr("disabled", false)
+            $("#discountPercent").attr("disabled", true)
+            $("#maxDiscount").attr("disabled", true)
+            $(".category").attr("disabled", true)
+          }else{
+            $("#minPrice").attr("disabled", true)
+            $("#discountStatic").attr("disabled", true)
+            $("#discountPercent").attr("disabled", false)
+            $("#maxDiscount").attr("disabled", false)
+            $(".category").attr("disabled", false)
+          }
+        }else{
+          var formData = new FormData($("#form")[0])
+          // console.log(formData.get('btnradio'))
+          // console.log($('#divradio>.active').text().trim())
+
+
+          if(formData.get('name') == "" ){
+            alert('쿠폰 이름은 필수 입력사항입니다.');
+            return;
+          }
+          if(formData.get('code') == "" ){
+            alert('쿠폰 코드는 필수 입력사항입니다.');
+            return;
+          }
+          if(formData.get('content').length < 10 ){
+            alert('설명 10글자 이상 등록해야합니다.');
+            return;
+          }
+          if($(".type:checked")[0].id == "typebtnradio1"){
+            if(formData.get('minPrice') == "" ){
+              alert('현재 쿠폰 타입에서는 쿠폰 적용 최소 금액은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('discountStatic') == "" ){
+              alert('현재 쿠폰 타입에서는 할인 금액은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('minPrice') % 1000 != 0 ){
+              alert('쿠폰 적용 최소 금액은 1000원 단위로 등록해야합니다.');
+              return;
+            }
+            if(formData.get('discountStatic') % 500 != 0 ){
+              alert('할인 금액은 500원 단위로 등록해야합니다.');
+              return;
+            }
+          }else{
+            if(formData.get('discountPercent') == "" ){
+              alert('현재 쿠폰 타입에서는 할인율은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('maxDiscount') == "" ){
+              alert('현재 쿠폰 타입에서는 할인 금액은 필수 입력사항입니다.');
+              return;
+            }
+            if(formData.get('discountPercent')  <= 0 && formData.get('discountPercent')  > 100 ){
+              alert('쿠폰 할인율은 0보다 크고 100보다 작아야합니다.');
+              return;
+            }
+            if(formData.get('maxDiscount') % 1000 != 0 ){
+              alert('최대 할인 금액은 1000원 단위로 등록해야합니다.');
+              return;
+            }
+
+          }
+          formData.delete('btnradio')
+          formData.append('category', $('#divradio>.active').text().trim());
+          formData.delete('typedivradio')
+          formData.append('type', ($('#typedivradio>.active>input')[0].id == 'typebtnradio1') ? 1 : 2);
+
+          
+          $.ajax({
+            url: '/admin/coupon/<%=coupon.id%>',
+            method: 'POST',
+            data : Object.fromEntries(formData),
+            success: function(){
+              alert("등록했습니다.");
+              console.log('form submitted.');
+              window.location.href = '/admin/coupon/<%=coupon.id%>';
+            },
+            error: function(){
+              alert("등록 실패했습니다.");
+              console.log('실패');
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

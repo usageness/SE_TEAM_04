@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.82.0">
+    <title>Sidebars · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+    
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- datepicker -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+    
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
+    <link rel='stylesheet' href='/stylesheets/partials/dashboard.css' />
+  </head>
+    
+  <body>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="bootstrap" viewBox="0 0 118 94">
+    <title>Bootstrap</title>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+  </symbol>
+  
+  <symbol id="home" viewBox="0 0 16 16">
+    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+  </symbol>
+  <symbol id="event" viewBox="0 0 16 16">
+    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  </symbol>
+  <symbol id="item" viewBox="0 0 16 16">
+    <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
+    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+  </symbol>
+  <symbol id="order" viewBox="0 0 16 16">
+    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+  </symbol>
+  <symbol id="coupon" viewBox="0 0 16 16">
+    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+    <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+  </symbol>
+  <symbol id="qna" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+  </symbol>
+</svg>
+
+<div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
+  <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    
+    <span class="fs-4">관리자</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a href="/admin" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+        메인
+      </a>
+    </li>
+    <li>
+      <a href="/admin/eventad" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#event"/></svg>
+        이벤트/광고 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/item" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#item"/></svg>
+        상품 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/order" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#order"/></svg>
+        주문 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/coupon" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#coupon"/></svg>
+        쿠폰 관리
+      </a>
+    </li>
+    <li>
+      <a href="/admin/qna" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#qna"/></svg>
+        문의내역 관리
+      </a>
+    </li>
+    <li>
+      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
+    </li>
+  </ul>
+  <hr>
+</div>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" style="overflow-y: auto">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">판매량 추이</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        
+      
+      </div>
+      <div class='col-md-3 mr-5 col-xs-4'> 
+        <div class="form-group"> 
+          <div class="input-group date" id="datetimepicker1" data-target-input="nearest"> 
+            
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="<%= dateMin%>"> 
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker"> 
+              <div class="input-group-text">
+                <i class="fa fa-calendar">
+
+                </i>
+              </div> 
+            </div> 
+          </div> 
+        </div> 
+      </div> 
+      ~
+      <div class='col-md-3 mr-5 col-xs-4'> 
+        <div class="form-group"> 
+          <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
+            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="<%= dateMax%>"> 
+            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker"> 
+              <div class="input-group-text">
+                <i class="fa fa-calendar">
+
+                </i>  
+              </div> 
+            </div> 
+          </div> 
+        </div> 
+      </div>
+    </div>
+  </div>
+  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+  <div>
+    <div>상품 판매량 top 3</div>
+    <a id="bestitem1" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestitem2" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestitem3" class="btn btn-primary" href="#" role="button">None</a>
+  </div>
+  <div>
+    <div>카테고리 판매량 top 3</div>
+    <a id="bestcategory1" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestcategory2" class="btn btn-primary" href="#" role="button">None</a>
+    <a id="bestcategory3" class="btn btn-primary" href="#" role="button">None</a>
+  </div>
+  <% include ./footer.ejs %>
+</main>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="sidebars.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js" integrity="sha512-SRW1NuegWCD4fowVB3sUwr2LnLnVAcKTCtYT9z84rskfoqqtIZfEW1iKB0uF1RzvdSbqcVIs6FkONjj5j88RYw==" crossorigin="anonymous"></script>
+    <script>
+      
+ 
+
+
+
+
+  async function getSalesRate(minDate, maxDate){
+    var _data;
+    await $.ajax({
+
+      url: "/admin/salerate", // 클라이언트가 요청을 보낼 서버의 URL 주소
+      data: { minDate: minDate, maxDate: maxDate },       // HTTP 요청과 함께 서버로 보낼 데이터
+      type: "GET",                             // HTTP 요청 방식(GET, POST)
+      dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+    }).then((data)=> {
+      _data = data;
+    })
+    return _data;
+  }
+  async function getBestItem(minDate, maxDate){
+    var _data;
+    await $.ajax({
+
+      url: "/admin/bestitem", // 클라이언트가 요청을 보낼 서버의 URL 주소
+      data: { minDate: minDate, maxDate: maxDate },       // HTTP 요청과 함께 서버로 보낼 데이터
+      type: "GET",                             // HTTP 요청 방식(GET, POST)
+      dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+    }).then((data)=> {
+      _data = data;
+    })
+    return _data;
+  }
+  
+  async function getBestCategory(minDate, maxDate){
+    var _data;
+    await $.ajax({
+
+      url: "/admin/bestcategory", // 클라이언트가 요청을 보낼 서버의 URL 주소
+      data: { minDate: minDate, maxDate: maxDate },       // HTTP 요청과 함께 서버로 보낼 데이터
+      type: "GET",                             // HTTP 요청 방식(GET, POST)
+      dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+    }).then((data)=> {
+      _data = data;
+    })
+    return _data;
+  }
+  async function reload(myChart){
+    var dateMin = new Date()
+    var dateMax = new Date()
+
+    dateMin.setDate(dateMin.getDate() - 7)
+
+    var dMin = (dateMin.getMonth() + 1) + '/' + dateMin.getDate() + '/' + dateMin.getFullYear();
+    var dMax = (dateMax.getMonth() + 1) + '/' + dateMax.getDate() + '/' + dateMax.getFullYear();
+
+    
+    dMin = dMin.replaceAll('/','');
+    dMax = dMax.replaceAll('/','');
+    if(dMin.length == 7){
+      dMin = '0' + dMin
+    }
+    if(dMax.length == 7){
+      dMax = '0' + dMax
+    }
+    console.log($("#datetimepicker1").data().date)
+    if($("#datetimepicker1").data().date != undefined){
+      dMin = $("#datetimepicker1").data().date.replaceAll('/','')
+      dMax = $("#datetimepicker2").data().date.replaceAll('/','')
+    }
+    console.log(dMin)
+    var data = await getSalesRate(dMin, dMax);
+    myChart.data.datasets[0].data = [];
+    myChart.data.labels = [];
+    var _sum = 0
+    data.forEach(e => {
+      _sum += parseInt(e.amountDay)
+      myChart.data.datasets[0].data.push(_sum);
+    });
+    data.forEach(e => {
+      myChart.data.labels.push(e.date.slice(0,10));
+    });
+    myChart.update()
+    var bestItem = await getBestItem(dMin, dMax);
+    for(var i = 0; i < 3; i++){
+      if(bestItem[i]){
+        $("#bestitem" + (i +1)).text(bestItem[i].purchase.title + ': ' + bestItem[i].countAll + '개')
+        $("#bestitem" + (i +1)).attr('href', '/admin/item/'+ bestItem[i].productId)
+      }else{
+        $("#bestitem" + (i +1)).text('None')
+        $("#bestitem" + (i +1)).attr('href', '#')
+      }
+    }
+    var bestCategory = await getBestCategory(dMin, dMax);
+
+    for(var i = 0; i < 3; i++){
+      if(bestCategory[i]){
+        $("#bestcategory" + (i +1)).text(bestCategory[i].purchase.categoryin.name + ': ' + bestCategory[i].countAll + '개')
+      }else{
+        $("#bestcategory" + (i +1)).text('None')
+      }
+    }
+  }
+
+  $(document).ready(function(){
+    'use strict'
+        
+    feather.replace()
+    
+    // Graphs
+    var ctx = document.getElementById('myChart')
+    // eslint-disable-next-line no-unused-vars
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday'
+        ],
+        datasets: [{
+          data: [
+            15339,
+            21345,
+            18483,
+            24003,
+            23489,
+            24092,
+            12034
+          ],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false
+        }
+      }
+    })
+    console.log(myChart)
+    console.log(myChart.data)
+
+
+    $(function () { 
+      $('#datetimepicker1').datetimepicker({ format: 'L'}); 
+      $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false }); 
+      $("#datetimepicker1").on("change.datetimepicker", async function (e) { 
+        $('#datetimepicker2').datetimepicker('minDate', e.date); 
+        reload(myChart)
+
+      }); 
+      $("#datetimepicker2").on("change.datetimepicker", function (e) { 
+        $('#datetimepicker1').datetimepicker('maxDate', e.date); 
+        reload(myChart)
+        
+      }); 
+    });
+
+    setTimeout(() => {
+      reload(myChart)
+    }, 500);
+
+  });
+  
+
+
+    </script>
+  </body>
+</html>
+
+

@@ -1,0 +1,313 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>퀵보드 :: 보드게임 종합 쇼핑몰</title>
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+
+</head>
+<body>
+<% include ./header.ejs %>
+<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+    <div class="container">
+        <div class="row">
+            <a id="checkAll" class="mt-3 mb-3 ml-3 mr-3 btn btn-outline-primary  float-left">전체선택</a>
+            <a id="delete" class="mt-3 mb-3 btn btn-outline-primary float-left">삭제</a>
+        </div>
+        <div class="card">
+            <table id="table" class="table" sortable="checked">
+                <thead>
+                <tr>
+                    <th scope="col" style="width:10%">구매 대상</th>
+                    <th scope="col" style="width:10%">카테고리</th>
+                    <th scope="col" style="width:10%">이미지</th>
+                    <th scope="col" style="width:25%">이름</th>
+                    <th scope="col" style="width:10%">가격</th>
+                    <th scope="col" style="width:10%">배달비</th>
+                    <th scope="col" style="width:10%">수량</th>
+                    <th scope="col" style="width:10%">합계</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < carts.length; i++){%>
+                <tr id='<%= carts[i].id%>'>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        </div>
+                    </td>
+                    <td scope="row"  class="category" data-id="<%=carts[i].products[0].categoryinId%>"><%=carts[i].products[0].categoryin.name%></td>
+                    <td><img
+                                src="/image/<%= carts[i].products[0].imageurl%>"></td>
+                    <td><a href="#"><%= carts[i].products[0].title%></a></td>
+                    <td class="price"><%= carts[i].products[0].price%></td>
+                    <td class="deliveryFee"><%= carts[i].products[0].deliveryFee%></td>
+                    <td>
+                        <input type="number" class="amount" id="amount_<%= carts[i].id%>" value="<%= carts[i].amount%>" min="1" max="20" step="1">
+
+                    </td>
+                    <td class="priceSum"><%= carts[i].products[0].price * carts[i].amount %></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="dropdown text-right">
+            쿠폰 
+            <button class="ml-3 mr-3 btn btn-secondary dropdown-toggle" type="button" id="couponDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              없음
+            </button>
+            <div class="dropdown-menu mr-5" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item coupon-item coupon-none" data-id="" >없음</button>
+                <%for(var i = 0; i < coupon.length; i++){%>
+                <button class="dropdown-item coupon-item" data-id="<%=coupon[i].id%>" data-type="<%=coupon[i].type%>" data-minprice="<%=coupon[i].minPrice%>" data-discountstatic="<%=coupon[i].discountStatic%>" data-discountpercent="<%=coupon[i].discountPercent%>" data-maxdiscount="<%=coupon[i].maxDiscount%>" data-categoryid="<%=coupon[i].CategoryId%>" ><%=coupon[i].name + ': ' + coupon[i].content %></button>
+                <%}%>
+            </div>
+        </div>
+
+        <h5 class="text-right mr-3">
+            <p class="mb-0 mt-5">
+                총 주문 개수 : <span id="totalAmount">0</span>개
+            </p>
+            <p class="mt-0 mb-3">상품 가격 : <span id="totalItemPrice">0</span>원</p>
+            <p class="mt-0 mb-3">배송비 : <span id="totalDeliveryFee">0</span>원</p>
+            <p class="mt-0 mb-3">쿠폰 할인 금액 : <span id="totalDiscount">0</span>원</p>
+            <p class="mt-0 mb-3">총 합계 : <span id="totalPrice">0</span>원</p>
+        </h5>
+        <a id="buy" class="mt-3 mb-3 mr-3 btn btn-primary float-right">선택 항목 구매</a>
+    </div>
+</main>
+
+<% include ./footer.ejs %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- <script src="./src/input-spinner.js"></script> -->
+<script>
+    var test;
+    const category = [];
+    <%for (let index = 0; index < category.length; index++) {%>
+        category.push({id: <%=category[index].id%>, name: '<%=category[index].name%>'});
+    <%}%>
+    // $("input[type='number']").inputSpinner();
+    function payEnded(){
+        setTimeout(()=>{
+            location.reload();
+        }, 500)
+    }
+    var coupon = {}
+    $(".coupon-item").on('click', (e)=>{
+        console.log(e.target.innerHTML);
+        
+        if(e.target.classList.contains('coupon-none')){
+            $("#couponDropdownMenuButton").text(e.target.innerHTML);
+            $("#couponDropdownMenuButton")[0].dataset.id = e.target.dataset.id;
+            coupon = {}
+            totalAmountPriceChange()
+            return;
+        }
+
+        if(e.target.dataset.type == 1){
+            console.log(parseInt($('#totalPrice').text())  + '/' + parseInt(e.target.dataset.minprice))
+            if(parseInt($('#totalPrice').text()) < parseInt(e.target.dataset.minprice)){
+                alert(e.target.dataset.minprice+ "원 이상 구매 시 적용 가능합니다.")
+                return;
+            }
+        }else{
+            var result = false;
+            for (let i = 0; i < $('.form-check-input:checked').length; i++) {
+                const element = $('.form-check-input:checked')[i].parentElement.parentElement.parentElement.querySelector('.category');
+                console.log(element.dataset.id + '|'+ e.target.dataset.categoryid)
+                if(element.dataset.id == e.target.dataset.categoryid){
+                    result = true;
+                }
+            }
+            var idx = 0;
+            
+            for (let i = 0; i < category.length; i++) {
+                const element = category[i];
+                if(element.id == e.target.dataset.categoryid){
+                    idx = i;
+                }
+            }
+            if(!result){
+                alert(category[idx].name + " 카테고리 상품이 없습니다.")
+                return;
+            }
+        }
+        $("#couponDropdownMenuButton").text(e.target.innerHTML);
+        $("#couponDropdownMenuButton")[0].dataset.id = e.target.dataset.id;
+        coupon.id = e.target.dataset.id
+        coupon.type = e.target.dataset.type
+        coupon.minPrice =  e.target.dataset.minprice
+        coupon.discountStatic =  e.target.dataset.discountstatic
+        coupon.discountPercent =  e.target.dataset.discountpercent
+        coupon.maxDiscount =  e.target.dataset.maxdiscount
+        coupon.categoryId =  e.target.dataset.categoryid
+        totalAmountPriceChange()
+        
+    })
+
+    function totalAmountPriceChange(){
+        
+        var checks = $('.form-check-input:checked')
+        var price;
+        var priceSum;
+        var totalAmount = 0;
+        var totalDeliveryFee = 0;
+        var totalPrice = 0;
+
+        for(var i = 0; i < checks.length; i++){
+            amount = checks[i].parentElement.parentElement.parentElement.querySelector('.amount');
+            priceSum = checks[i].parentElement.parentElement.parentElement.querySelector('.priceSum');
+            
+            
+            totalDeliveryFee = (totalDeliveryFee < checks[i].parentElement.parentElement.parentElement.querySelector('.deliveryFee').innerHTML )? checks[i].parentElement.parentElement.parentElement.querySelector('.deliveryFee').innerHTML: totalDeliveryFee;
+            totalAmount += parseInt(amount.value)
+            totalPrice += parseInt(priceSum.innerHTML)
+        }
+        // console.log(totalAmount)
+        // console.log(totalPrice)
+
+        $('#totalAmount').text(totalAmount)
+        $('#totalItemPrice').text(totalPrice)
+        $('#totalDeliveryFee').text(totalDeliveryFee)
+
+        if(coupon.type){
+            if(coupon.type == 1){
+                $('#totalPrice').text(parseInt(totalPrice) + parseInt(totalDeliveryFee) - coupon.discountStatic)
+                $('#totalDiscount').text(coupon.discountStatic)
+            }else{
+                const _priceSum = parseInt(totalPrice) + parseInt(totalDeliveryFee);
+                if(_priceSum * coupon.discountPercent / 100 >= coupon.maxDiscount){
+                    $('#totalPrice').text(parseInt(totalPrice) + parseInt(totalDeliveryFee) - coupon.maxDiscount)
+                    $('#totalDiscount').text(coupon.maxDiscount)
+                }else{
+                    $('#totalPrice').text(parseInt(totalPrice) + parseInt(totalDeliveryFee) - Math.floor(_priceSum * coupon.discountPercent / 100))
+                    $('#totalDiscount').text(Math.floor(_priceSum * coupon.discountPercent / 100))
+                }
+            }
+        }else{
+            $('#totalPrice').text(parseInt(totalPrice) + parseInt(totalDeliveryFee))
+            $('#totalDiscount').text('0')
+        }
+        
+        
+    }
+
+    function couponReset(){
+        $('#couponDropdownMenuButton').text('없음 ')
+        $('#couponDropdownMenuButton')[0].dataset.id = ''
+        coupon = {}
+    }
+    $("input.amount").on('change', (e)=> {
+        // console.log(e.target)
+        // test = e.targettest.parentElement
+        e.target.parentElement.parentElement.querySelector(".pricesum").innerHTML = e.target.parentElement.parentElement.querySelector(".price").innerHTML * e.target.value
+        couponReset()
+        totalAmountPriceChange()
+    })
+    $(".form-check-input").on('change', (e) => {
+        // console.log($(".form-check-input")[0])
+        couponReset()
+        totalAmountPriceChange()
+    })
+    $('#checkAll').on('click', (e) => {
+        if($('.form-check-input:not(:checked)').length == 0){
+            var checked = $('.form-check-input:checked')
+            for(var i = 0; i < checked.length; i++){
+                checked[i].checked = false
+            }
+        }else{
+            var unchecked = $('.form-check-input:not(:checked)')
+            for(var i = 0; i < unchecked.length; i++){
+                unchecked[i].checked = true
+            }
+        }
+        couponReset()
+        totalAmountPriceChange()
+
+    })
+    $('#buy').on('click', (e) => {
+
+        
+        if($('#totalAmount').text() == 0){
+            alert('선택된 상품이 없습니다.');
+            return;
+        }
+        if(confirm('총 개수: ' + $('#totalAmount').text() + ', 총 가격: ' + $('#totalPrice').text() +'\n구매하시겠습니까? (배달비: '+$('#totalDeliveryFee').text()+')')){
+            // alert('미구현입니다!');
+            var checked = $('.form-check-input:checked')
+            var cartList = [];
+            for(var i = 0; i < checked.length; i++){
+                cartList.push({id: checked[i].parentElement.parentElement.parentElement.id, amount: checked[i].parentElement.parentElement.parentElement.querySelector('.amount').value})
+            }
+            $.ajax({
+                url: '/pay',
+                type: 'POST',
+                data : {cartList: JSON.stringify(cartList), deliveryFee: $('#totalDeliveryFee').text(), couponId: $("#couponDropdownMenuButton")[0].dataset.id},
+                success: function(data){
+                    // alert("등록했습니다.");
+                    window.open(data)
+                    window.onclose = function () {location.reload();}
+
+                },
+                error: function(){
+                    alert("등록 실패했습니다.");
+                    console.log('실패');
+                }
+            });
+        }
+    })
+    $('#delete').on('click', (e) => {
+        if($('.form-check-input:checked').length == 0){
+            alert('선택된 상품이 없습니다.');
+            return;
+        }
+        if(!confirm('삭제하시겠습니까?')){
+            return;
+        }
+        var formData = new FormData();
+
+        var cartList = [];
+        
+        var checked = $('.form-check-input:checked')
+        for(var i = 0; i < checked.length; i++){
+            cartList.push(checked[i].parentElement.parentElement.parentElement.id)
+        }
+        formData.append('cartList', cartList)
+        formData.append('couponId', coupon.id)
+        $.ajax({
+            url: '/cart',
+            type: 'DELETE',
+            data : Object.fromEntries(formData),
+            success: function(){
+                alert("등록했습니다.");
+                
+                console.log('form submitted.');
+                window.location.href = '/cart';
+
+            },
+            error: function(){
+                alert("등록 실패했습니다.");
+                console.log('실패');
+            }
+        });
+    })
+
+    $(document).ready(() => {
+        
+
+    })
+</script>
+</body>
+</html>
