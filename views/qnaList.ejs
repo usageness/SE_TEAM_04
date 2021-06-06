@@ -188,6 +188,27 @@
     <a href="/qna/<%= logId %>/add"><button>추가 문의</button></a>
   </div>
 </div>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function(){
+        
+        var table = $('#table').DataTable({
+          rows: [
+            {
+              targets: 2,
+              render: '<img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'
+            }
+          ]
+        });
+        // Event listener to the two range filtering inputs to redraw on input
+        
 
+        $('#min, #max').keyup( function() {
+          table.draw();
+        } );
+        $('#min, #max').change(function() {
+  table.draw();
+});
+</script>
 </body>
 </html>

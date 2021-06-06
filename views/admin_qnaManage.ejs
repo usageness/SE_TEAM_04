@@ -141,11 +141,23 @@
 </div>
 
 <div id="main-wrapper" style="overflow-y: auto">
-<div class="qna-form-container">
-  <h1 id="qna-form-description">
+<div class="eventad-form-container">
+  <h1 id="eventad-form-description">
   이벤트 입력
   </h1>
-  
+  <form action="/admin/eventad" method="POST" id="eventad-form">
+    <label for="title">이벤트 제목</label><br>
+    <input type="text" placeholder="이벤트 제목" id="title" name="title"  /><br>
+    <label for="datetimes">이벤트 시작일</label><br>
+    <input type="date" id="startDate" name="startDate" /><br>
+    <label for="datetimes">이벤트 종료일</label><br>
+    <input type="date" id="endDate" name="endDate" /><br>
+    <label class="form-label" for="image">이벤트 이미지</label><br>
+    <input type="file" class="form-control" id="image" accept="image/*" name="image"  ><br>
+    <label for="content">이벤트 설명:</label>
+    <textarea id="content" name="content"rows="5" cols="33"></textarea>
+  </form>
+  <button id="submit" >이벤트 게시</button>
   </div>
   
   <div class="container">
@@ -175,13 +187,13 @@
         </thead>
         <tbody>
           <% inquiryList.forEach(function(inquiry, i){ %>
-          <tr>
-            <td scope="row"><%= inquiry.title %></td>
-            <td><%= inquiry.content %></td>
-            <td><%= inquiry.date %></td>
-            <td>ddd</td>
-          </tr>
-          <% }) %>
+            <tr>
+              <td scope="row"><%= inquiry.title %></td>
+              <td><%= inquiry.content %></td>
+              <td><%= inquiry.date %></td>
+              <td><a href="/admin/qnaAns/<%= inquiry.id %>"><button>답변하기</button></a></td>
+            </tr>
+            <% }) %>
         </tbody>
       </table>
     </div>
@@ -189,5 +201,71 @@
   </div>
 </div>
 
-</body>
-</html>
+  
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+ 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+      
+      $(document).ready(function(){
+        
+        var table = $('#table').DataTable({
+          order:[[2,'desc']],
+          ordering: true
+        });
+        // Event listener to the two range filtering inputs to redraw on input
+        
+
+        $('#min, #max').keyup( function() {
+          table.draw();
+        } );
+        $('#min, #max').change(function() {
+  table.draw();
+});
+
+$('#submit').click(
+  function(){
+    
+    if (document.getElementById("startDate").value>=document.getElementById("endDate").value){
+      alert("시작일은 종료일보다 크거나 같을수 없습니다.");
+      return false;
+    }
+  }
+);
+        
+      });
+    </script>
+  <script>
+    
+
+$.fn.dataTable.ext.search.push(
+  function(settings, data, dataIndex) {
+    var min_date = document.getElementById("min").value;
+    var min = new Date(min_date);
+    var max_date = document.getElementById("max").value;
+    var max = new Date(max_date);
+
+    var startDate = new Date(data[2]);
+    var endDate = new Date(data[3]);
+    //window.confirm(startDate);
+    
+    if (!min_date && !max_date) {
+      return true;
+    }
+    if (!min_date && startDate <= max) {
+      return true;
+    }
+    if (!max_date && endDate >= min) {
+      return true;
+    }
+    if (startDate <= max && endDate >= min) {
+      return true;
+    }
+    return false;
+  },
+
+  
+);

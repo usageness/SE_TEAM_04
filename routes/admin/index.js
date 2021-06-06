@@ -17,6 +17,7 @@ const {
 const db = require("../../models");
 
 const multer = require('multer');
+const { getQnaManage, getQnaAns, postQnaAns } = require("../../controllers/qnaController");
 const mainImageUpload = multer({ dest: 'data/image/' });
 
 router.use("/coupon", require('./coupon'));
@@ -70,7 +71,8 @@ router.get("/logout", function (req, res, next) {
   res.redirect('/');
 });
 
-router.get("/qna",isLoggedIn,)
+router.get("/qna",isLoggedIn,getQnaManage);
+router.route("/qnaAns/:inquiryId").get(isLoggedIn,getQnaAns).post(isLoggedIn,postQnaAns);
 
 router.get("/eventad", isLoggedIn, eventadVisibelCheck,getEventad);
 

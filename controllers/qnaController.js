@@ -101,4 +101,52 @@ const getQnaList = async (req, res) => {
     logId
   });
 };
-module.exports = { getQna, postQna, getQnaList,getQnaAdd };
+
+const getQnaManage = async (req,res) => {
+  let session = req.session;
+  var inquiryId = req.params.inquiryId;
+  const inquiryList = await Inquiry.findAll({
+   
+  });
+  res.render("admin_qnaManage", {
+    session,
+    inquiryList,
+    inquiryId
+  });
+}
+
+const getQnaAns = async (req,res) => {
+  let session = req.session;
+  var inquiryId = req.params.inquiryId;
+  console.log("444");
+  const inquiry = await Inquiry.findOne({
+   where:{
+     id:inquiryId
+   }
+  });
+  res.render("admin_qnaAns", {
+    session,
+    inquiry,
+    inquiryId
+  });
+}
+
+const postQnaAns = async (req,res) => {
+  let session = req.session;
+  var inquiryId = req.params.inquiryId;
+  console.log("666");
+  const {
+    body:{
+      title, content
+    }
+  } =req;
+  const answer = await Inquiry.create({
+    title,
+    content,
+    date: new Date(),
+    Type: 1
+  });
+  answer.inquiryId = inquiryId;
+  await answer.save();
+}
+module.exports = { getQna, postQna, getQnaList,getQnaAdd ,getQnaManage,getQnaAns,postQnaAns};
