@@ -2,6 +2,7 @@ const Inquiry = require("../models").Inquiry;
 const PurchaseLog = require("../models").PurchaseLog;
 const User = require("../models").User;
 const Product = require("../models").Product;
+const db = require("../models");
 
 const getQna = async (req, res) => {
   let session = req.session;
@@ -94,6 +95,10 @@ const getQnaList = async (req, res) => {
       PurchaseLogId: loginUser.id,
       logId:req.params.logId
     },
+    include: [{
+      model: db.Inquiry,
+      as: "answer"
+    }]
   });
 
   const answerList = await Inquiry.findAll({
@@ -116,14 +121,18 @@ const getQnaManage = async (req,res) => {
   const inquiryList = await Inquiry.findAll({
    where: {
      Type:0
-   }
+   },
+   include: [{
+    model: db.Inquiry,
+    as: "answer"
+  }]
   });
   const answerList = await Inquiry.findAll({
     where:{
       Type: 1
     }
   });
-  console.log(answerList);
+  console.log(inquiryList);
   res.render("admin_qnaManage", {
     session,
     inquiryList,

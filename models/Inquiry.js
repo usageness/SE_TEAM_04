@@ -12,7 +12,6 @@ module.exports = function (sequelize, DataTypes) {
       title: {
           type: DataTypes.STRING(50),
           allowNull: false,
-          
       },
       content: {
           type: DataTypes.TEXT,
@@ -36,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
     )
     Inquiry.associate = (models) => {
       Inquiry.hasOne(models.Inquiry, {
-        as: "asnswer",
+        as: "answer",
         foreignKey: "inquiryId",
       });
       Inquiry.belongsTo(models.PurchaseLog, {
