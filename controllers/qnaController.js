@@ -175,6 +175,7 @@ const postQnaAns = async (req,res) => {
   inquiry.inquiryId = answer.id;
 
   await inquiry.save();
+  res.redirect("/admin/qna");
 }
 const getQnaAnsEnd = async (req,res) => {
   let session = req.session;
