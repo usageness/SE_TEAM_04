@@ -171,13 +171,11 @@
               <td scope="row"><%= inquiry.title %></td>
               <td><%= inquiry.content %></td>
               <td><%= inquiry.date %></td>
-              <% answerList.forEach(function(answer, j){ %>
-                <% if(answer.inquiryId == inquiry.id) { %>
+              <% if(inquiry.answer) { %>
               <td><a href="/admin/qnaAns/<%= inquiry.id %>/end"><button>답변완료</button>✅</a></td>
-                <% } else { %>
+              <% } else { %>
               <td><a href="/admin/qnaAns/<%= inquiry.id %>"><button>답변하기</button></a></td>
               <% } %>
-              <% }) %>
             </tr>
            
             
