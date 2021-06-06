@@ -27,6 +27,10 @@ module.exports = function (sequelize, DataTypes) {
         as: "categoryin",
         foreignkey: "categoryinId",
       });
+      Category.hasMany(models.Coupon, {
+        as: "coupon",
+        foreignkey: "categoryId",
+      });
     }
     return Category
   }

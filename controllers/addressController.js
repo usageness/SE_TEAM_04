@@ -46,7 +46,8 @@ const postAddressRegister = async (req, res) => {
   } = req;
  console.log(req.body);
 let session =req.session;
-if(await Address.findOne({where:{name:addressname}})){
+const user = await User.findOne({where:{user_id:req.session.user_id}});
+if(await Address.findOne({where:{name:addressname,userId:user.id}})){
   res.send('<script type="text/javascript">alert("중복된 배송지 이름입니다.");</script>');
   res.redirect("/user/${userId}/address/new");
 }
@@ -62,7 +63,7 @@ if(await Address.findOne({where:{name:addressname}})){
     }
   );
   
-  const user = await User.findOne({where:{user_id:req.session.user_id}})
+ 
   console.log(user);
   address.userId = user.id;
   await address.save();

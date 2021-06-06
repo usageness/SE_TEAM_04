@@ -97,7 +97,7 @@
   var inputtedName = $("#extraAddress").val();
   var inputtedDetailAddress = $("#detailAddress").val();
   var inputtedPostcode = $("#postcode").val();
-
+  var inputtedReciever = $("#receiver").val();
   console.log(inputtedName, inputtedDetailAddress );
   var phoneNumberRegex = /^\d{3}\d{3,4}\d{4}$/;
 
@@ -117,7 +117,10 @@
     alert("상세주소는 빈 칸일 수 없습니다.");
     return false;
   }
- 
+  if(inputtedReciever.replace(/\s|/gi,"").length==0){
+    alert("상세주소는 빈 칸일 수 없습니다.");
+    return false;
+  }
 });
 </script>
   </body>

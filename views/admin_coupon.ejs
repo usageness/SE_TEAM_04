@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.82.0">
-    <title>Sidebars · Bootstrap v5.0</title>
+    <title>QuickBoard</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
 
@@ -24,7 +24,6 @@
     <!-- Custom styles for this template -->
     <link rel='stylesheet' href='/stylesheets/partials/admin_list.css' />
     <link rel='stylesheet' href='/stylesheets/partials/dashboard.css' />
-  
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -99,7 +98,7 @@
       </a>
     </li>
     <li>
-      <a href="/admin/item" class="nav-link active">
+      <a href="/admin/item" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="#item"/></svg>
         상품 관리
       </a>
@@ -111,7 +110,7 @@
       </a>
     </li>
     <li>
-      <a href="/admin/coupon" class="nav-link text-white">
+      <a href="/admin/coupon" class="nav-link active">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="#coupon"/></svg>
         쿠폰 관리
       </a>
@@ -129,38 +128,30 @@
   <hr>
 </div>
 <main class="container" style="overflow-y: auto">
-  <h1 class="mb-5 text-center">상품관리</h1>
-  <table border="0" cellspacing="5" cellpadding="5">
-    <tbody><tr>
-        <td>가격:</td>
-        <td><input type="text" id="min" name="min"></td>
-        <td>~</td>
-        <td><input type="text" id="max" name="max"></td>
-    </tr>
-  </tbody></table>
+  <h1 class="mb-5 text-center">쿠폰 관리</h1>
   <div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
     <table id="table" class="table" sortable="checked">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">상품명</th>
-          <th scope="col">가격</th>
-          <th scope="col">재고</th>
+          <th scope="col">쿠폰명</th>
+          <th scope="col">코드</th>
+          <th scope="col">설명</th>
         </tr>
       </thead>
       <tbody>
-        <% for(var i=0; i<items.length; i++) {%>
+        <% for(var i=0; i<coupons.length; i++) {%>
           <tr>
             <td scope="row"><%= i+1 %></td>
-            <td><a style="color:#212529" href="/admin/item/<%= items[i].id %>"><%= items[i].title %></a></td>
-            <td><%= items[i].price %></td>
-            <td>1</td>
+            <td><a style="color:#212529" href="/admin/coupon/<%= coupons[i].id %>"><%= coupons[i].name %></a></td>
+            <td><%= coupons[i].code %></td>
+            <td><%= coupons[i].content %></td>
           </tr>
         <% } %>
       </tbody>
     </table>
   </div>
-  <a class="mt-3 mb-3 mr-3 btn btn-primary float-right" href="/admin/newitem">상품 등록</a>
+  <a class="mt-3 mb-3 mr-3 btn btn-primary float-right" href="/admin/coupon/newcoupon">쿠폰 등록</a>
 </main>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
@@ -190,9 +181,9 @@
           }
         );
 
-        $('#min, #max').keyup( function() {
-          table.draw();
-        } );
+        // $('#min, #max').keyup( function() {
+        //   table.draw();
+        // } );
 
         
       });

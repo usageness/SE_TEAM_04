@@ -17,7 +17,12 @@ const {
 const db = require("../../models");
 
 const multer = require('multer');
+const { getQnaManage, getQnaAns, postQnaAns, getQnaAnsEnd } = require("../../controllers/qnaController");
 const mainImageUpload = multer({ dest: 'data/image/' });
+
+router.use("/coupon", require('./coupon'));
+router.use("/review", require('./review'));
+
 
 router.get("/", isLoggedIn, function (req, res, next) {
   var dateMin = new Date()
@@ -37,22 +42,26 @@ router.get("/login", (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   const result = await db.User.findOne({ where: { permission: 1 } });
-  let salt = result.dataValues.salt;
-  let dbPassword = result.dataValues.password;
-  let inputPassword = req.body.password;
-  let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
+  if (result !== null) {
+    let salt = result.dataValues.salt;
+    let dbPassword = result.dataValues.password;
+    let inputPassword = req.body.password;
+    let hashPassword = crypto.createHash("sha256").update(inputPassword + salt).digest("hex");
 
-  console.log(result)
-  if (
-    result.user_id === req.body.user_id &&
-    dbPassword === hashPassword
-  ) {
-    req.session.user_id = req.body.user_id;
-    req.session.permission = 1;
-    // res.render("admin_main", { title: "", session: req.session });
-    res.redirect('/admin');
-  } else {
-    res.status(401).send("잘못된 접근입니다.");
+    console.log(result)
+    if (
+      result.user_id === req.body.user_id &&
+      dbPassword === hashPassword
+    ) {
+        req.session.user_id = req.body.user_id;
+        req.session.permission = 1;
+        // res.render("admin_main", { title: "", session: req.session });
+        res.redirect('/admin');
+    } else {
+      res.status(401).send("잘못된 접근입니다.");
+    }
+  }else{
+    res.send('<script type="text/javascript">alert("아이디 또는 비밀번호가 일치하지 않습니다"); location.href = "/admin";</script>');
   }
 });
 
@@ -63,6 +72,9 @@ router.get("/logout", function (req, res, next) {
   res.redirect('/');
 });
 
+router.get("/qna",isLoggedIn,getQnaManage);
+router.route("/qnaAns/:inquiryId").get(isLoggedIn,getQnaAns).post(isLoggedIn,postQnaAns);
+router.route("/qnaAns/:inquiryId/end").get(isLoggedIn,getQnaAnsEnd);
 router.get("/eventad", isLoggedIn, eventadVisibelCheck,getEventad);
 
 
@@ -199,11 +211,28 @@ router
       },
       include: [{
         model: db.ProductImage,
-      }]
+      },{
+        model: db.Review,
+      }],
+      attributes:{
+        include:[
+          [db.Sequelize.literal('avg(Reviews.score)'), 'avgScore'],
+        ]
+      
+      },
     });
+    const reviews = await db.Review.findAll({
+      where:{
+        ProductId: product.id,
+      },
+      include:[{
+        model: db.User,
+        as: 'user'
+      }]
+    })
     var category = await db.Category.findAll();
     console.log(product)
-    res.render("admin_item_detail", { item: product, category: category });
+    res.render("admin_item_detail", { item: product, category: category, reviews, reviews });
   })
   .put(isLoggedIn, mainImageUpload.single('mainImageName'), async function (req, res, next) {
     // console.log(req.body)
@@ -469,7 +498,7 @@ router.route("/order")
     },
     attributes: [
       "id", "date", "count", "status", 'amount', 'count', 'logId', 
-      [db.Sequelize.literal('SUM(`amount` * `count`)'), 'amountAll'],
+      [db.Sequelize.literal('SUM(`amount`)'), 'amountAll'],
       [db.Sequelize.fn('COUNT', db.Sequelize.col('purchaselog.id')), 'productsCount'],
     ],
     include:[
@@ -482,8 +511,6 @@ router.route("/order")
     group: ['logId']
   });
   // console.log(logs)
-  console.log(logs[6].id)
-  console.log(logs[6].dataValues.amountAll)
   res.render("admin_order", { logs: logs, dateMin: dMin, dateMax: dMax});
 })
 .put(isLoggedIn, async function (req, res, next) {

@@ -35,6 +35,8 @@ router.post('/', async function(req, res, next) {
   var price = 0;
   const cartList = JSON.parse(req.body.cartList);
   console.log(cartList)
+  
+  
   for (let index = 0; index < cartList.length; index++) {
     const cart = await db.Cart.findOne({
       where: {
@@ -62,7 +64,38 @@ router.post('/', async function(req, res, next) {
     itemName += ' 외 ' + anotherItemNum
   }
   deliveryFee = req.body.deliveryFee;
-  
+  var totalAmount = parseInt(price) + parseInt(deliveryFee);
+
+  if(req.body.couponId != ''){ ///121211323
+    const coupon = await db.Coupon.findOne({
+        where:{
+            id: req.body.couponId
+        },
+        include:[{
+            model: db.User,
+            as: 'user',
+            through: "Coupon_User",
+            on:{
+                id: user.id,
+            }
+        }]
+    })
+    console.log(coupon.user[0].Coupon_User.used)
+    if(coupon.user[0].Coupon_User.used != 0){
+      res.send('쿠폰을 이미 사용했습니다')
+      return;
+    }
+    if(coupon.type == 1){
+      totalAmount -= coupon.discountStatic
+    }else{
+      if(totalAmount * coupon.discountPercent / 100 >= coupon.maxDiscount){
+        totalAmount -= coupon.maxDiscount
+      }else{
+        totalAmount -= Math.floor(totalAmount * coupon.discountPercent / 100)
+      }
+    }
+    await db.Coupon_User.update({used:1}, {where:{CouponId: coupon.id, UserId: user.id}})
+  }
   //Parameters - replace values as you want, **except cid**.
   const data = qs.stringify({
     cid: 'TC0ONETIME',
@@ -70,8 +103,8 @@ router.post('/', async function(req, res, next) {
     partner_user_id: 'test_user',
     item_name: itemName,
     quantity: 1,
-    total_amount: parseInt(price) + parseInt(deliveryFee),
-    tax_free_amount: parseInt(price) + parseInt(deliveryFee),
+    total_amount: totalAmount,
+    tax_free_amount: totalAmount,
     approval_url: 'http://' + req.headers.host + '/pay/success',
     cancel_url: 'http://' + req.headers.host + '/pay/cancel',
     fail_url: 'http://' + req.headers.host + '/pay/fail'
@@ -122,6 +155,48 @@ router.get('/success', async (req, res) => {
       as: 'products',
     }]
   })
+  var price = 0
+  var deliveryFee = 0
+  for (let index = 0; index < carts.length; index++) {
+    if(deliveryFee < carts[index].products[0].deliveryFee){
+      deliveryFee = carts[index].products[0].deliveryFee
+    }
+    price += parseInt(carts[index].products[0].price) * parseInt(carts[index].amount);
+  }
+
+  const couponUser = await db.Coupon_User.findOne({
+    where:{
+      used:1, 
+      UserId: user.id
+    }
+  })
+  if(couponUser){
+    const coupon = await db.Coupon.findOne({
+      where: {
+        id: couponUser.CouponId
+      }
+    })
+  }
+  
+  var totalAmount = parseInt(price) + parseInt(deliveryFee);
+  
+  
+    if(typeof coupon !== "undefined"){
+      if(coupon.type == 1){
+        totalAmount -= parseInt(coupon.discountStatic)
+      }else{
+        if(totalAmount * parseInt(coupon.discountPercent) / 100 >= parseInt(coupon.maxDiscount)){
+          totalAmount -= parseInt(coupon.maxDiscount)
+        }else{
+          totalAmount -= Math.floor(totalAmount * parseInt(coupon.discountPercent) / 100)
+        }
+      }
+    }
+  
+  
+  
+  console.log(totalAmount)
+
   var logId = -1;
   for (let i = 0; i < carts.length; i++) {
     const cart = carts[i];
@@ -130,7 +205,7 @@ router.get('/success', async (req, res) => {
         date: new Date(),
         count: cart.amount,
         logId: 0,
-        amount: cart.amount * cart.products[0].price,
+        amount: totalAmount,
         status: 1,
         // addressId: 0,
         productId: cart.products[0].id,
@@ -144,7 +219,7 @@ router.get('/success', async (req, res) => {
         date: new Date(),
         count: cart.amount,
         logId: logId,
-        amount: cart.amount * cart.products[0].price,
+        amount: 0,
         status: 1,
         // addressId: 0,
         productId: cart.products[0].id,
@@ -153,6 +228,9 @@ router.get('/success', async (req, res) => {
     }
     const _cart = await db.Cart.findOne({where:{id:cart.id}})
     _cart.destroy();
+    await db.Coupon_User.update({used:2}, {where:{used:1, UserId: user.id}})
+
+
   }
 
   
@@ -161,8 +239,11 @@ router.get('/success', async (req, res) => {
   <script>
     document.addEventListener("DOMContentLoaded", function(){
       // Handler when the DOM is fully loaded
+      alert('결제 완료했습니다.')
+      window.opener.location.href = "/order"
+
       setTimeout(function(){
-        window.opener.payEnded; 
+
         window.close()
       }, 1000)
     });
@@ -195,8 +276,22 @@ router.get('/cancel', async (req, res) => {
     _cart.status = 0;
     _cart.save();
   }
+  await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
 
-  res.send('결제 취소했습니다.')
+
+  res.send(`결제 취소했습니다. 
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      // Handler when the DOM is fully loaded
+      alert('결제 취소했습니다.')
+      window.opener.location.href =  "/cart"
+
+      setTimeout(function(){
+
+        window.close()
+      }, 1000)
+    });
+  </script>`)
 })
 router.get('/fail', async (req, res) => {
   const user = await db.User.findOne({
@@ -225,7 +320,20 @@ router.get('/fail', async (req, res) => {
     _cart.status = 0;
     _cart.save();
   }
-  res.send('결제 실패했습니다.')
+  await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
+
+  res.send(`결제 실패했습니다. 
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      // Handler when the DOM is fully loaded
+      alert('결제 실패했습니다.')
+      window.opener.location.href = "/cart"
+
+      setTimeout(function(){
+        window.close()
+      }, 1000)
+    });
+  </script>`)
 })
 
 module.exports = router;

@@ -6,6 +6,11 @@ const db = require("../models");
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     let session = req.session;
+    let cartCount = 0;
+    let category = await db.Category.findAll({
+        attributes: ["id", "name"],
+    });
+
     if(req.session.user_id == undefined){
         res.send('로그인 후 접속하세요.<br><a href="/">홈으로</a> ')
         return;
@@ -15,6 +20,32 @@ router.get('/', async function (req, res, next) {
         where:{
             user_id: req.session.user_id,
         }
+    });
+
+    if(req.session.user_id !== undefined) {
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+    }
+
+    await db.Cart.update({
+        status:0
+    },
+    {
+        where: {
+            userId: user.id
+        }
+    })
+    await db.Coupon_User.update({
+        used: 0
+    },
+    {
+        where: {
+            UserId: user.id,
+            used: 1
+        },
     })
     const cart = await db.Cart.findAll({
         where: {
@@ -23,26 +54,48 @@ router.get('/', async function (req, res, next) {
         include: [{
             model: db.Product,
             as: 'products',
+            include: [{
+                model: db.Category,
+                as: "categoryin"
+            }]
+        }]
+    })
+    const _user = await db.User.findOne({
+        where:{
+            user_id: req.session.user_id,
+        },
+        include: [{
+            model: db.Coupon,
+            as: 'coupon',
+            through: {
+                model: db.Coupon_User,
+                where:{
+                    used: 0
+                }
+            },
+            
         }]
     })
 
-    console.log(cart)
-    res.render('cart', {title: 'Express', session: session, carts: cart});
+    // console.log(cart)
+    // console.log(_user.coupon)
+    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[], cartCount: cartCount});
 });
 
 router.post('/', async function (req, res, next) {
     let session = req.session;
+
     if(req.session.user_id == undefined){
         res.sendStatus('400')
         return;
     }
-    
 
     const user = await db.User.findOne({
         where:{
             user_id: req.session.user_id,
         },
     })
+    
 
     const product = await db.Product.findOne({
         where:{
@@ -62,30 +115,13 @@ router.post('/', async function (req, res, next) {
             } 
         }]
     })
-    // const cart = await db.Cart.findOne({
-    //     where: {
-    //         userId: user.id,
-    //     },
-    //     include: [{
-    //         model: db.Product,
-    //         as: 'products',
-    //         on: {
-    //             id: req.body.itemId,
-    //         } 
-    //     }]
-    // })
-    console.log(product)
-    console.log(cart)
+    
+
+    // console.log(product)
+    // console.log(cart)
     var result;
     if(cart != null){
         // product.carts[0].id
-        // const cart = await db.Cart.findOne({
-        //     where: {
-        //         id: product.carts[0].id,
-        //     }
-        // })
-        // cart.amount += 1;
-        // result = await cart.save();
         res.sendStatus(300);
         return;
     }else{

@@ -1,22 +1,42 @@
 var express = require('express');
 var router = express.Router();
-const users = require("../models");
+const db = require("../models");
 const crypto = require('crypto');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', async function (req, res, next) {
     let session = req.session;
+    let cartCount = 0;
+    let category = await db.Category.findAll({
+        attributes: ["id", "name"],
+    });
+
+    if (req.session.user_id !== undefined) {
+        const user = await db.User.findOne({
+            where: {
+                user_id: req.session.user_id,
+            }
+        });
+
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+    }
 
     res.render('login', {
         title: 'Express',
-        session: session
+        session: session,
+        category: category,
+        cartCount: cartCount
     });
 });
 
 router.post("/", async function(req,res,next) {
     let body = req.body;
 
-    let result = await users.User.findOne({
+    let result = await db.User.findOne({
         where: {
             user_id: body.user_id
         }
@@ -36,6 +56,9 @@ router.post("/", async function(req,res,next) {
                 console.log("유저의 퍼미션 : " + result.dataValues.permission);
                 if(result.dataValues.permission === 1) res.redirect("/admin");
                 else res.redirect("/");
+            }else{
+                console.log("비밀번호 불일치");
+                res.send('<script type="text/javascript">alert("아이디 또는 비밀번호가 일치하지 않습니다"); location.href = "/login";</script>');
             }
 
         }else {

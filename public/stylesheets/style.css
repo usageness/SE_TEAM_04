@@ -9,11 +9,12 @@ body {
 }
 
 a {
-    color:#212529;
+    color: #212529;
     text-decoration: none;
 }
+
 a:hover {
-    color:#212529;
+    color: #212529;
     text-decoration: none;
 }
 
@@ -28,7 +29,7 @@ a:hover {
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .header-signup {
@@ -41,16 +42,19 @@ a:hover {
 .carousel-item {
     position: relative;
 }
-.carousel-item h1{
+
+.carousel-item h1 {
     position: absolute;
-    top:50%;
-    left:52%;
+    top: 50%;
+    left: 52%;
 }
-.carousel-item h2{
+
+.carousel-item h2 {
     position: absolute;
-    top:80%;
-    left:52%;
+    top: 80%;
+    left: 52%;
 }
+
 .is-pulled-right {
     float: right !important;
 }
@@ -79,9 +83,10 @@ a:hover {
     width: 100px;
 }
 
-.bd-highlight .bd-highlight{
+.bd-highlight .bd-highlight {
     background-color: white;
 }
+
 .product-button {
     border: 1px solid #EEEEEE;
 }
@@ -92,7 +97,7 @@ a:hover {
 
 h1 a {
     display: block;
-    background: url("https://user-images.githubusercontent.com/28296575/116252085-34f9d800-a7aa-11eb-9520-7660e5eda285.png") no-repeat;
+    background: url("https://user-images.githubusercontent.com/28296575/119583104-d5bad200-be00-11eb-8115-6b82b6991c50.png") no-repeat;
     background-size: 89px;
     width: 109px;
     text-indent: -99em;
@@ -123,7 +128,7 @@ input {
     table-layout: fixed;
 }
 
-.carousel-inner{
+.carousel-inner {
     width: 100%;
     height: 30rem;
 }
@@ -135,12 +140,12 @@ input {
     font-size: 10pt;
 }
 
-.sortby>a {
+.sortby > a {
     color: #000000;
     text-decoration: none;
 }
 
-.sortby>a:hover {
+.sortby > a:hover {
     color: #00B7FF;
 }
 
@@ -163,19 +168,20 @@ input {
 
 #eventad_image {
     margin: 0 auto;
-    margin-top:50px;
+    margin-top: 50px;
 }
 
 #eventad_title {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 70px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 70px;
 }
 
 #eventad_date {
     text-align: center;
-  margin-top: 20px;
+    margin-top: 20px;
 }
+
 #eventad_content {
     text-align: center;
     margin-top: 30px;
@@ -184,40 +190,84 @@ input {
 
 .grid-container {
     display: grid;
-    grid-template-columns: 2.1fr 0.8fr 0.9fr;
+    grid-template-columns: 2.1fr 1.8fr 1.5fr;
     grid-template-rows: 0.4fr 1.7fr 0.9fr;
-    gap: 0px 0px;
-  }
-  .g { grid-area: 1 / 1 / 2 / 2; }
-  .category { grid-area: 1 / 1 / 2 / 2; }
-  .image { grid-area: 2 / 1 / 3 / 2; }
-  .left_p {
+    gap: 0 0;
+}
+
+.g {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.category {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.image {
+    grid-area: 2 / 1 / 3 / 2;
+    padding: 0 2rem 0 0;
+}
+
+.left_p {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
+    gap: 0 0;
     grid-template-areas:
       "name"
       "cart_p";
     grid-area: 2 / 2 / 3 / 3;
-  }
-  .name { grid-area: name; }
-  .cart_p { grid-area: cart_p; }
-  .right_p {
+    padding: 0 2rem;
+}
+
+.name {
+    grid-area: name;
+}
+
+.cart_p {
+    grid-area: cart_p;
+}
+
+.right_p {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
+    gap: 0 0;
     grid-template-areas:
       "address"
       "purchase_p";
     grid-area: 2 / 3 / 3 / 4;
-  }
-  .address { grid-area: address; }
-  .purchase_p { grid-area: purchase_p; }
-  .content { grid-area: 3 / 1 / 4 / 4; }
-  
-  
-  
-    
-   
+}
+
+.address {
+    grid-area: address;
+}
+
+.purchase_p {
+    grid-area: purchase_p;
+}
+
+.content {
+    grid-area: 3 / 1 / 4 / 4;
+}
+
+.grid-container .category {
+    color: #999999;
+}
+
+.grid-container .product-name {
+    font-size: 1.6rem;
+}
+
+.grid-container #price {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.product-table tr td{
+    padding: .25rem 4rem .25rem 0;
+}
+
+.cart {
+    background: url("https://user-images.githubusercontent.com/28296575/120929751-36151200-c725-11eb-9788-206e256d0911.png") no-repeat;
+}

@@ -96,7 +96,7 @@
       </a>
     </li>
     <li>
-      <a href="/admin/item" class="nav-link active">
+      <a href="/admin/item" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="#item"/></svg>
         상품 관리
       </a>
@@ -108,7 +108,7 @@
       </a>
     </li>
     <li>
-      <a href="/admin/coupon" class="nav-link text-white">
+      <a href="/admin/coupon" class="nav-link active">
         <svg class="bi me-2" width="16" height="16"><use xlink:href="#coupon"/></svg>
         쿠폰 관리
       </a>
@@ -127,63 +127,68 @@
 </div>
 <main class="container">
   <form id="form" >
-    <h1 class="mb-5 text-center">새 상품 등록하기</h1>
-  
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="form6Example3" class="form-control" name="name"/>
-      <label class="form-label" for="form6Example3">보드게임 이름</label>
-    </div>
-  
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="form6Example4" class="form-control" name="price"/>
-      <label class="form-label" for="form6Example4">보드게임 가격</label>
-    </div>
+    <h1 class="mb-5 text-center">새 쿠폰 등록하기</h1>
 
-    <!-- Text input -->
-    <div class="form-outline mb-4">
-      <input type="number" id="formDeliverFee" class="form-control" name="deliveryFee"/>
-      <label class="form-label" for="form6Example4">배송비 가격</label>
+    <div class="btn-group btn-group-toggle" id="typedivradio" data-toggle="buttons">
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio1" checked>[최소 가격] 이상 구매시, [할인 가격] 할인</input>
+      </label>
+      <label class="btn btn-outline-primary">
+        <input type="radio" class="type" name="typebtnradio" id="typebtnradio2">[카테고리] 상품 구매시, [할인율] 할인, 최대 [최대 할인 가격]</input>
+      </label>
     </div>
-  
-    <!-- Email input -->
-    <div class="form-outline mb-4">
-      <input type="text" id="form6Example5" class="form-control" name="creator"/>
-      <label class="form-label" for="form6Example5">제작사</label>
-    </div>
+    <br>
+
+    쿠폰타입
+    <br>
+    <br>
     
-    <div class="row mb-4">
-      <!-- Number input -->
-      <div class="col">
-        <div class="form-outline mb-4">
-          <input type="number" id="form6Example6" class="form-control" name="peopleMin"/>
-          <label class="form-label" for="form6Example6">최소 인원</label>
-        </div>
-      </div>
-      <!-- Number input -->
-      <div class="col">
-        <div class="form-outline mb-4">
-          <input type="number" id="form6Example61" class="form-control" name="peopleMax"/>
-          <label class="form-label" for="form6Example6">최대 인원</label>
-        </div>
-      </div>
-    </div>
+    <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="file" class="form-control" id="formMainImage" accept="image/*" name="mainImage" >
-      <label class="form-label" for="formMainImage">메인 이미지</label>
+      <input type="text" id="name" class="form-control" name="name"/>
+      <label class="form-label" for="name">쿠폰 이름</label>
     </div>
 
+    <!-- Text input -->
     <div class="form-outline mb-4">
-      <input type="file" class="form-control" id="formSubImage" accept="image/*" name="subImage"  multiple >
-      <label class="form-label" for="formSubImage">설명 이미지</label>
+      <input type="text" id="code" class="form-control" name="code"/>
+      <label class="form-label" for="code">쿠폰 코드</label>
     </div>
+  
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="minPrice" class="form-control" name="minPrice"/>
+      <label class="form-label" for="minPrice">쿠폰 적용 최소 가격</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="discountStatic" class="form-control" name="discountStatic"/>
+      <label class="form-label" for="discountStatic">할인 금액</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="discountPercent" class="form-control" name="discountPercent" disabled=true/>
+      <label class="form-label" for="discountPercent">할인율</label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+      <input type="number" id="maxDiscount" class="form-control" name="maxDiscount" disabled=true/>
+      <label class="form-label" for="maxDiscount">최대 할인 금액(할인 한도)</label>
+    </div>
+  
     
     <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
       <% for(var i=0; i<category.length; i++) {%>
        
         <label class="btn btn-outline-primary">
-          <input type="radio" name="btnradio" id="btnradio<%= i %>"><%= category[i].name %></input>
+          <%if(i == 0){%>            
+          <input type="radio" class="category" name="btnradio" id="btnradio<%= i %>" checked disabled=true><%= category[i].name %></input>
+          <%}else{%>
+          <input type="radio" class="category" name="btnradio" id="btnradio<%= i %>" disabled=true><%= category[i].name %></input>
+          <%}%>
         </label>
       <% } %>
     </div>
@@ -192,8 +197,8 @@
 
     <!-- Message input -->
     <div class="form-outline mb-4">
-      <textarea class="form-control" id="form6Example7" rows="4" name="description"></textarea>
-      <label class="form-label" for="form6Example7">상세 설명</label>
+      <textarea class="form-control" id="content" rows="4" name="content"></textarea>
+      <label class="form-label" for="content">설명</label>
     </div>
   
 
@@ -217,119 +222,99 @@
 
         return result_base64;
       }
+      $("#typedivradio").on("change", (e) => {
+        if(e.target.id == 'typebtnradio1'){
+          $("#minPrice").attr("disabled", false)
+          $("#discountStatic").attr("disabled", false)
+          $("#discountPercent").attr("disabled", true)
+          $("#maxDiscount").attr("disabled", true)
+          $(".category").attr("disabled", true)
+        }else{
+          $("#minPrice").attr("disabled", true)
+          $("#discountStatic").attr("disabled", true)
+          $("#discountPercent").attr("disabled", false)
+          $("#maxDiscount").attr("disabled", false)
+          $(".category").attr("disabled", false)
+        }
+      })
       $("#submitData").on("click", async (e) => {
         e.preventDefault();
 
 
 
         var formData = new FormData($("#form")[0])
-        console.log(formData.get('btnradio'))
-        console.log($('#divradio>.active').text().trim())
+        // console.log(formData.get('btnradio'))
+        // console.log($('#divradio>.active').text().trim())
 
 
         if(formData.get('name') == "" ){
-          alert('보드게임 이름은 필수 입력사항입니다.');
+          alert('쿠폰 이름은 필수 입력사항입니다.');
           return;
         }
-        if(formData.get('price') == "" ){
-          alert('보드게임 가격은 필수 입력사항입니다.');
+        if(formData.get('code') == "" ){
+          alert('쿠폰 코드는 필수 입력사항입니다.');
           return;
         }
-        if(formData.get('creator') == "" ){
-          alert('제작사는 필수 입력사항입니다.');
+        if(formData.get('content').length < 10 ){
+          alert('설명 10글자 이상 등록해야합니다.');
           return;
         }
-        if(formData.get('peopleMin') == "" ){
-          alert('최소 인원은 필수 입력사항입니다.');
-          return;
-        }
-        if(formData.get('peopleMax') == "" ){
-          alert('최대 인원은 필수 입력사항입니다.');
-          return;
-        }
-        if(formData.get('mainImage').name == "" ){
-          alert('메인 이미지는 필수 입력사항입니다.');
-          return;
-        }
-        if($('#divradio>.active').text().trim() == ""){
-          alert('카테고리는 필수 입력사항입니다.');
-          return;
-        }
-        if(formData.get('description') == "" ){
-          alert('상세 설명은 필수 입력사항입니다.');
-          return;
-        }
-        if(parseInt(formData.get('price'))%1000 != 0 ){
-          alert('보드게임 가격은 1,000 단위로 입력해야 합니다.');
-          return;
-        }
-        if(parseInt(formData.get('deliveryFee'))%1000 != 0 ){
-          alert('배송비는 1,000 단위로 입력해야 합니다.');
-          return;
-        }
-        if(parseInt(formData.get('deliveryFee')) < 1000 ){
-          alert('배송비는 1,000 원보다 커야합니다.');
-          return;
-        }
-        if(parseInt(formData.get('peopleMin')) > parseInt(formData.get('peopleMax')) ){
-          alert('최소 인원이 최대 인원보다 적어야 합니다.');
-          return;
-        }
-        if(parseInt(formData.get('peopleMin')) < 1 ){
-          alert('최소인원은 1이상이어야 합니다.');
-          return;
-        }
-        if(formData.get('description').length < 10 ){
-          alert('상세 설명 10글자 이상 등록해야합니다.');
-          return;
-        }
-        // if($("#formMainImage")[0].files.length != 0){
-        //   formData.append("mainImage", $("#formMainImage")[0].files[0])
-        //   console.log(formData.get("mainImage"))
-        // }
-        // for (var key of formData.entries()) {
-        //   console.log(key[0] + ', ' + key[1]);
-        // }
-        formData.delete('mainImage')
-        formData.append('mainImageName', $("#formMainImage")[0].files[0].name);
-        formData.delete('subImage')
-
-        if($("#formSubImage")[0].files.length != 0){
-          var subImageFiles = []
-
-          for(let i = 0 ; i < $("#formSubImage")[0].files.length; i++){
-            var file = $("#formSubImage")[0].files[i];
-            var text = await readFileAsDataURL(file);
-            subImageFiles.push({imageNum: i, imageName: file.name, imageText:  text});
-
+        if($(".type:checked")[0].id == "typebtnradio1"){
+          if(formData.get('minPrice') == "" ){
+            alert('현재 쿠폰 타입에서는 쿠폰 적용 최소 금액은 필수 입력사항입니다.');
+            return;
           }
-          formData.append('subImageFiles', JSON.stringify(subImageFiles));
-        }
-        
+          if(formData.get('discountStatic') == "" ){
+            alert('현재 쿠폰 타입에서는 할인 금액은 필수 입력사항입니다.');
+            return;
+          }
+          if(formData.get('minPrice') % 1000 != 0 ){
+            alert('쿠폰 적용 최소 금액은 1000원 단위로 등록해야합니다.');
+            return;
+          }
+          if(formData.get('discountStatic') % 500 != 0 ){
+            alert('할인 금액은 500원 단위로 등록해야합니다.');
+            return;
+          }
+        }else{
+          if(formData.get('discountPercent') == "" ){
+            alert('현재 쿠폰 타입에서는 할인율은 필수 입력사항입니다.');
+            return;
+          }
+          if(formData.get('maxDiscount') == "" ){
+            alert('현재 쿠폰 타입에서는 할인 금액은 필수 입력사항입니다.');
+            return;
+          }
+          if(formData.get('discountPercent')  <= 0 && formData.get('discountPercent')  > 100 ){
+            alert('쿠폰 할인율은 0보다 크고 100보다 작아야합니다.');
+            return;
+          }
+          if(formData.get('maxDiscount') % 1000 != 0 ){
+            alert('최대 할인 금액은 1000원 단위로 등록해야합니다.');
+            return;
+          }
 
+        }
         formData.delete('btnradio')
         formData.append('category', $('#divradio>.active').text().trim());
+        formData.delete('typedivradio')
+        formData.append('type', ($('#typedivradio>.active>input')[0].id == 'typebtnradio1') ? 1 : 2);
 
-        var mainImageText = await readFileAsDataURL($("#formMainImage")[0].files[0])
-        formData.append('mainImageText', mainImageText);
-        for (var key of formData.keys()) {
-          console.log(key);
-        }
-        for (var value of formData.values()) {
-          console.log(typeof(value) + ': '+ value);
-        }
+        
+        // for (var key of formData.keys()) {
+        //   console.log(key);
+        // }
+        // for (var value of formData.values()) {
+        //   console.log(typeof(value) + ': '+ value);
+        // }
         $.ajax({
-          url: '/admin/newitem',
+          url: '/admin/coupon/newcoupon',
           method: 'POST',
-          processData: false,
-          contentType: false,
-          // enctype: 'multipart/form-data',
-          cache : false,
-          data : formData,
+          data : Object.fromEntries(formData),
           success: function(){
             alert("등록했습니다.");
             console.log('form submitted.');
-            window.location.href = '/admin/item';
+            window.location.href = '/admin/coupon';
           },
           error: function(){
             alert("등록 실패했습니다.");

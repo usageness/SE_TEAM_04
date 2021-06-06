@@ -22,10 +22,18 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
-        date: { // 작성일
-            type: DataTypes.DATE,
+        deliveryScore: {
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
         },
+        date: { // 작성일
+          type: DataTypes.DATE,
+          allowNull: false,
+        },
+        like: { 
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+        }
     }, 
       {
         tableName: 'Review',
@@ -35,13 +43,10 @@ module.exports = function (sequelize, DataTypes) {
       }
     )
     Review.associate = (models) => {
-      Review.belongsTo(models.User, {
-        as: "review",
-        foreignKey: "userId",
-      });
       Review.belongsTo(models.Product, {
-        as: "reviews",
-        foreignkey: "productId",
+      });
+      Review.belongsTo(models.User, {
+        as: "user",
       });
     }
     return Review
