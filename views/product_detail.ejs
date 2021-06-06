@@ -79,18 +79,47 @@
   <div class="content">상세정보: <%= data.product.content %></div>
 </div>
 
-<div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+<p style="font-size: xx-large;" >상품평</p>
+<br>
 
-  
-  <p style="font-size: xx-large;" >상품평</p>
+<div class="my-3 p-3 pb-5 bg-body rounded shadow-sm">
+  <div class="container ">
+
+    <form id="form"  method="POST">
+      <div class="form-outline mb-4">
+        <input type="text" id="formcontent" class="form-control" name="content" value="" maxlength='20'/>
+        <label class="form-label" for="formcontent">한줄평</label>
+      </div>
+      <!-- Text input -->
+      <div class="form-outline mb-4">
+        <input type="number" id="formscore" class="form-control" name="score" min="1" max="5" value="5"/>
+        <label class="form-label" for="formscore">별점</label>
+      </div>
+      <div class="btn-group btn-group-toggle" id="divradio" data-toggle="buttons">
+        <label class="btn btn-outline-primary">
+          <input type="radio" name="btnradio" id="reviewLike" value='1'  checked="checked">추천</input>
+        </label>
+        <label class="btn btn-outline-primary">
+          <input type="radio" name="btnradio" id="reviewHate" value='0'>비추</input>
+        </label>
+      </div>
+    </form>
+    <button id="addReview" type="button" class="btn btn-primary mb-4 float-right ml-2">리뷰 작성하기</button>
+  </div>
+
+
+  <br>
+  <br>
+  <br>
+
   <table id="table" class="table" sortable="checked">
     <thead>
       <tr>
-        <th scope="col" >추천</th>
-        <th scope="col" >별점</th>
-        <th scope="col" >내용</th>
-        <th scope="col" >아이디</th>
-        <th scope="col" >일자</th>
+        <th scope="col" style="width:10%">추천</th>
+        <th scope="col" style="width:10%">별점</th>
+        <th scope="col" style="width:35%">내용</th>
+        <th scope="col" style="width:10%">이름</th>
+        <th scope="col" style="width:15%">일자</th>
       </tr>
     </thead>
     <tbody>
@@ -99,7 +128,7 @@
         <td scope="row"><%=reviews[i].like?'추천':'비추'%></td>
         <td ><%=reviews[i].score%></td>
         <td ><%=reviews[i].content%></td>
-        <td ><%=reviews[i].user.user_id%></td>
+        <td ><%=reviews[i].user.nickname%></td>
         <% d = new Date(reviews[i].date)%>
         <td><%=d.getFullYear() + '/' + ((((d.getMonth()+1) - 9) > 0) ? '' + (d.getMonth()+1):'0' +  (d.getMonth()+1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate():'0' +  d.getDate()); %></td>
       </tr>
@@ -122,24 +151,45 @@
 
 </body>
 <script  >
-  function AddCart(id){
-        const formData = new FormData();
-        formData.append('itemId', id)
-        $.ajax({
-            url: '/cart',
-            type: 'POST',
-            data : Object.fromEntries(formData),
-            success: function(){
-                alert("추가했습니다.");
-                console.log('form submitted.');
-            },
-            error: function(){
-                alert("추가 실패했습니다.");
-                console.log('실패');
-            }
-        });
+function AddCart(id){
+  const formData = new FormData();
+  formData.append('itemId', id)
+  $.ajax({
+      url: '/cart',
+      type: 'POST',
+      data : Object.fromEntries(formData),
+      success: function(){
+          alert("추가했습니다.");
+          console.log('form submitted.');
+      },
+      error: function(){
+          alert("추가 실패했습니다.");
+          console.log('실패');
+      }
+  });
+}
+$("#addReview").on("click", () => {
+  if($('#formcontent')[0].value.length < 3){
+    alert('한줄평은 3글자 이상 작성해야합니다.');
+    return;
+  }
+  $.ajax({
+    url: '/product/<%=data.product.id%>/review',
+    type: 'POST',
+    data : $("#form").serialize(),
+    success: function(){
+      alert("등록했습니다.");
+      console.log('form submitted.');
+      window.location.href = '/product/<%=data.product.id%>';
+    },
+    error: function(data){
+      console.log(data)
+      alert(data.responseText);
+      console.log('실패');
     }
-  var sell_price;
+  });
+});
+var sell_price;
 var amount;
 
 window.onload = function init () {
@@ -147,6 +197,7 @@ window.onload = function init () {
 	amount = document.getElementById('amount').value;
 	document.getElementById('sum').value = sell_price;
 	change();
+  $("#reviewLike").attr('checked',true);
 }
 $(document).ready(function(){
   var table = $('#table').DataTable();

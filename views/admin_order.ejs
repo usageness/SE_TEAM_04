@@ -190,7 +190,7 @@
             <% }else if(logs[i].status == 3) {%>
             <td><button class="btn btn-outline-secondery wait-confirm" disabled=true >구매 확정 대기</button></td>
             <% }else if(logs[i].status == 4) {%>
-            <td><button class="btn btn-outline-secondery finish-confirm" disabled=true >구매 완료</button></td>
+            <td><a class="btn btn-outline-primary review" href="/admin/review/<%=logs[i].logId%>" >상품평 보기</a></td>
             <% }%>
             
           </tr>
@@ -260,6 +260,36 @@
             console.log('실패');
           }
         });
+      })
+      $('.review').on('click', (e) => {
+        var el = e.target.parentElement.parentElement
+        var formData = new FormData();
+        formData.append('logId', el.id);
+        formData.append('currentStatus', 2);
+        formData.append('targetStatus', 3);
+        console.log(1)
+        // $.ajax({
+        //   url: '/admin/order',
+        //   type: 'PUT',
+        //   data : Object.fromEntries(formData),
+        //   success: function(){
+        //     alert("배송 시작했습니다.");
+        //     console.log('form submitted.');
+        //     window.location.href = '/admin/order'
+        //     // el.querySelector('.status').innerHTML = '배송 완료'
+        //     // el.querySelector('.finish-delivery').innerHTML = '구매 확정 대기'
+        //     // el.querySelector('.finish-delivery').setAttribute('disabled', true)
+        //     // el.querySelector('.finish-delivery').classList.add("btn-outline-secondery")
+        //     // el.querySelector('.finish-delivery').classList.add("wait-confirm")
+        //     // el.querySelector('.finish-delivery').classList.remove("btn-outline-primary")
+        //     // el.querySelector('.finish-delivery').classList.remove("finish-delivery")
+            
+        //   },
+        //   error: function(){
+        //     alert("배송 시작 실패했습니다.");
+        //     console.log('실패');
+        //   }
+        // });
       })
       
       $(document).ready(function(){

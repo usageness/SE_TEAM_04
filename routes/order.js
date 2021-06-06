@@ -41,7 +41,7 @@ router.get('/', async function (req, res, next) {
         
         },
         attributes: [
-        "id", "date", "count", "status", 'amount', 'count', 'logId', 
+        "id", "date", "count", "status", 'amount', 'count', 'logId', 'productId', 
         [db.Sequelize.literal('SUM(`amount`)'), 'amountAll'],
         [db.Sequelize.fn('COUNT', db.Sequelize.col('purchaselog.id')), 'productsCount'],
         ],
