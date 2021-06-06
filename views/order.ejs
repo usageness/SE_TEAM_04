@@ -125,9 +125,9 @@
         <% }%>
         <td><%= logs[i].dataValues.amountAll + '원' %></td>
         <% if(logs[i].status == 1){%>
-          <td><a href="/qna"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
+          <td><a href="/qna/<%=logs[i].logId%>"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
         <% }else if(logs[i].status == 2) {%>
-          <td><a href="/qna"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
+          <td><a href="/qna/<%=logs[i].logId%>"><button class="btn btn-outline-primary inquiry">문의하기</button></a></td>
         <% }else if(logs[i].status == 3) {%>
           <td><button class="btn btn-outline-primary purchase-confirm" >구매 확정</button></td>
         <% }else if(logs[i].status == 4) {%>

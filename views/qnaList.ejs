@@ -167,30 +167,21 @@
       <table id="table" class="table" sortable="checked">
         <thead>
           <tr>
-            <th scope="col">광고명</th>
-            <th scope="col">이미지</th>
-            <th scope="col">시작일</th>
-            <th scope="col">종료일</th>
-            <th scope="col">활성화</th>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">등록일시</th>
+            <th scope="col">답변</th>
           </tr>
         </thead>
         <tbody>
-         <% data.eventadList.forEach(function(eventad,i){ %>
+          <% inquiryList.forEach(function(inquiry, i){ %>
           <tr>
-            
-            <td scope="row"><a style="color:#212529" href="/admin/eventad/<%= eventad.url %>"><%= eventad.title %></a></td>
-            <td><img src = "/image/<%= eventad.imageurl %>" width="500px"></td>
-            <td><%= eventad.start %></td>
-            <td><%= eventad.end %></td>
-            <% if (eventad.visible == 1) { %>
-              <td>✅활성</td>
-              <% } else if(eventad.visible == 0){ %>
-              <td>❌기간 외</td>
-              <% } else {%>
-               <td>⛔임시중단</td> 
-              <% } %> 
+            <td scope="row"><%= inquiry.title %></td>
+            <td><%= inquiry.content %></td>
+            <td><%= inquiry.date %></td>
+            <td>ddd</td>
           </tr>
-         <% }) %>
+          <% }) %>
         </tbody>
       </table>
     </div>

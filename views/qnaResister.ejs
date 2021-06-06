@@ -11,13 +11,14 @@
       <h1 id="address-form-description">
       문의등록
       </h1>
-      <form action="/admin/eventad" method="POST" id="eventad-form">
+      <form action="/qna/<%= logId %>" method="POST" id="eventad-form">
         <label for="title">제목</label><br>
         <input type="text" placeholder="제목" id="title" name="title"  /><br>
         <label for="content">내용:</label><br>
-        <textarea id="content" name="content"rows="5" cols="33"></textarea>
+        <textarea id="content" name="content"rows="5" cols="33"></textarea><br>
+        <button id="submit" type="submit" >등록</button>
       </form>
-      <button id="submit" >등록</button>
+      
     </div>
 <script>
    $("#address-form").submit(function(event) {
