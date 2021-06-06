@@ -610,6 +610,7 @@ router.post('/product/:productId/review',async function(req, res, next){
     title: req.body.content,
     content: req.body.content,
     score: req.body.score,
+    deliveryScore: req.body.deliveryscore,
     date: new Date,
     like: req.body.btnradio,
     ProductId: productId,

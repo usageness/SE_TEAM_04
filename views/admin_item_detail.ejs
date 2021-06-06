@@ -205,6 +205,7 @@
         <tr>
           <th scope="col" style="width:10%">추천</th>
           <th scope="col" style="width:10%">별점</th>
+          <th scope="col" style="width:10%">배송평가</th>
           <th scope="col" style="width:35%">내용</th>
           <th scope="col" style="width:10%">이름</th>
           <th scope="col" style="width:15%">일자</th>
@@ -213,8 +214,15 @@
       <tbody>
       <% for(var i = 0; i < reviews.length; i++){%>
         <tr>
-          <td scope="row"><%=reviews[i].like?'추천':'비추'%></td>
+          <%if(reviews[i].like == 2){%>
+          <td scope="row">매우 추천</td>
+          <%}else if(reviews[i].like == 1){%>
+          <td scope="row">추천</td>
+          <%}else if(reviews[i].like == 0){%>
+          <td scope="row">비추</td>
+          <%}%>
           <td ><%=reviews[i].score%></td>
+          <td><%= reviews[i].deliveryScore %></td>
           <td ><%=reviews[i].content%></td>
           <td ><%=reviews[i].user.nickname%></td>
           <% d = new Date(reviews[i].date)%>
