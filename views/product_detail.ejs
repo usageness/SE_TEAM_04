@@ -173,7 +173,7 @@
                 <td scope="row"><%= reviews[i].like?'추천':'비추' %></td>
                 <td><%= reviews[i].score %></td>
                 <td><%= reviews[i].content %></td>
-                <td><%= reviews[i].user.nickname %></td>
+                <td>*<%= reviews[i].user.nickname.slice(1,reviews[i].user.nickname.length) %></td>
                 <% d = new Date(reviews[i].date) %>
                 <td><%= d.getFullYear() + '/' + ((((d.getMonth() + 1) - 9) > 0) ? '' + (d.getMonth() + 1) : '0' + (d.getMonth() + 1)) + '/' +(((d.getDate() - 9) > 0) ? '' + d.getDate() : '0' + d.getDate()); %></td>
             </tr>
