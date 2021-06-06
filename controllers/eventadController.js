@@ -166,6 +166,22 @@ const getEventadDetail = async (req, res) => {
         params: eventadId
     } = req;
     let session = req.session;
+    let cartCount = 0;
+
+    if (req.session.user_id !== undefined) {
+        const user = await db.User.findOne({
+            where: {
+                user_id: req.session.user_id,
+            }
+        });
+
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+    }
+
     let category = await db.Category.findAll({
         attributes: ["id", "name"],
     });
@@ -174,6 +190,7 @@ const getEventadDetail = async (req, res) => {
     res.render("event_detail", {
         title: "", session,
         category: category,
+        cartCount: cartCount,
         data: {
             eventad
         }

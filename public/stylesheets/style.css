@@ -267,3 +267,7 @@ input {
 .product-table tr td{
     padding: .25rem 4rem .25rem 0;
 }
+
+.cart {
+    background: url("https://user-images.githubusercontent.com/28296575/120929751-36151200-c725-11eb-9788-206e256d0911.png") no-repeat;
+}

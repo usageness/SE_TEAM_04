@@ -6,13 +6,30 @@ const crypto = require('crypto');
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     let session = req.session;
+    let cartCount = 0;
     let category = await db.Category.findAll({
         attributes: ["id", "name"],
     });
+
+    if (req.session.user_id !== undefined) {
+        const user = await db.User.findOne({
+            where: {
+                user_id: req.session.user_id,
+            }
+        });
+
+        cartCount = await db.Cart.count({
+            where: {
+                userId: user.id
+            }
+        });
+    }
+
     res.render('login', {
         title: 'Express',
         session: session,
-        category: category
+        category: category,
+        cartCount: cartCount
     });
 });
 
