@@ -212,7 +212,7 @@
     $("input.amount").on('change', (e)=> {
         // console.log(e.target)
         // test = e.targettest.parentElement
-        e.target.parentElement.nextElementSibling.innerHTML = e.target.parentElement.previousElementSibling.innerHTML * e.target.value
+        e.target.parentElement.parentElement.querySelector(".pricesum").innerHTML = e.target.parentElement.parentElement.querySelector(".price").innerHTML * e.target.value
         couponReset()
         totalAmountPriceChange()
     })
