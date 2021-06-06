@@ -24,26 +24,53 @@ const { getProductDetail } = require("../controllers/productController");
 router.get('/', eventadVisibelCheck, async function(req, res, next) {
   let session = req.session;
 
-  var products = await db.Product.findAll({
+  let products = await db.Product.findAll({
     attributes: ["id", "title", "price", "imageurl", "content"],
     order: [["id", "DESC"]]
   });
   let category = await db.Category.findAll({
     attributes: ["id", "name"],
   });
-  var eventadList = await db.Eventad.findAll({where:{visible:1}});
+  let eventadList = await db.Eventad.findAll({where:{visible:1}});
+  let logs = await db.PurchaseLog.findAll({
+    limit: 4,
+    group: ['productId'],
+    attributes: [
+      'productId',
+      [db.Sequelize.fn('sum', db.sequelize.col('count')), 'countAll'],
+    ],
+    order: [
+      [db.Sequelize.fn('sum', db.sequelize.col('count')), 'DESC'],
+    ],
+    include: [
+      {
+        model: db.Product,
+        as: "purchase",
+        attributes:[
+          "id", "title", "price", "imageurl", "content"
+        ]
+      }
+    ]
+  })
+  let hotProducts = []
+  // console.log(logs)
+  for(let i = 0; i < logs.length; i++){
+    hotProducts.push(logs[i].dataValues.purchase.dataValues);
+  }
 
   res.render('index', {
     title: 'Express',
     session: session,
     nickname: session.nickname,
     items: products,
+    hotItems: hotProducts,
     category: category,
     data:{
       eventadList
     }
   });
 });
+
 router.get('/image/:imageFileName', async function(req, res, next) {
   let session = req.session;
   var imageFileName = req.params.imageFileName;
