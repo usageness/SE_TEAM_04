@@ -183,6 +183,7 @@
           <th scope="col">상품명</th>
           <th scope="col">상태</th>
           <th scope="col">총 가격</th>
+          <th scope="col">배송지</th>
           <th scope="col">버튼</th>
         </tr>
       </thead>
@@ -208,6 +209,11 @@
             <td class="status">구매 확정</td>
             <% }%>
             <td><%= logs[i].dataValues.amountAll + '원' %></td>
+            <td><% if(logs[i].destination) { %>
+              <%= logs[i].destination.address+","+logs[i].destination.detailesAddress %>
+            <% } else { %>
+            -
+          <% } %></td>
             <% if(logs[i].status == 1){%>
             <td><button class="btn btn-outline-primary start-delivery">배송 시작</button></td>
             <% }else if(logs[i].status == 2) {%>
