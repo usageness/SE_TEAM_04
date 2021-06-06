@@ -20,6 +20,7 @@ const multer = require('multer');
 const mainImageUpload = multer({ dest: 'data/image/' });
 
 router.use("/coupon", require('./coupon'));
+router.use("/review", require('./review'));
 
 
 router.get("/", isLoggedIn, function (req, res, next) {

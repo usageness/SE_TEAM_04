@@ -190,7 +190,7 @@
             <% }else if(logs[i].status == 3) {%>
             <td><button class="btn btn-outline-secondery wait-confirm" disabled=true >구매 확정 대기</button></td>
             <% }else if(logs[i].status == 4) {%>
-            <td><button class="btn btn-outline-primary review" >상품평 보기</button></td>
+            <td><a class="btn btn-outline-primary review" href="/admin/review/<%=logs[i].logId%>" >상품평 보기</a></td>
             <% }%>
             
           </tr>
