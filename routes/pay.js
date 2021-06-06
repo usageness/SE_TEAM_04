@@ -239,8 +239,11 @@ router.get('/success', async (req, res) => {
   <script>
     document.addEventListener("DOMContentLoaded", function(){
       // Handler when the DOM is fully loaded
+      alert('결제 완료했습니다.')
+      window.opener.location.href = "/order"
+
       setTimeout(function(){
-        window.opener.payEnded; 
+
         window.close()
       }, 1000)
     });
@@ -276,7 +279,19 @@ router.get('/cancel', async (req, res) => {
   await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
 
 
-  res.send('결제 취소했습니다.')
+  res.send(`결제 취소했습니다. 
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      // Handler when the DOM is fully loaded
+      alert('결제 취소했습니다.')
+      window.opener.location.href =  "/cart"
+
+      setTimeout(function(){
+
+        window.close()
+      }, 1000)
+    });
+  </script>`)
 })
 router.get('/fail', async (req, res) => {
   const user = await db.User.findOne({
@@ -307,7 +322,18 @@ router.get('/fail', async (req, res) => {
   }
   await db.Coupon_User.update({used:0}, {where:{used:1, UserId: user.id}})
 
-  res.send('결제 실패했습니다.')
+  res.send(`결제 실패했습니다. 
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      // Handler when the DOM is fully loaded
+      alert('결제 실패했습니다.')
+      window.opener.location.href = "/cart"
+
+      setTimeout(function(){
+        window.close()
+      }, 1000)
+    });
+  </script>`)
 })
 
 module.exports = router;
