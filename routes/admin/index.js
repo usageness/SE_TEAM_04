@@ -507,6 +507,10 @@ router.route("/order")
         as: 'purchase',
         attributes: ['id', 'title']
       },
+      {
+        model: db.Address,
+        as: "destination",
+    }
     ],
     group: ['logId']
   });

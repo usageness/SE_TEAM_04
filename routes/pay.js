@@ -145,6 +145,13 @@ router.get('/success', async (req, res) => {
         user_id: req.session.user_id,
     }
   })
+
+  const address = await db.Address.findOne({
+    where:{
+      userId: user.id,
+      isChecked: true
+    }
+  })
   const carts = await db.Cart.findAll({
     where:{
       userId: user.id,
@@ -196,7 +203,8 @@ router.get('/success', async (req, res) => {
   
   
   console.log(totalAmount)
-
+    
+  
   var logId = -1;
   for (let i = 0; i < carts.length; i++) {
     const cart = carts[i];
@@ -207,7 +215,7 @@ router.get('/success', async (req, res) => {
         logId: 0,
         amount: totalAmount,
         status: 1,
-        // addressId: 0,
+        addressId: address.id,
         productId: cart.products[0].id,
         userId: user.id,
       })
@@ -221,7 +229,7 @@ router.get('/success', async (req, res) => {
         logId: logId,
         amount: 0,
         status: 1,
-        // addressId: 0,
+        addressId: address.id,
         productId: cart.products[0].id,
         userId: user.id,
       })

@@ -64,7 +64,10 @@ router.get('/', async function (req, res, next) {
             model: db.Product,
             as: 'purchase',
             attributes: ['id', 'title']
-        },
+        },{
+            model: db.Address,
+            as: "destination",
+        }
         ],
         group: ['logId']
     });
