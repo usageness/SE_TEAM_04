@@ -12,7 +12,7 @@ const getProductDetail = async (req,res) => {
   let session = req.session;
   let cartCount = 0;
 
-  if (req.session.user_id !== undefined) {
+  if (typeof req.session.user_id !== "undefined") {
     const user = await db.User.findOne({
       where: {
         user_id: req.session.user_id,
@@ -57,18 +57,18 @@ const getProductDetail = async (req,res) => {
   })
   console.log(product)
   console.log(reviews)
-
-  const user = await User.findOne({
-    where:{
-      user_id:req.session.user_id
+  const user = await db.User.findOne({
+    where: {
+      user_id: !!req.session.user_id ? req.session.user_id : "default"
     }
   });
   const address = await Address.findOne({
     where: {
-      userId: user.id,
+      userId: user.id?user.id:0,
       isChecked:true
     }
   });
+  
   res.render("product_detail", {
     title: "",
     session,

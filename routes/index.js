@@ -156,19 +156,19 @@ router.get('/product', async function (req, res, next) {
         }
     });
 
-    if (req.session.user_id !== undefined) {
+    if (typeof req.session.user_id !== "undefined") {
         const user = await db.User.findOne({
             where: {
-                user_id: req.session.user_id,
+                user_id: req.session.user_id?req.session.user_id:0,
             }
         });
-
         cartCount = await db.Cart.count({
             where: {
                 userId: user.id
             }
         });
-    }
+        
+    } 
 
     res.render('product', {
         title: 'Express',
