@@ -82,6 +82,7 @@ const postQna = async (req, res) => {
 
 const getQnaList = async (req, res) => {
   let session = req.session;
+  let logId = req.params.logId;
   const loginUser = await User.findOne({
     where: {
       user_id: req.session.user_id,
@@ -94,10 +95,17 @@ const getQnaList = async (req, res) => {
       logId:req.params.logId
     },
   });
-  let logId = req.params.logId;
+
+  const answerList = await Inquiry.findAll({
+    where:{
+      Type: 1
+    }
+  });
+ 
   res.render("qnaList", {
     session,
     inquiryList,
+    answerList,
     logId
   });
 };
@@ -106,11 +114,20 @@ const getQnaManage = async (req,res) => {
   let session = req.session;
   var inquiryId = req.params.inquiryId;
   const inquiryList = await Inquiry.findAll({
-   
+   where: {
+     Type:0
+   }
   });
+  const answerList = await Inquiry.findAll({
+    where:{
+      Type: 1
+    }
+  });
+  console.log(answerList);
   res.render("admin_qnaManage", {
     session,
     inquiryList,
+    answerList,
     inquiryId
   });
 }
@@ -148,5 +165,36 @@ const postQnaAns = async (req,res) => {
   });
   answer.inquiryId = inquiryId;
   await answer.save();
+
+  const inquiry = await Inquiry.findOne({
+    where: {
+      id:inquiryId
+    }
+  });
+
+  inquiry.inquiryId = answer.id;
+
+  await inquiry.save();
 }
-module.exports = { getQna, postQna, getQnaList,getQnaAdd ,getQnaManage,getQnaAns,postQnaAns};
+const getQnaAnsEnd = async (req,res) => {
+  let session = req.session;
+  var inquiryId = req.params.inquiryId;
+  const inquiry = await Inquiry.findOne({
+    where:{
+      id:inquiryId
+    }
+   });
+  const answer = await Inquiry.findOne({
+    where: {
+      Type: 1,
+      inquiryId: inquiry.id
+    }
+  })
+   res.render("admin_qnaAnsEnd", {
+     session,
+     inquiry,
+     answer,
+     inquiryId
+   });
+}
+module.exports = { getQna, postQna, getQnaList,getQnaAdd ,getQnaManage,getQnaAns,postQnaAns,getQnaAnsEnd};

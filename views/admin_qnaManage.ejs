@@ -141,31 +141,11 @@
 </div>
 
 <div id="main-wrapper" style="overflow-y: auto">
-<div class="eventad-form-container">
-  <h1 id="eventad-form-description">
-  이벤트 입력
-  </h1>
-  <form action="/admin/eventad" method="POST" id="eventad-form">
-    <label for="title">이벤트 제목</label><br>
-    <input type="text" placeholder="이벤트 제목" id="title" name="title"  /><br>
-    <label for="datetimes">이벤트 시작일</label><br>
-    <input type="date" id="startDate" name="startDate" /><br>
-    <label for="datetimes">이벤트 종료일</label><br>
-    <input type="date" id="endDate" name="endDate" /><br>
-    <label class="form-label" for="image">이벤트 이미지</label><br>
-    <input type="file" class="form-control" id="image" accept="image/*" name="image"  ><br>
-    <label for="content">이벤트 설명:</label>
-    <textarea id="content" name="content"rows="5" cols="33"></textarea>
-  </form>
-  <button id="submit" >이벤트 게시</button>
-  </div>
-  
   <div class="container">
-    <h1 class="mb-5 text-center">이벤트 현황</h1>
-    
+    <h1>문의내역 현황</h1>
     <table border="0" cellspacing="5" cellpadding="5">
       <tbody><tr>
-        <p>기간검색 ( 해당 기간 내 하루라도 활성화 된 이벤트 )</p>
+        <p>기간검색</p>
         <td><input type="date" id="min" name="min"> 부터 </td>
         <td><input type="date" id="max" name="max"> 까지 </td>
     </tr>
@@ -191,8 +171,16 @@
               <td scope="row"><%= inquiry.title %></td>
               <td><%= inquiry.content %></td>
               <td><%= inquiry.date %></td>
+              <% answerList.forEach(function(answer, j){ %>
+                <% if(answer.inquiryId == inquiry.id) { %>
+              <td><a href="/admin/qnaAns/<%= inquiry.id %>/end"><button>답변완료</button>✅</a></td>
+                <% } else { %>
               <td><a href="/admin/qnaAns/<%= inquiry.id %>"><button>답변하기</button></a></td>
+              <% } %>
+              <% }) %>
             </tr>
+           
+            
             <% }) %>
         </tbody>
       </table>

@@ -43,27 +43,12 @@
       input {
         margin-bottom: 20px;
       }
-      .eventad-form-container {
-        margin-left: 30px;
-        height: 100%;
-        width: 300px;
-       display: flex;
-       justify-content:left;
-       flex-direction: column;
-      }
-      #eventad-form {
-      
-      }
-      #eventad-form-description {
-        margin-top: 160px;
-        
-      }
       #main-wrapper {
        display: flex;
       
        flex-direction: row;
        
-       width: 94.5%;
+       width: 100%;
         height: 100%;
       }
       .container {
@@ -102,58 +87,13 @@
   </symbol>
 </svg>
 
-<div class="d-flex flex-column p-3 text-white bg-dark" style="width: 280px; height: 100%;">
-  <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-    
-    <span class="fs-4">관리자</span>
-  </a>
-  <hr>
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="/admin" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin"/></svg>
-        메인
-      </a>
-    </li>
-    <li>
-      <a href="/admin/eventad" class="nav-link active">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/eventad"/></svg>
-        이벤트/광고 관리
-      </a>
-    </li>
-    <li>
-      <a href="/admin/item" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
-        상품관리
-      </a>
-    </li>
-    <li>
-      <a href="/admin/order" class="nav-link text-white">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="/admin/item"/></svg>
-        주문 관리
-      </a>
-    </li>
-    <li>
-      <form action="/admin/logout" method="get"><input type="submit" value="Log out"></form>
-    </li>
-  </ul>
-  <hr>
-</div>
-
 <div id="main-wrapper" style="overflow-y: auto">
-<div class="qna-form-container">
-  <h1 id="qna-form-description">
-  이벤트 입력
-  </h1>
-  
-  </div>
-  
   <div class="container">
-    <h1 class="mb-5 text-center">이벤트 현황</h1>
+    <h1 class="mb-5 text-center">내 문의내역</h1>
     
     <table border="0" cellspacing="5" cellpadding="5">
       <tbody><tr>
-        <p>기간검색 ( 해당 기간 내 하루라도 활성화 된 이벤트 )</p>
+        <p>기간검색</p>
         <td><input type="date" id="min" name="min"> 부터 </td>
         <td><input type="date" id="max" name="max"> 까지 </td>
     </tr>
@@ -175,12 +115,23 @@
         </thead>
         <tbody>
           <% inquiryList.forEach(function(inquiry, i){ %>
+            <% answerList.forEach(function(answer,j){ %>
+              <% if(answer.inquiryId == inquiry.id) { %>
           <tr>
-            <td scope="row"><%= inquiry.title %></td>
-            <td><%= inquiry.content %></td>
-            <td><%= inquiry.date %></td>
-            <td>ddd</td>
+            <td scope="row"><%= inquiry.title %><br><hr>└ 답변: <%= answer.title %></td>
+            <td><%= inquiry.content %><br><hr>답변내용:<%= answer.content %> </td>
+            <td><%= inquiry.date %><br><hr><%= answer.date %></td>
+            <td>등록✅</td>
           </tr>
+            <% } else { %>
+              <tr>
+              <td scope="row"><%= inquiry.title %></td>
+              <td><%= inquiry.content %></td>
+              <td><%= inquiry.date %></td>
+              <td>미등록❌</td>
+            </tr>
+            <% } %>
+          <% }) %>
           <% }) %>
         </tbody>
       </table>
@@ -190,15 +141,11 @@
 </div>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  $(document).ready(function(){
+ $(document).ready(function(){
         
         var table = $('#table').DataTable({
-          rows: [
-            {
-              targets: 2,
-              render: '<img src="https://boardm.co.kr/upload/product/img3/img_largeupfilenm_1617160532_0.jpg"'
-            }
-          ]
+          order:[[2,'desc']],
+          ordering: true
         });
         // Event listener to the two range filtering inputs to redraw on input
         
