@@ -47,7 +47,7 @@ module.exports = function (sequelize, DataTypes) {
         underscored: false,
       }
     )
-    /*
+    
     Inquiry.associate = (models) => {
       Inquiry.hasOne(models.Inquiry, {
         as: "answer",
@@ -56,6 +56,6 @@ module.exports = function (sequelize, DataTypes) {
       Inquiry.belongsTo(models.PurchaseLog, {
         as: "log"
       });
-    } */
+    } 
     return Inquiry
   }

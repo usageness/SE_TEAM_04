@@ -60,12 +60,12 @@ module.exports = function (sequelize, DataTypes) {
         as: "reviews",
         foreignkey: "purcahseLogId",
       });
-      /*
+      
       PurchaseLog.hasMany(models.Inquiry, {
         as: "QNA",
         foreignkey: "purcahseLogId",
       });
-      */
+      
     }
     
     return PurchaseLog;
