@@ -1,3 +1,5 @@
+const PurchaseLog = require("./PurchaseLog")
+
 module.exports = function (sequelize, DataTypes) {
     const Inquiry = sequelize.define(
       'Inquiry',
@@ -25,6 +27,18 @@ module.exports = function (sequelize, DataTypes) {
           type: DataTypes.INTEGER,
           allowNull: false,
       },
+      inquiryId: { 
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+      logId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      PurchaseLogId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     }, 
       {
         tableName: 'Inquiry',
@@ -33,6 +47,7 @@ module.exports = function (sequelize, DataTypes) {
         underscored: false,
       }
     )
+    /*
     Inquiry.associate = (models) => {
       Inquiry.hasOne(models.Inquiry, {
         as: "answer",
@@ -41,6 +56,6 @@ module.exports = function (sequelize, DataTypes) {
       Inquiry.belongsTo(models.PurchaseLog, {
         as: "log"
       });
-    }
+    } */
     return Inquiry
   }

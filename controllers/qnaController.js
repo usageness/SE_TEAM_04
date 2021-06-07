@@ -68,8 +68,12 @@ const postQna = async (req, res) => {
       Type: 0,
     });
 
-  newInquiry.logId = req.params.logId;
+   newInquiry.logId = req.params.logId;
+  console.log(req.params.logId);
+  console.log(req.session);
+  console.log("777");
   newInquiry.PurchaseLogId = loginUser.id;
+
   await newInquiry.save();
   } catch (e) {
     console.log(e);
