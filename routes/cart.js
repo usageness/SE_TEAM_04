@@ -21,7 +21,7 @@ router.get('/', async function (req, res, next) {
             user_id: req.session.user_id,
         }
     });
-
+    
     if(req.session.user_id !== undefined) {
         cartCount = await db.Cart.count({
             where: {
@@ -76,10 +76,12 @@ router.get('/', async function (req, res, next) {
             
         }]
     })
-
+    const address = await db.Address.findOne({
+        userId: _user.id
+    })
     // console.log(cart)
     // console.log(_user.coupon)
-    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[], cartCount: cartCount});
+    res.render('cart', {title: 'Express', session: session, carts: cart, category: category, coupon: _user?_user.coupon:[], cartCount: cartCount,address: address?address:0});
 });
 
 router.post('/', async function (req, res, next) {

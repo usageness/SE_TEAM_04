@@ -124,10 +124,12 @@
             <td>등록✅</td>
           </tr>
            <% } else { %>
+            <tr>
             <td scope="row"><%= inquiry.title %></td>
             <td><%= inquiry.content %></td>
             <td><%= inquiry.date %></td>
             <td>미등록❌</td>
+          </tr>d
             <% } %>
          
           <% }) %>

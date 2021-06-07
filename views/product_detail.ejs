@@ -107,7 +107,7 @@
                     <% if(data.address) { %>
                         <p>기본배송지: <%= data.address.address %> , <%= data.address.detailesAddress %></p>
                         <% } else { %>
-                        <p>기본배송지: 없음 </p>
+                        <p id="noAddress">기본배송지: 없음 </p>
                         <% } %>
                 <% } else { %>
                     <a href="/login"><input type="button" value="배송지"></a>
@@ -220,6 +220,7 @@
 </body>
 <script>
     function AddCart(id) {
+        
         const formData = new FormData();
         formData.append('itemId', id)
         $.ajax({
