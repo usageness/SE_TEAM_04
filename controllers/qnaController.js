@@ -93,11 +93,9 @@ const getQnaList = async (req, res) => {
       user_id: req.session.user_id,
     },
   });
-
+  
   const inquiryList = await Inquiry.findAll({
     where: {
-      PurchaseLogId: loginUser.id,
-      logId:req.params.logId
     },
     include: [{
       model: db.Inquiry,
