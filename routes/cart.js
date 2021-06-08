@@ -77,7 +77,11 @@ router.get('/', async function (req, res, next) {
         }]
     })
     const address = await db.Address.findOne({
-        userId: _user.id
+        where:{
+            userId: _user.id,
+            isChecked: 1
+        }
+       
     })
     // console.log(cart)
     // console.log(_user.coupon)
